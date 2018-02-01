@@ -1,0 +1,6 @@
+# Created by .ignore support plugin (hsz.mobi)
+/vendor
+composer.lock
+.idea
+cookie.txt
+index.php
