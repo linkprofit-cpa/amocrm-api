@@ -4,21 +4,11 @@ namespace linkprofit\AmoCRM;
 use Exception;
 
 /**
- * Class AbstractEntity
+ * Class RequestHandler
  * @package linkprofit\AmoCRM
  */
-abstract class AbstractEntity
+class RequestHandler
 {
-    /**
-     * @var string
-     */
-    protected $link;
-
-    /**
-     * @var array
-     */
-    protected $fields;
-
     /**
      * @var
      */
@@ -43,18 +33,21 @@ abstract class AbstractEntity
         503 => 'Service unavailable'
     ];
 
+    protected $subdomain;
+
     /**
-     * Perform curl request, save response and http code
+     * @param string $link
+     * @param array $fields
      */
-    protected function performRequest()
+    public function performRequest($link, array $fields)
     {
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_USERAGENT, 'amoCRM-API-client/1.0');
-        curl_setopt($curl, CURLOPT_URL, $this->link);
+        curl_setopt($curl, CURLOPT_URL, $link);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($this->fields));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($fields));
         curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         curl_setopt($curl, CURLOPT_HEADER, false);
         curl_setopt($curl, CURLOPT_COOKIEFILE, $this->getCookiePath());
@@ -66,6 +59,36 @@ abstract class AbstractEntity
         $this->httpCode = (int)curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         curl_close($curl);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getResponse()
+    {
+        if (!$this->response) {
+            return false;
+        }
+
+        $this->encodeResponse();
+
+        return $this->response;
+    }
+
+    /**
+     * @param $subdomain string
+     */
+    public function setSubdomain($subdomain)
+    {
+        $this->subdomain = $subdomain;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSubdomain()
+    {
+        return $this->subdomain;
     }
 
     /**
