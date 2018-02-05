@@ -105,7 +105,6 @@ class RequestHandler
         }
 
         $this->response = json_decode($this->response, true);
-        $this->response = $this->response['response'];
     }
 
     /**

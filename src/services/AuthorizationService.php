@@ -3,9 +3,10 @@
 namespace linkprofit\AmoCRM\services;
 
 use linkprofit\AmoCRM\entities\Authorization;
+use linkprofit\AmoCRM\entities\EntityInterface;
 use linkprofit\AmoCRM\RequestHandler;
 
-class AuthorizationService
+class AuthorizationService implements ServiceInterface
 {
     /**
      * @var RequestHandler
@@ -30,18 +31,16 @@ class AuthorizationService
     /**
      * AuthorizationService constructor.
      * @param RequestHandler $request
-     * @param Authorization $authorization
      */
-    public function __construct(RequestHandler $request, Authorization $authorization)
+    public function __construct(RequestHandler $request)
     {
         $this->request = $request;
-        $this->add($authorization);
     }
 
     /**
-     * @param Authorization $authorization
+     * @param EntityInterface $authorization
      */
-    public function add(Authorization $authorization)
+    public function add(EntityInterface $authorization)
     {
         $this->authorization = $authorization;
     }
@@ -54,6 +53,7 @@ class AuthorizationService
         $this->composeFields();
         $this->request->performRequest($this->getAuthLink(), $this->fields);
         $this->response = $this->request->getResponse();
+        $this->response = $this->response['response'];
 
         return $this->checkResponse();
     }
@@ -83,7 +83,6 @@ class AuthorizationService
      */
     protected function composeFields()
     {
-        $this->fields['USER_LOGIN'] = $this->authorization->login;
-        $this->fields['USER_HASH'] = $this->authorization->apiHash;
+        $this->fields = $this->authorization->get();
     }
 }
