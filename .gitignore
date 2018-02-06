@@ -1,5 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 /vendor
+/tests/logs/coverage.clover
 composer.lock
 .idea
 cookie.txt
