@@ -2,6 +2,8 @@
 
 namespace linkprofit\AmoCRM\entities;
 
+use linkprofit\AmoCRM\traits\FieldsTrait;
+
 /**
  * Class CustomField
  * @package linkprofit\AmoCRM
@@ -12,10 +14,16 @@ class CustomField implements EntityInterface
     public $name;
     public $code;
 
+    use FieldsTrait;
+
     /**
      * @var array Value
      */
     protected $values = [];
+
+    protected $fieldList = [
+        'id', 'name', 'code'
+    ];
 
     public function __construct($id, $name, $code)
     {
@@ -37,16 +45,17 @@ class CustomField implements EntityInterface
      */
     public function get()
     {
-        if (!($this->id && $this->name && $this->code)) {
-            return [];
-        }
+        $fields = $this->getExistedValues($this->fieldList);
 
-        $field = ['id' => $this->id, 'name' => $this->name, 'code' => $this->code, 'values' => []];
-
+        $values = [];
         foreach ($this->values as $value) {
-            $field['values'][] = $value->get();
+            $values[] = $value->get();
         }
 
-        return $field;
+        if (count($values)) {
+            $fields['values'] = $values;
+        }
+
+        return $fields;
     }
 }
