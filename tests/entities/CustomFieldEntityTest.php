@@ -7,7 +7,7 @@ class CustomFieldEntityTest extends TestCase
     public function testGet()
     {
         $customField = new \linkprofit\AmoCRM\entities\CustomField('146785', 'email', 'EMAIL');
-        $this->assertEquals(['id' => '146785', 'name' => 'email', 'code' => 'EMAIL', 'values' => []], $customField->get());
+        $this->assertEquals(['id' => '146785', 'name' => 'email', 'code' => 'EMAIL'], $customField->get());
     }
 
     public function testValueAdd()
