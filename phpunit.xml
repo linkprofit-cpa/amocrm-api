@@ -10,6 +10,8 @@
         <whitelist>
             <directory>src/entities/</directory>
             <directory>src/services/</directory>
+            <directory>src/traits/</directory>
+            <directory>src/</directory>
         </whitelist>
     </filter>
 
