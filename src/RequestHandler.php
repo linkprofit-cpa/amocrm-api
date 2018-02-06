@@ -101,7 +101,7 @@ class RequestHandler
                 throw new Exception(isset($this->httpErrors[$this->httpCode]) ? $this->httpErrors[$this->httpCode] : 'Undescribed error', $this->httpCode);
             }
         } catch (Exception $e) {
-            die('Error: ' . $e->getMessage() . PHP_EOL . 'Error code: ' . $e->getCode());
+            echo 'Error: ' . $e->getMessage() . PHP_EOL . 'Error code: ' . $e->getCode();
         }
 
         $this->response = json_decode($this->response, true);
