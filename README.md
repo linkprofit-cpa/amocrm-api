@@ -9,7 +9,7 @@
 
 ## Документация
 
-Cooming soon
+Coming soon
 
 ## Лицензия
 
