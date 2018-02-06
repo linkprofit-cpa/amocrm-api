@@ -2,6 +2,8 @@
 
 namespace linkprofit\AmoCRM\entities;
 
+use linkprofit\AmoCRM\traits\FieldsTrait;
+
 /**
  * Class Lead
  * @package linkprofit\AmoCRM\entities
@@ -27,6 +29,8 @@ class Lead implements EntityInterface
         'sale', 'tags', 'contacts_id', 'company_id', 'price'
     ];
 
+    use FieldsTrait;
+
     /**
      * @param CustomField $field
      */
@@ -45,14 +49,11 @@ class Lead implements EntityInterface
             $custom_fields[] = $custom_field->get();
         }
 
-        $fields = [];
-        foreach ($this->fieldList as $field) {
-            $fields[$field] = $this->$field ? $this->$field : null;
+        $fields = $this->getExistedValues($this->fieldList);
+
+        if (count($custom_fields)) {
+            $fields['custom_fields'] = $custom_fields;
         }
-
-        $fields = array_filter($fields, 'strlen');
-
-        $fields['custom_fields'] = $custom_fields;
 
         return $fields;
     }

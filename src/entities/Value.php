@@ -2,6 +2,8 @@
 
 namespace linkprofit\AmoCRM\entities;
 
+use linkprofit\AmoCRM\traits\FieldsTrait;
+
 /**
  * Class Value
  * @package linkprofit\AmoCRM
@@ -12,6 +14,12 @@ class Value implements EntityInterface
     public $enum;
     public $subtype;
     public $is_system;
+
+    protected $fieldList = [
+        'value', 'enum', 'subtype', 'is_system'
+    ];
+
+    use FieldsTrait;
 
     /**
      * Value constructor.
@@ -29,6 +37,6 @@ class Value implements EntityInterface
      */
     public function get()
     {
-        return ['value' => $this->value, 'enum' => $this->enum];
+        return $this->getExistedValues($this->fieldList);
     }
 }
