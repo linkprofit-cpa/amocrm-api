@@ -38,11 +38,13 @@ class AuthorizationService implements ServiceInterface
     }
 
     /**
-     * @param EntityInterface $authorization
+     * @param Authorization $authorization
      */
     public function add(EntityInterface $authorization)
     {
-        $this->authorization = $authorization;
+        if ($authorization instanceof Authorization) {
+            $this->authorization = $authorization;
+        }
     }
 
     /**
