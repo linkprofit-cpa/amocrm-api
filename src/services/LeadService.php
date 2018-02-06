@@ -3,6 +3,7 @@
 namespace linkprofit\AmoCRM\services;
 
 use linkprofit\AmoCRM\entities\EntityInterface;
+use linkprofit\AmoCRM\entities\Lead;
 use linkprofit\AmoCRM\RequestHandler;
 
 class LeadService implements ServiceInterface
@@ -37,11 +38,13 @@ class LeadService implements ServiceInterface
     }
 
     /**
-     * @param EntityInterface $lead
+     * @param Lead $lead
      */
     public function add(EntityInterface $lead)
     {
-        $this->lead[] = $lead;
+        if ($lead instanceof Lead) {
+            $this->lead[] = $lead;
+        }
     }
 
     public function createLead()
