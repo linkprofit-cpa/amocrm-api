@@ -70,7 +70,7 @@ class LeadService implements ServiceInterface
      */
     protected function checkResponse()
     {
-        if (isset($this->response['id'])) {
+        if (isset($this->response['_embedded']['items'])) {
             return true;
         }
 
