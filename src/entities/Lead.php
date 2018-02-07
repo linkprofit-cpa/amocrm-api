@@ -10,6 +10,7 @@ use linkprofit\AmoCRM\traits\FieldsTrait;
  */
 class Lead implements EntityInterface
 {
+    public $id;
     public $name;
     public $created_at;
     public $updated_at;
@@ -24,7 +25,7 @@ class Lead implements EntityInterface
     public $price;
 
     protected $fieldList = [
-        'name', 'created_at', 'updated_at',
+        'id', 'name', 'created_at', 'updated_at',
         'status_id', 'pipeline_id', 'responsible_user_id',
         'sale', 'tags', 'contacts_id', 'company_id', 'price'
     ];
