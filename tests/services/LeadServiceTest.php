@@ -30,6 +30,10 @@ class LeadServiceTest extends TestCase
         $leadService->add($lead);
 
         $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $leadService->createLead());
+
+        $leads = $leadService->parseResponseToLeads();
+
+        $this->assertEquals(1, $leads[0]->id);
     }
 
     public function testAddLeadError()
@@ -91,6 +95,11 @@ class LeadServiceTest extends TestCase
         $leadService->add($secondLead);
 
         $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $leadService->createLead());
+
+        $leads = $leadService->parseResponseToLeads();
+
+        $this->assertEquals(1, $leads[0]->id);
+        $this->assertEquals(2, $leads[1]->id);
     }
 
     protected function setUp()
