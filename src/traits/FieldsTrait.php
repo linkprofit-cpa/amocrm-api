@@ -23,4 +23,15 @@ trait FieldsTrait
 
         return $fields;
     }
+
+    /**
+     * @param $fieldList
+     * @param $array
+     */
+    public function setFromArray($fieldList, $array)
+    {
+        foreach ($fieldList as $field) {
+            $this->$field = isset($array[$field]) ? $array[$field] : null;
+        }
+    }
 }
