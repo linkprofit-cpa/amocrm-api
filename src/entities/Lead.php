@@ -58,4 +58,12 @@ class Lead implements EntityInterface
 
         return $fields;
     }
+
+    /**
+     * @param $array
+     */
+    public function set($array)
+    {
+        $this->setFromArray($this->fieldList, $array);
+    }
 }
