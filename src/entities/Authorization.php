@@ -27,9 +27,9 @@ class Authorization implements EntityInterface
      */
     public function get()
     {
-       return [
+        return [
            'USER_LOGIN' => $this->login,
            'USER_HASH' => $this->apiHash
-       ];
+        ];
     }
 }

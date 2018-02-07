@@ -86,15 +86,15 @@ class LeadService implements ServiceInterface
     }
 
     /**
-     * Fill fields for response
+     * Fill fields for request
      */
     protected function composeAddFields()
     {
-       $fields = [];
+        $fields = [];
 
-       foreach ($this->lead as $lead) {
-           $fields[] = $lead->get();
-       }
+        foreach ($this->lead as $lead) {
+            $fields[] = $lead->get();
+        }
 
         $this->fields['add'] = $fields;
     }

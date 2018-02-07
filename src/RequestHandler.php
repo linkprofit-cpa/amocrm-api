@@ -56,7 +56,7 @@ class RequestHandler
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
 
         $this->response = curl_exec($curl);
-        $this->httpCode = (int)curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $this->httpCode = (int) curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         curl_close($curl);
     }
@@ -97,7 +97,7 @@ class RequestHandler
     protected function encodeResponse()
     {
         try {
-            if ($this->httpCode!= 200 && $this->httpCode != 204) {
+            if ($this->httpCode != 200 && $this->httpCode != 204) {
                 throw new Exception(isset($this->httpErrors[$this->httpCode]) ? $this->httpErrors[$this->httpCode] : 'Undescribed error', $this->httpCode);
             }
         } catch (Exception $e) {
