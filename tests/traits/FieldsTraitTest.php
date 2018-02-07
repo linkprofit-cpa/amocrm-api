@@ -35,4 +35,16 @@ class FieldsTraitTest extends TestCase
         $this->field3 = 1;
         $this->assertEquals(['field2' => 0, 'field3' => 1], $this->getExistedValues($this->fieldsList));
     }
+
+    public function testExistedPropertiesFilling()
+    {
+        $array = ['field1' => 1, 'field2' => 'two', 'field3' => 3.0, 'field4' => 4];
+
+        $this->setFromArray($this->fieldsList, $array);
+
+        $this->assertEquals(1, $this->field1);
+        $this->assertEquals('two', $this->field2);
+        $this->assertEquals(3.0, $this->field3);
+        $this->assertObjectNotHasAttribute('field4', $this);
+    }
 }
