@@ -12,6 +12,12 @@ class RequestHandlerTest extends TestCase
         $this->assertEquals('domain', $request->getSubdomain());
     }
 
+    public function testEmptyResponse()
+    {
+        $request = new \linkprofit\AmoCRM\RequestHandler();
+        $this->assertFalse($request->getResponse());
+    }
+
     public function testEncodeResponseSuccess()
     {
         $request = new \linkprofit\AmoCRM\RequestHandler();
