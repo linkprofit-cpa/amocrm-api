@@ -76,6 +76,34 @@ class LeadService implements ServiceInterface
     }
 
     /**
+     * @return array
+     */
+    public function getLeads()
+    {
+        return $this->leads;
+    }
+
+    /**
+     * @return array|bool
+     */
+    public function parseResponseToLeads()
+    {
+        if (!$this->checkResponse()) {
+            return false;
+        }
+        $this->leads = [];
+
+        foreach ($this->response['_embedded']['items'] as $item) {
+            $lead = new Lead();
+            $lead->set($item);
+
+            $this->leads[] = $lead;
+        }
+
+        return $this->leads;
+    }
+
+    /**
      * @return bool
      */
     protected function checkResponse()
