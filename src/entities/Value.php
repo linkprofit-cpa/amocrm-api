@@ -26,7 +26,7 @@ class Value implements EntityInterface
      * @param $value
      * @param $enum
      */
-    public function __construct($value, $enum)
+    public function __construct($value, $enum = null)
     {
         $this->value = $value;
         $this->enum = $enum;

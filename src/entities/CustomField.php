@@ -25,7 +25,7 @@ class CustomField implements EntityInterface
         'id', 'name', 'code'
     ];
 
-    public function __construct($id, $name, $code)
+    public function __construct($id, $name = null, $code = null)
     {
         $this->id = $id;
         $this->name = $name;
