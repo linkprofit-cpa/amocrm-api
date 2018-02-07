@@ -30,7 +30,7 @@ class LeadService implements ServiceInterface
     /**
      * @var array Lead
      */
-    protected $lead = [];
+    protected $leads = [];
 
     /**
      * LeadService constructor.
@@ -47,7 +47,7 @@ class LeadService implements ServiceInterface
     public function add(EntityInterface $lead)
     {
         if ($lead instanceof Lead) {
-            $this->lead[] = $lead;
+            $this->leads[] = $lead;
         }
     }
 
@@ -102,7 +102,7 @@ class LeadService implements ServiceInterface
     {
         $fields = [];
 
-        foreach ($this->lead as $lead) {
+        foreach ($this->leads as $lead) {
             $fields[] = $lead->get();
         }
 
