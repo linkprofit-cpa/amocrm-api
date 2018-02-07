@@ -6,6 +6,10 @@ use linkprofit\AmoCRM\entities\EntityInterface;
 use linkprofit\AmoCRM\entities\Lead;
 use linkprofit\AmoCRM\RequestHandler;
 
+/**
+ * Class LeadService
+ * @package linkprofit\AmoCRM\services
+ */
 class LeadService implements ServiceInterface
 {
     /**
@@ -47,6 +51,9 @@ class LeadService implements ServiceInterface
         }
     }
 
+    /**
+     * @return bool|mixed
+     */
     public function createLead()
     {
         $this->composeAddFields();
@@ -60,6 +67,9 @@ class LeadService implements ServiceInterface
         return false;
     }
 
+    /**
+     * @return mixed
+     */
     public function getResponse()
     {
         return $this->response;

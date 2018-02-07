@@ -6,6 +6,10 @@ use linkprofit\AmoCRM\entities\Authorization;
 use linkprofit\AmoCRM\entities\EntityInterface;
 use linkprofit\AmoCRM\RequestHandler;
 
+/**
+ * Class AuthorizationService
+ * @package linkprofit\AmoCRM\services
+ */
 class AuthorizationService implements ServiceInterface
 {
     /**
@@ -81,7 +85,7 @@ class AuthorizationService implements ServiceInterface
     }
 
     /**
-     * Fill fields for response
+     * Fill fields for request
      */
     protected function composeFields()
     {

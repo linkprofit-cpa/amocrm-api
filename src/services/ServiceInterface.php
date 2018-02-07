@@ -5,6 +5,10 @@ namespace linkprofit\AmoCRM\services;
 use linkprofit\AmoCRM\entities\EntityInterface;
 use linkprofit\AmoCRM\RequestHandler;
 
+/**
+ * Interface ServiceInterface
+ * @package linkprofit\AmoCRM\services
+ */
 interface ServiceInterface
 {
     /**
