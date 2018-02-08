@@ -34,4 +34,20 @@ trait FieldsTrait
             $this->$field = isset($array[$field]) ? $array[$field] : null;
         }
     }
+
+    /**
+     * @param $fieldName
+     * @param $string
+     */
+    public function mergeStringToField($fieldName, $string)
+    {
+        $string = (string) $string;
+        $fieldIsSet = mb_strlen($this->$fieldName) > 0 && !is_array($this->$fieldName);
+
+        if (!$fieldIsSet) {
+            $this->$fieldName = $string;
+        } else {
+            $this->$fieldName.= ',' . $string;
+        }
+    }
 }
