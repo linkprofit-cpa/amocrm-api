@@ -10,7 +10,14 @@ use linkprofit\AmoCRM\traits\FieldsTrait;
  */
 abstract class CustomizableEntity implements EntityInterface
 {
-    protected $fieldList;
+    /**
+     * @var array
+     */
+    protected $fieldList = [];
+
+    /**
+     * @var array
+     */
     protected $custom_fields = [];
 
     use FieldsTrait;

@@ -8,7 +8,14 @@ namespace linkprofit\AmoCRM\entities;
  */
 class Authorization implements EntityInterface
 {
+    /**
+     * @var string Логин пользователя. В качестве логина в системе используется e-mail.
+     */
     public $login;
+
+    /**
+     * @var string Ключ пользователя, который можно получить на странице редактирования профиля пользователя.
+     */
     public $apiHash;
 
     /**

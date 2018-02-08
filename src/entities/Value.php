@@ -10,11 +10,29 @@ use linkprofit\AmoCRM\traits\FieldsTrait;
  */
 class Value implements EntityInterface
 {
+    /**
+     * @var string Значение дополнительного поля
+     */
     public $value;
+
+    /**
+     * @var string Идентификатор раннее предустановленного варианта выбора для списка или мультисписка
+     */
     public $enum;
+
+    /**
+     * @var string Тип изменяемого элемента дополнительного поля
+     */
     public $subtype;
+
+    /**
+     * @var boolean
+     */
     public $is_system;
 
+    /**
+     * @var array
+     */
     protected $fieldList = [
         'value', 'enum', 'subtype', 'is_system'
     ];

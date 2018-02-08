@@ -10,20 +10,34 @@ use linkprofit\AmoCRM\traits\FieldsTrait;
  */
 class CustomField implements EntityInterface
 {
+    /**
+     * @var integer Уникальный идентификатор заполняемого дополнительного поля
+     */
     public $id;
-    public $name;
-    public $code;
 
-    use FieldsTrait;
+    /**
+     * @var string
+     */
+    public $name;
+
+    /**
+     * @var string
+     */
+    public $code;
 
     /**
      * @var array Value
      */
     protected $values = [];
 
+    /**
+     * @var array
+     */
     protected $fieldList = [
         'id', 'name', 'code'
     ];
+
+    use FieldsTrait;
 
     public function __construct($id, $name = null, $code = null)
     {
