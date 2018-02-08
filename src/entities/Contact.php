@@ -6,25 +6,24 @@ namespace linkprofit\AmoCRM\entities;
  * Class Lead
  * @package linkprofit\AmoCRM\entities
  */
-class Lead extends CustomizableEntity
+class Contact extends CustomizableEntity
 {
     public $id;
     public $name;
     public $created_at;
     public $updated_at;
-    public $status_id;
-    public $pipeline_id;
     public $responsible_user_id;
-    public $sale;
+    public $created_by;
+    public $company_name;
     public $tags;
-    public $contacts_id;
+    public $leads_id;
+    public $customers_id;
     public $company_id;
-    public $price;
 
     protected $fieldList = [
         'id', 'name', 'created_at', 'updated_at',
-        'status_id', 'pipeline_id', 'responsible_user_id',
-        'sale', 'tags', 'contacts_id', 'company_id', 'price'
+        'responsible_user_id', 'created_by', 'company_name',
+        'tags', 'leads_id', 'customers_id', 'company_id',
     ];
 
     /**
@@ -33,5 +32,13 @@ class Lead extends CustomizableEntity
     public function set($array)
     {
         $this->setFromArray($this->fieldList, $array);
+    }
+
+    /**
+     * @param $id
+     */
+    public function linkLeadById($id)
+    {
+        $this->mergeStringToField('leads_id', $id);
     }
 }

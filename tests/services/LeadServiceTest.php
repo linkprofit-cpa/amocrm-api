@@ -10,11 +10,6 @@ class LeadServiceTest extends TestCase
     public function testAddLead()
     {
         $url = 'https://domain.amocrm.ru/api/v2/leads';
-        $this->request->expects($this->once())
-            ->method('performRequest')
-            ->with($url, ['add' => [['status_id' => '17077744', 'price' => 0, 'responsible_user_id' => 1924000, 'custom_fields' => [
-                ['id' => '146785', 'name' => 'email', 'code' => 'EMAIL', 'values' => [['value' => 'email@email.com', 'enum' => '304683']]]
-            ]]]]);
 
         $this->request->expects($this->once())
             ->method('getResponse')
@@ -23,13 +18,18 @@ class LeadServiceTest extends TestCase
         $lead = $this->leadProvider();
 
         $lead->addCustomField($this->emailField);
+
+        $this->request->expects($this->once())
+            ->method('performRequest')
+            ->with($url, ['add' => [$lead->get()]]);
+
         $leadService = new \linkprofit\AmoCRM\services\LeadService($this->request);
         $leadService->add($lead);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $leadService->createLead());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $leadService->create());
 
-        $leadService->parseResponseToLeads();
-        $leads = $leadService->getLeads();
+        $leadService->parseResponseToEntities();
+        $leads = $leadService->getEntities();
 
         $this->assertEquals(1, $leads[0]->id);
     }
@@ -37,11 +37,6 @@ class LeadServiceTest extends TestCase
     public function testAddLeadError()
     {
         $url = 'https://domain.amocrm.ru/api/v2/leads';
-        $this->request->expects($this->once())
-            ->method('performRequest')
-            ->with($url, ['add' => [['status_id' => '17077744', 'price' => 0, 'responsible_user_id' => 1924000, 'custom_fields' => [
-                ['id' => '146785', 'name' => 'email', 'code' => 'EMAIL', 'values' => [['value' => 'email@email.com', 'enum' => '304683']]]
-            ]]]]);
 
         $this->request->expects($this->once())
             ->method('getResponse')
@@ -50,23 +45,21 @@ class LeadServiceTest extends TestCase
         $lead = $this->leadProvider();
 
         $lead->addCustomField($this->emailField);
+
+        $this->request->expects($this->once())
+            ->method('performRequest')
+            ->with($url, ['add' => [$lead->get()]]);
+
         $leadService = new \linkprofit\AmoCRM\services\LeadService($this->request);
         $leadService->add($lead);
 
-        $this->assertFalse($leadService->createLead());
-        $this->assertFalse($leadService->parseResponseToLeads());
+        $this->assertFalse($leadService->create());
+        $this->assertFalse($leadService->parseResponseToEntities());
     }
 
     public function testAddLeads()
     {
         $url = 'https://domain.amocrm.ru/api/v2/leads';
-        $this->request->expects($this->once())
-            ->method('performRequest')
-            ->with($url, ['add' => [['status_id' => '17077744', 'price' => 0, 'responsible_user_id' => 1924000, 'custom_fields' => [
-                ['id' => '146785', 'name' => 'email', 'code' => 'EMAIL', 'values' => [['value' => 'email@email.com', 'enum' => '304683']]]
-            ]], ['status_id' => '17077744', 'price' => 300, 'responsible_user_id' => 1924000, 'custom_fields' => [
-                ['id' => '146785', 'name' => 'email', 'code' => 'EMAIL', 'values' => [['value' => 'email@email.com', 'enum' => '304683']]]
-            ]]]]);
 
         $this->request->expects($this->once())
             ->method('getResponse')
@@ -81,13 +74,17 @@ class LeadServiceTest extends TestCase
 
         $secondLead->addCustomField($this->emailField);
 
+        $this->request->expects($this->once())
+            ->method('performRequest')
+            ->with($url, ['add' => [$lead->get(), $secondLead->get()]]);
+
         $leadService = new \linkprofit\AmoCRM\services\LeadService($this->request);
         $leadService->add($lead);
         $leadService->add($secondLead);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $leadService->createLead());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $leadService->create());
 
-        $leads = $leadService->parseResponseToLeads();
+        $leads = $leadService->parseResponseToEntities();
 
         $this->assertEquals(1, $leads[0]->id);
         $this->assertEquals(2, $leads[1]->id);
