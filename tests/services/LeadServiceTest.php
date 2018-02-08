@@ -26,10 +26,10 @@ class LeadServiceTest extends TestCase
         $leadService = new \linkprofit\AmoCRM\services\LeadService($this->request);
         $leadService->add($lead);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $leadService->createLead());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $leadService->create());
 
-        $leadService->parseResponseToLeads();
-        $leads = $leadService->getLeads();
+        $leadService->parseResponseToEntities();
+        $leads = $leadService->getEntities();
 
         $this->assertEquals(1, $leads[0]->id);
     }
@@ -53,8 +53,8 @@ class LeadServiceTest extends TestCase
         $leadService = new \linkprofit\AmoCRM\services\LeadService($this->request);
         $leadService->add($lead);
 
-        $this->assertFalse($leadService->createLead());
-        $this->assertFalse($leadService->parseResponseToLeads());
+        $this->assertFalse($leadService->create());
+        $this->assertFalse($leadService->parseResponseToEntities());
     }
 
     public function testAddLeads()
@@ -85,9 +85,9 @@ class LeadServiceTest extends TestCase
         $leadService->add($lead);
         $leadService->add($secondLead);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $leadService->createLead());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $leadService->create());
 
-        $leads = $leadService->parseResponseToLeads();
+        $leads = $leadService->parseResponseToEntities();
 
         $this->assertEquals(1, $leads[0]->id);
         $this->assertEquals(2, $leads[1]->id);
