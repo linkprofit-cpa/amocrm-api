@@ -17,7 +17,7 @@ class ContactService extends BaseService
     protected $entities = [];
 
     /**
-     * @param Contact $lead
+     * @param Contact $contact
      */
     public function add(EntityInterface $contact)
     {
