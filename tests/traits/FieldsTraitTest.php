@@ -9,6 +9,8 @@ class FieldsTraitTest extends TestCase
     public $field2;
     public $field3;
 
+    public $mergedField;
+
     protected $fieldsList = ['field1', 'field2', 'field3'];
 
     use FieldsTrait;
@@ -46,5 +48,14 @@ class FieldsTraitTest extends TestCase
         $this->assertEquals('two', $this->field2);
         $this->assertEquals(3.0, $this->field3);
         $this->assertObjectNotHasAttribute('field4', $this);
+    }
+
+    public function testSetMergedField()
+    {
+        $this->mergeStringToField('mergedField', 1);
+        $this->assertEquals('1', $this->mergedField);
+
+        $this->mergeStringToField('mergedField', 2);
+        $this->assertEquals('1,2', $this->mergedField);
     }
 }
