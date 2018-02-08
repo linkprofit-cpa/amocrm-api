@@ -10,11 +10,6 @@ class LeadServiceTest extends TestCase
     public function testAddLead()
     {
         $url = 'https://domain.amocrm.ru/api/v2/leads';
-        $this->request->expects($this->once())
-            ->method('performRequest')
-            ->with($url, ['add' => [['status_id' => '17077744', 'price' => 0, 'responsible_user_id' => 1924000, 'custom_fields' => [
-                ['id' => '146785', 'name' => 'email', 'code' => 'EMAIL', 'values' => [['value' => 'email@email.com', 'enum' => '304683']]]
-            ]]]]);
 
         $this->request->expects($this->once())
             ->method('getResponse')
@@ -23,6 +18,11 @@ class LeadServiceTest extends TestCase
         $lead = $this->leadProvider();
 
         $lead->addCustomField($this->emailField);
+
+        $this->request->expects($this->once())
+            ->method('performRequest')
+            ->with($url, ['add' => [$lead->get()]]);
+
         $leadService = new \linkprofit\AmoCRM\services\LeadService($this->request);
         $leadService->add($lead);
 
@@ -37,11 +37,6 @@ class LeadServiceTest extends TestCase
     public function testAddLeadError()
     {
         $url = 'https://domain.amocrm.ru/api/v2/leads';
-        $this->request->expects($this->once())
-            ->method('performRequest')
-            ->with($url, ['add' => [['status_id' => '17077744', 'price' => 0, 'responsible_user_id' => 1924000, 'custom_fields' => [
-                ['id' => '146785', 'name' => 'email', 'code' => 'EMAIL', 'values' => [['value' => 'email@email.com', 'enum' => '304683']]]
-            ]]]]);
 
         $this->request->expects($this->once())
             ->method('getResponse')
@@ -50,6 +45,11 @@ class LeadServiceTest extends TestCase
         $lead = $this->leadProvider();
 
         $lead->addCustomField($this->emailField);
+
+        $this->request->expects($this->once())
+            ->method('performRequest')
+            ->with($url, ['add' => [$lead->get()]]);
+
         $leadService = new \linkprofit\AmoCRM\services\LeadService($this->request);
         $leadService->add($lead);
 
@@ -60,13 +60,6 @@ class LeadServiceTest extends TestCase
     public function testAddLeads()
     {
         $url = 'https://domain.amocrm.ru/api/v2/leads';
-        $this->request->expects($this->once())
-            ->method('performRequest')
-            ->with($url, ['add' => [['status_id' => '17077744', 'price' => 0, 'responsible_user_id' => 1924000, 'custom_fields' => [
-                ['id' => '146785', 'name' => 'email', 'code' => 'EMAIL', 'values' => [['value' => 'email@email.com', 'enum' => '304683']]]
-            ]], ['status_id' => '17077744', 'price' => 300, 'responsible_user_id' => 1924000, 'custom_fields' => [
-                ['id' => '146785', 'name' => 'email', 'code' => 'EMAIL', 'values' => [['value' => 'email@email.com', 'enum' => '304683']]]
-            ]]]]);
 
         $this->request->expects($this->once())
             ->method('getResponse')
@@ -80,6 +73,10 @@ class LeadServiceTest extends TestCase
         $secondLead->price = 300;
 
         $secondLead->addCustomField($this->emailField);
+
+        $this->request->expects($this->once())
+            ->method('performRequest')
+            ->with($url, ['add' => [$lead->get(), $secondLead->get()]]);
 
         $leadService = new \linkprofit\AmoCRM\services\LeadService($this->request);
         $leadService->add($lead);
