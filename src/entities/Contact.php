@@ -33,4 +33,12 @@ class Contact extends CustomizableEntity
     {
         $this->setFromArray($this->fieldList, $array);
     }
+
+    /**
+     * @param $id
+     */
+    public function linkLeadById($id)
+    {
+        $this->mergeStringToField('leads_id', $id);
+    }
 }
