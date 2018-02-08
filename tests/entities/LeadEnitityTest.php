@@ -30,7 +30,7 @@ class LeadEntityTest extends TestCase
         $lead->addCustomField($customField);
 
         $this->assertEquals(['status_id' => '17077744', 'price' => 0, 'responsible_user_id' => 1924000, 'custom_fields' => [
-            ['id' => '146785', 'name' => 'email', 'code' => 'EMAIL', 'values' => [['value' => 'email@email.com', 'enum' => '304683']]]
+           $customField->get()
         ]], $lead->get());
     }
 }
