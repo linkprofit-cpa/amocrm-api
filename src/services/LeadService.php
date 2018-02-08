@@ -10,36 +10,12 @@ use linkprofit\AmoCRM\RequestHandler;
  * Class LeadService
  * @package linkprofit\AmoCRM\services
  */
-class LeadService implements ServiceInterface
+class LeadService extends BaseService
 {
-    /**
-     * @var RequestHandler
-     */
-    protected $request;
-
-    /**
-     * @var array
-     */
-    protected $fields = [];
-
-    /**
-     * @var
-     */
-    protected $response;
-
     /**
      * @var array Lead
      */
-    protected $leads = [];
-
-    /**
-     * LeadService constructor.
-     * @param RequestHandler $requestHandler
-     */
-    public function __construct(RequestHandler $requestHandler)
-    {
-        $this->request = $requestHandler;
-    }
+    protected $entities = [];
 
     /**
      * @param Lead $lead
@@ -47,24 +23,8 @@ class LeadService implements ServiceInterface
     public function add(EntityInterface $lead)
     {
         if ($lead instanceof Lead) {
-            $this->leads[] = $lead;
+            $this->entities[] = $lead;
         }
-    }
-
-    /**
-     * @return bool|mixed
-     */
-    public function createLead()
-    {
-        $this->composeAddFields();
-        $this->request->performRequest($this->getLink(), $this->fields);
-        $this->response = $this->request->getResponse();
-
-        if ($this->checkResponse()) {
-            return $this->getResponse();
-        }
-
-        return false;
     }
 
     /**
@@ -76,43 +36,15 @@ class LeadService implements ServiceInterface
     }
 
     /**
-     * @return array
+     * @param $array
+     * @return Lead
      */
-    public function getLeads()
+    public function parseArrayToEntity($array)
     {
-        return $this->leads;
-    }
+        $lead = new Lead();
+        $lead->set($array);
 
-    /**
-     * @return array|bool
-     */
-    public function parseResponseToLeads()
-    {
-        if (!$this->checkResponse()) {
-            return false;
-        }
-        $this->leads = [];
-
-        foreach ($this->response['_embedded']['items'] as $item) {
-            $lead = new Lead();
-            $lead->set($item);
-
-            $this->leads[] = $lead;
-        }
-
-        return $this->leads;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function checkResponse()
-    {
-        if (isset($this->response['_embedded']['items']) && count($this->response['_embedded']['items'])) {
-            return true;
-        }
-
-        return false;
+        return $lead;
     }
 
     /**
@@ -123,17 +55,4 @@ class LeadService implements ServiceInterface
         return 'https://' . $this->request->getSubdomain() . '.amocrm.ru/api/v2/leads';
     }
 
-    /**
-     * Fill fields for request
-     */
-    protected function composeAddFields()
-    {
-        $fields = [];
-
-        foreach ($this->leads as $lead) {
-            $fields[] = $lead->get();
-        }
-
-        $this->fields['add'] = $fields;
-    }
 }
