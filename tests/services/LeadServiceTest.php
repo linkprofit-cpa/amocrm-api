@@ -20,10 +20,7 @@ class LeadServiceTest extends TestCase
             ->method('getResponse')
             ->will($this->returnValue(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]]));
 
-        $lead = new \linkprofit\AmoCRM\entities\Lead();
-        $lead->status_id = 17077744;
-        $lead->price = 0;
-        $lead->responsible_user_id = 1924000;
+        $lead = $this->leadProvider();
 
         $lead->addCustomField($this->emailField);
         $leadService = new \linkprofit\AmoCRM\services\LeadService($this->request);
@@ -31,7 +28,8 @@ class LeadServiceTest extends TestCase
 
         $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $leadService->createLead());
 
-        $leads = $leadService->parseResponseToLeads();
+        $leadService->parseResponseToLeads();
+        $leads = $leadService->getLeads();
 
         $this->assertEquals(1, $leads[0]->id);
     }
@@ -49,16 +47,14 @@ class LeadServiceTest extends TestCase
             ->method('getResponse')
             ->will($this->returnValue(['_links' => ['self'], '_embedded' => ['items' => []]]));
 
-        $lead = new \linkprofit\AmoCRM\entities\Lead();
-        $lead->status_id = 17077744;
-        $lead->price = 0;
-        $lead->responsible_user_id = 1924000;
+        $lead = $this->leadProvider();
 
         $lead->addCustomField($this->emailField);
         $leadService = new \linkprofit\AmoCRM\services\LeadService($this->request);
         $leadService->add($lead);
 
         $this->assertFalse($leadService->createLead());
+        $this->assertFalse($leadService->parseResponseToLeads());
     }
 
     public function testAddLeads()
@@ -76,17 +72,12 @@ class LeadServiceTest extends TestCase
             ->method('getResponse')
             ->will($this->returnValue(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]]));
 
-        $lead = new \linkprofit\AmoCRM\entities\Lead();
-        $lead->status_id = 17077744;
-        $lead->price = 0;
-        $lead->responsible_user_id = 1924000;
+        $lead = $this->leadProvider();
 
         $lead->addCustomField($this->emailField);
 
-        $secondLead = new \linkprofit\AmoCRM\entities\Lead();
-        $secondLead->status_id = 17077744;
+        $secondLead = $this->leadProvider();
         $secondLead->price = 300;
-        $secondLead->responsible_user_id = 1924000;
 
         $secondLead->addCustomField($this->emailField);
 
@@ -117,6 +108,16 @@ class LeadServiceTest extends TestCase
         );
 
         return $emailField;
+    }
+
+    protected function leadProvider()
+    {
+        $lead = new \linkprofit\AmoCRM\entities\Lead();
+        $lead->status_id = 17077744;
+        $lead->price = 0;
+        $lead->responsible_user_id = 1924000;
+
+        return $lead;
     }
 
     protected function requestProvider()
