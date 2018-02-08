@@ -28,14 +28,6 @@ class LeadService extends BaseService
     }
 
     /**
-     * @return mixed
-     */
-    public function getResponse()
-    {
-        return $this->response;
-    }
-
-    /**
      * @param $array
      * @return Lead
      */
