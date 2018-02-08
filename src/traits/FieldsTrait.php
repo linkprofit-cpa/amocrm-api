@@ -47,7 +47,7 @@ trait FieldsTrait
         if (!$fieldIsSet) {
             $this->$fieldName = $string;
         } else {
-            $this->$fieldName.= ',' . $string;
+            $this->$fieldName .= ',' . $string;
         }
     }
 }
