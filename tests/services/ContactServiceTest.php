@@ -89,6 +89,15 @@ class ContactServiceTest extends TestCase
         $this->assertEquals(2, $contacts[1]->id);
     }
 
+    public function testParseArrayToEntity()
+    {
+        $contact = $this->contactProvider();
+        $contactService = new \linkprofit\AmoCRM\services\ContactService($this->requestProvider());
+
+        $clonedContact = $contactService->parseArrayToEntity($contact->get());
+        $this->assertTrue($contact == $clonedContact);
+    }
+
     protected function setUp()
     {
         $this->emailField = $this->emailFieldProvider();

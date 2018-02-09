@@ -6,7 +6,7 @@ use linkprofit\AmoCRM\traits\FieldsTrait;
 
 /**
  * Class Value
- * @package linkprofit\AmoCRM
+ * @package linkprofit\AmoCRM\entities
  */
 class Value implements EntityInterface
 {

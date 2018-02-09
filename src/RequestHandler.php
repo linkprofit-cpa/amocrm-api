@@ -33,6 +33,13 @@ class RequestHandler
         503 => 'Service unavailable'
     ];
 
+    /**
+     * @var array
+     */
+    protected $successHttpCodes = [
+        200, 204
+    ];
+
     protected $subdomain;
 
     /**
@@ -97,7 +104,7 @@ class RequestHandler
     protected function encodeResponse()
     {
         try {
-            if ($this->httpCode != 200 && $this->httpCode != 204) {
+            if (!in_array($this->httpCode, $this->successHttpCodes)) {
                 throw new Exception(isset($this->httpErrors[$this->httpCode]) ? $this->httpErrors[$this->httpCode] : 'Undescribed error', $this->httpCode);
             }
         } catch (Exception $e) {
