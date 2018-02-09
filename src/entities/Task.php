@@ -10,13 +10,40 @@ use linkprofit\AmoCRM\traits\FieldsTrait;
  */
 class Task implements EntityInterface
 {
+    /**
+     * Контакт
+     */
     const CONTACT_ELEMENT_TYPE = 1;
+
+    /**
+     * Сделка
+     */
     const LEAD_ELEMENT_TYPE = 2;
+
+    /**
+     * Компания
+     */
     const COMPANY_ELEMENT_TYPE = 3;
+
+    /**
+     * Покупатель
+     */
     const CUSTOMER_ELEMENT_TYPE = 12;
 
+
+    /**
+     * Звонок
+     */
     const CALL_TASK_TYPE = 1;
+
+    /**
+     * Встреча
+     */
     const MEETING_TASK_TYPE = 2;
+
+    /**
+     * Написать письмо
+     */
     const MAIL_TASK_TYPE = 3;
 
 
