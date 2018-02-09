@@ -12,7 +12,7 @@ use linkprofit\AmoCRM\entities\Task;
 class TaskService extends BaseService
 {
     /**
-     * @var array Lead
+     * @var array Task
      */
     protected $entities = [];
 

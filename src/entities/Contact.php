@@ -45,7 +45,6 @@ class Contact extends CustomizableEntity
 
     /**
      * @var string Теги, привязываемые к контакту. Задаются целостной строковой переменной, внутри строки перечисляются через запятую
-
      */
     public $tags;
 
