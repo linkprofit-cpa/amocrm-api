@@ -6,7 +6,7 @@ use linkprofit\AmoCRM\traits\FieldsTrait;
 
 /**
  * Class CustomField
- * @package linkprofit\AmoCRM
+ * @package linkprofit\AmoCRM\entities
  */
 class CustomField implements EntityInterface
 {
