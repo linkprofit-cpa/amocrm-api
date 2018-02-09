@@ -91,6 +91,14 @@ class Task implements EntityInterface
     }
 
     /**
+     * @param $array
+     */
+    public function set($array)
+    {
+        $this->setFromArray($this->fieldList, $array);
+    }
+
+    /**
      * @param EntityInterface $element
      * @return bool
      */
