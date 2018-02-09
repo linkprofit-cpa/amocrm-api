@@ -171,18 +171,23 @@ class Note implements EntityInterface
      */
     public function linkElement(EntityInterface $element)
     {
-        if (empty($element->id)) {
-            return false;
+        $className = get_class($element);
+        switch ($className) {
+            case Contact::class:
+                $this->element_type = self::CONTACT_ELEMENT_TYPE;
+                break;
+            case Lead::class:
+                $this->element_type = self::LEAD_ELEMENT_TYPE;
+                break;
+            case Task::class:
+                $this->element_type = self::TASK_ELEMENT_TYPE;
+                $this->note_type = self::TASK_RESULT;
+                break;
+            default:
+                return false;
         }
 
-        if ($element instanceof Contact) {
-            $this->element_type = self::CONTACT_ELEMENT_TYPE;
-        } elseif ($element instanceof Lead) {
-            $this->element_type = self::LEAD_ELEMENT_TYPE;
-        } elseif($element instanceof Task) {
-            $this->element_type = self::TASK_ELEMENT_TYPE;
-            $this->note_type = self::TASK_RESULT;
-        } else {
+        if (empty($element->id)) {
             return false;
         }
 
