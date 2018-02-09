@@ -11,7 +11,7 @@ $lead->responsible_user_id = 1924000;
 ```
 
 ## Использование
-Инициализируйте сервис с объектом [linkprofit\AmoCRM\RequestHandler](docs/request.md) и добавьте объект класса `linkprofit\AmoCRM\entities\Lead` методом `add()`.
+Инициализируйте сервис с объектом [linkprofit\AmoCRM\RequestHandler](/docs/request.md) и добавьте объект класса `linkprofit\AmoCRM\entities\Lead` методом `add()`.
 Вы можете добавить несколько сущностей для множественного добавления
 
 ```php

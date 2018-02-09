@@ -10,7 +10,7 @@ $contact->name = 'Василий Аркадьевич';
 ```
 
 ## Использование
-Инициализируйте сервис с объектом [linkprofit\AmoCRM\RequestHandler](docs/request.md) и добавьте объект класса `linkprofit\AmoCRM\entities\Contact` методом `add()`.
+Инициализируйте сервис с объектом [linkprofit\AmoCRM\RequestHandler](/docs/request.md) и добавьте объект класса `linkprofit\AmoCRM\entities\Contact` методом `add()`.
 Вы можете добавить несколько сущностей для множественного добавления
 
 ```php

@@ -12,7 +12,7 @@ $connection = new \linkprofit\AmoCRM\entities\Authorization(
 
 
 ## Использование
-Инициализируйте сервис с объектом [linkprofit\AmoCRM\RequestHandler](docs/request.md) и добавьте объект класса `linkprofit\AmoCRM\entities\Authorization` методом `add()`
+Инициализируйте сервис с объектом [linkprofit\AmoCRM\RequestHandler](/docs/request.md) и добавьте объект класса `linkprofit\AmoCRM\entities\Authorization` методом `add()`
 
 ```php
 $authorization = new \linkprofit\AmoCRM\services\AuthorizationService($request);
