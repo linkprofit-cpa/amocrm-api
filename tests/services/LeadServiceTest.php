@@ -70,7 +70,7 @@ class LeadServiceTest extends TestCase
         $lead->addCustomField($this->emailField);
 
         $secondLead = $this->leadProvider();
-        $secondLead->price = 300;
+        $secondLead->sale = 300;
 
         $secondLead->addCustomField($this->emailField);
 
@@ -88,6 +88,15 @@ class LeadServiceTest extends TestCase
 
         $this->assertEquals(1, $leads[0]->id);
         $this->assertEquals(2, $leads[1]->id);
+    }
+
+    public function testParseArrayToEntity()
+    {
+        $lead = $this->leadProvider();
+        $leadService = new \linkprofit\AmoCRM\services\LeadService($this->requestProvider());
+
+        $clonedLead = $leadService->parseArrayToEntity($lead->get());
+        $this->assertTrue($lead == $clonedLead);
     }
 
     protected function setUp()
@@ -111,7 +120,7 @@ class LeadServiceTest extends TestCase
     {
         $lead = new \linkprofit\AmoCRM\entities\Lead();
         $lead->status_id = 17077744;
-        $lead->price = 0;
+        $lead->sale = 0;
         $lead->responsible_user_id = 1924000;
 
         return $lead;
