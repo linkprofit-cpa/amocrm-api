@@ -11,9 +11,13 @@
 
 [Авторизация](docs/authorization.md)
 
-Кастомные поля
+[Кастомные поля](docs/customField.md)
 
-Сделки
+[Сделки](docs/lead.md)
+
+[Контакты](docs/contact.md)
+
+[Задачи](docs/task.md)
 
 ## Лицензия
 
