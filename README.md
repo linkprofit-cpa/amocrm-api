@@ -1,11 +1,16 @@
 # AmoCRM API
+[![Latest Stable Version](https://poser.pugx.org/linkprofit-cpa/amocrm-api/v/stable)](https://packagist.org/packages/linkprofit-cpa/amocrm-api)
 [![Build Status](https://travis-ci.org/linkprofit-cpa/amocrm-api.svg?branch=master)](https://travis-ci.org/linkprofit-cpa/amocrm-api)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/linkprofit-cpa/amocrm-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/linkprofit-cpa/amocrm-api/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/linkprofit-cpa/amocrm-api/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/linkprofit-cpa/amocrm-api/?branch=master)
+[![License](https://poser.pugx.org/linkprofit-cpa/amocrm-api/license)](https://packagist.org/packages/linkprofit-cpa/amocrm-api)
 
 ## Описание
 
 Библиотека для взаимодействия с сущностями AmoCRM
+
+## Установка
+`composer require linkprofit-cpa/amocrm-api`
 
 ## Документация
 
