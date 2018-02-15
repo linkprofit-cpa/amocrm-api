@@ -3,7 +3,7 @@
 namespace linkprofit\AmoCRM\entities;
 
 /**
- * Class Lead
+ * Class Contact
  * @package linkprofit\AmoCRM\entities
  */
 class Contact extends CustomizableEntity
@@ -85,6 +85,6 @@ class Contact extends CustomizableEntity
      */
     public function linkLeadById($id)
     {
-        $this->mergeStringToField('leads_id', $id);
+        $this->mergeStringToField($id, 'leads_id');
     }
 }
