@@ -2,7 +2,7 @@
 
 namespace linkprofit\AmoCRM\entities;
 
-use linkprofit\AmoCRM\traits\FieldsTrait;
+use linkprofit\AmoCRM\traits\FieldList;
 
 /**
  * Class CustomizableEntity
@@ -20,7 +20,7 @@ abstract class CustomizableEntity implements EntityInterface
      */
     protected $custom_fields = [];
 
-    use FieldsTrait;
+    use FieldList;
 
     /**
      * @param CustomField $field

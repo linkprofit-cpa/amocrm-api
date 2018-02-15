@@ -2,7 +2,7 @@
 
 namespace linkprofit\AmoCRM\entities;
 
-use linkprofit\AmoCRM\traits\FieldsTrait;
+use linkprofit\AmoCRM\traits\FieldList;
 
 /**
  * Class Note
@@ -145,7 +145,7 @@ class Note implements EntityInterface
         'text', 'created_at', 'updated_at', 'responsible_user_id'
     ];
 
-    use FieldsTrait;
+    use FieldList;
 
     /**
      * @return array

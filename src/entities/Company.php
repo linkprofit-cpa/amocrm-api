@@ -2,6 +2,9 @@
 
 namespace linkprofit\AmoCRM\entities;
 
+use linkprofit\AmoCRM\traits\ContactsLinkable;
+use linkprofit\AmoCRM\traits\LeadsLinkable;
+
 /**
  * Class Company
  * @package linkprofit\AmoCRM\entities
@@ -44,19 +47,9 @@ class Company extends CustomizableEntity
     public $tags;
 
     /**
-     * @var string Сделки, привязываемые к компании. Перечисляются через запятую.
-     */
-    public $leads_id;
-
-    /**
      * @var string Покупатели, привязываемые к компании. Перечисляются через запятую.
      */
     public $customers_id;
-
-    /**
-     * @var string Контакты, привязываемые к компании. Перечисляются id через запятую.
-     */
-    public $contacts_id;
 
     /**
      * @var array
@@ -67,27 +60,16 @@ class Company extends CustomizableEntity
         'leads_id', 'customers_id', 'contacts_id',
     ];
 
+    use ContactsLinkable,
+        LeadsLinkable {
+        ContactsLinkable::mergeStringToField insteadof LeadsLinkable;
+    }
+
     /**
      * @param $array
      */
     public function set($array)
     {
         $this->setFromArray($this->fieldList, $array);
-    }
-
-    /**
-     * @param $id
-     */
-    public function linkLeadById($id)
-    {
-        $this->mergeStringToField($id, 'leads_id');
-    }
-
-    /**
-     * @param $id
-     */
-    public function linkContactById($id)
-    {
-        $this->mergeStringToField($id, 'contacts_id');
     }
 }
