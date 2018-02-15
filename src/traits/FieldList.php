@@ -3,10 +3,10 @@
 namespace linkprofit\AmoCRM\traits;
 
 /**
- * Class FieldsTrait
+ * Class FieldList
  * @package linkprofit\AmoCRM\traits
  */
-trait FieldsTrait
+trait FieldList
 {
     /**
      * @param $fieldList
@@ -32,22 +32,6 @@ trait FieldsTrait
     {
         foreach ($fieldList as $field) {
             $this->$field = isset($array[$field]) ? $array[$field] : null;
-        }
-    }
-
-    /**
-     * @param $fieldName
-     * @param $string
-     */
-    public function mergeStringToField($string, $fieldName)
-    {
-        $string = (string) $string;
-        $fieldIsSet = mb_strlen($this->$fieldName) > 0 && !is_array($this->$fieldName);
-
-        if (!$fieldIsSet) {
-            $this->$fieldName = $string;
-        } else {
-            $this->$fieldName .= ',' . $string;
         }
     }
 }
