@@ -123,11 +123,15 @@ class Note extends BaseEntity
     ];
 
     /**
-     * @param EntityInterface $element
+     * @param BaseEntity $element
      * @return bool
      */
-    public function linkElement(EntityInterface $element)
+    public function linkElement(BaseEntity $element)
     {
+        if (empty($element->id)) {
+            return false;
+        }
+
         $className = get_class($element);
         switch ($className) {
             case Contact::class:
@@ -142,10 +146,6 @@ class Note extends BaseEntity
                 break;
             default:
                 return false;
-        }
-
-        if (empty($element->id)) {
-            return false;
         }
 
         $this->element_id = $element->id;
