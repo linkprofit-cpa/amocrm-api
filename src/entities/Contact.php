@@ -87,4 +87,12 @@ class Contact extends CustomizableEntity
     {
         $this->mergeStringToField($id, 'leads_id');
     }
+
+    /**
+     * @param $id
+     */
+    public function linkCompanyById($id)
+    {
+        $this->company_id = $id;
+    }
 }
