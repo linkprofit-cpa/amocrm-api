@@ -7,7 +7,7 @@ class NoteServiceTest extends TestCase
     protected $request;
     protected $note;
 
-    public function testAddNote()
+    public function testAdd()
     {
         $url = 'https://domain.amocrm.ru/api/v2/notes';
 
@@ -31,7 +31,7 @@ class NoteServiceTest extends TestCase
         $this->assertEquals(1, $notes[0]->id);
     }
 
-    public function testAddNoteError()
+    public function testAddError()
     {
         $url = 'https://domain.amocrm.ru/api/v2/notes';
 

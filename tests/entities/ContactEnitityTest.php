@@ -44,6 +44,14 @@ class ContactEntityTest extends TestCase
         $this->assertEquals(['name' => 'Василий Аркадьевич', 'responsible_user_id' => 1924000, 'leads_id' => '1,2'], $contact->get());
     }
 
+    public function testCompanyLink()
+    {
+        $contact = $this->contactProvider();
+
+        $contact->linkCompanyById(1);
+        $this->assertEquals(['name' => 'Василий Аркадьевич', 'responsible_user_id' => 1924000, 'company_id' => '1'], $contact->get());
+    }
+
     protected function contactProvider()
     {
         $contact = new \linkprofit\AmoCRM\entities\Contact();

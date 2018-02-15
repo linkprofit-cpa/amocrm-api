@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class AuthorizationServiceTest extends TestCase
 {
-    public function testSuccessAuthorize()
+    public function testSuccess()
     {
         $request = $this->getMockBuilder(\linkprofit\AmoCRM\RequestHandler::class)
             ->setMethods(['getSubdomain', 'performRequest', 'getResponse'])
@@ -30,7 +30,7 @@ class AuthorizationServiceTest extends TestCase
         $this->assertTrue($authorizationService->authorize());
     }
 
-    public function testErrorAuthorize()
+    public function testError()
     {
         $request = $this->getMockBuilder(\linkprofit\AmoCRM\RequestHandler::class)
             ->setMethods(['getSubdomain', 'performRequest', 'getResponse'])
