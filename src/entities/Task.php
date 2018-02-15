@@ -2,7 +2,7 @@
 
 namespace linkprofit\AmoCRM\entities;
 
-use linkprofit\AmoCRM\traits\FieldsTrait;
+use linkprofit\AmoCRM\traits\FieldList;
 
 /**
  * Class Task
@@ -105,7 +105,7 @@ class Task implements EntityInterface
         'text', 'created_at', 'updated_at', 'responsible_user_id', 'is_completed'
     ];
 
-    use FieldsTrait;
+    use FieldList;
 
     /**
      * @return array
