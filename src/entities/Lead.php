@@ -79,4 +79,20 @@ class Lead extends CustomizableEntity
     {
         $this->setFromArray($this->fieldList, $array);
     }
+
+    /**
+     * @param $id
+     */
+    public function linkCompanyById($id)
+    {
+        $this->company_id = $id;
+    }
+
+    /**
+     * @param $id
+     */
+    public function linkContactById($id)
+    {
+        $this->mergeStringToField($id, 'contacts_id');
+    }
 }
