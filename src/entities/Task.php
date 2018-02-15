@@ -84,10 +84,10 @@ class Task extends BaseEntity
     ];
 
     /**
-     * @param EntityInterface $element
+     * @param BaseEntity $element
      * @return bool
      */
-    public function linkElement(EntityInterface $element)
+    public function linkElement(BaseEntity $element)
     {
         if (empty($element->id)) {
             return false;
