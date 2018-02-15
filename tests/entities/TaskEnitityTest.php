@@ -30,13 +30,14 @@ class TaskEntityTest extends TestCase
         $this->assertEquals(['text' => 'Задача', 'complete_till_at' => $task->complete_till_at, 'responsible_user_id' => 1924000, 'task_type' => 1, 'element_type' => 2, 'element_id' => $lead->id], $task->get());
     }
 
-    public function testLinkCustomFieldError()
+    public function testLinkError()
     {
         $task = $this->taskProvider();
 
-        $customField = $this->customFieldProvider();
+        $taskToLink = $this->taskProvider();
+        $taskToLink->id = 1;
 
-        $this->assertFalse($task->linkElement($customField));
+        $this->assertFalse($task->linkElement($taskToLink));
     }
 
     public function testLinkElementWithoutIdError()
