@@ -39,7 +39,7 @@ trait FieldsTrait
      * @param $fieldName
      * @param $string
      */
-    public function mergeStringToField($fieldName, $string)
+    public function mergeStringToField($string, $fieldName)
     {
         $string = (string) $string;
         $fieldIsSet = mb_strlen($this->$fieldName) > 0 && !is_array($this->$fieldName);

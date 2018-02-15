@@ -52,10 +52,10 @@ class FieldsTraitTest extends TestCase
 
     public function testSetMergedField()
     {
-        $this->mergeStringToField('mergedField', 1);
+        $this->mergeStringToField(1, 'mergedField');
         $this->assertEquals('1', $this->mergedField);
 
-        $this->mergeStringToField('mergedField', 2);
+        $this->mergeStringToField(2, 'mergedField');
         $this->assertEquals('1,2', $this->mergedField);
     }
 }
