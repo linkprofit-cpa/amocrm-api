@@ -47,13 +47,14 @@ class NoteEntityTest extends TestCase
         $this->assertEquals(['text' => 'Заметка', 'responsible_user_id' => 1924000, 'note_type' => 4, 'element_type' => 2, 'element_id' => $lead->id], $note->get());
     }
 
-    public function testLinkCustomFieldError()
+    public function testLinkNoteError()
     {
         $note = $this->noteProvider();
 
-        $customField = $this->customFieldProvider();
+        $noteTolink = $this->noteProvider();
+        $noteTolink->id = 1;
 
-        $this->assertFalse($note->linkElement($customField));
+        $this->assertFalse($note->linkElement($noteTolink));
     }
 
     public function testLinkElementWithoutIdError()
@@ -99,12 +100,5 @@ class NoteEntityTest extends TestCase
         $lead->id = 32;
 
         return $lead;
-    }
-
-    protected function customFieldProvider()
-    {
-        $customField = new \linkprofit\AmoCRM\entities\CustomField('146785', 'email', 'EMAIL');
-
-        return $customField;
     }
 }
