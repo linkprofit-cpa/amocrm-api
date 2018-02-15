@@ -12,29 +12,9 @@ use linkprofit\AmoCRM\traits\LeadsLinkable;
 class Company extends CustomizableEntity
 {
     /**
-     * @var integer id контакта, в которого будут вноситься изменения
-     */
-    public $id;
-
-    /**
      * @var string Название компании
      */
     public $name;
-
-    /**
-     * @var string Дата и время создания компании
-     */
-    public $created_at;
-
-    /**
-     * @var string Дата и время изменения компании
-     */
-    public $updated_at;
-
-    /**
-     * @var integer id пользователя ответственного за компанию
-     */
-    public $responsible_user_id;
 
     /**
      * @var integer id пользователя создавшего компанию
@@ -63,13 +43,5 @@ class Company extends CustomizableEntity
     use ContactsLinkable,
         LeadsLinkable {
         ContactsLinkable::mergeStringToField insteadof LeadsLinkable;
-    }
-
-    /**
-     * @param $array
-     */
-    public function set($array)
-    {
-        $this->setFromArray($this->fieldList, $array);
     }
 }

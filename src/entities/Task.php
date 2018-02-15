@@ -2,13 +2,11 @@
 
 namespace linkprofit\AmoCRM\entities;
 
-use linkprofit\AmoCRM\traits\FieldList;
-
 /**
  * Class Task
  * @package linkprofit\AmoCRM\entities
  */
-class Task implements EntityInterface
+class Task extends BaseEntity
 {
     /**
      * Контакт
@@ -48,11 +46,6 @@ class Task implements EntityInterface
 
 
     /**
-     * @var int Уникальный идентификатор обновляемой задачи
-     */
-    public $id;
-
-    /**
      * @var int Уникальный идентификатор контакта или сделки (сделка или контакт указывается в element_type)
      */
     public $element_id;
@@ -78,21 +71,6 @@ class Task implements EntityInterface
     public $text;
 
     /**
-     * @var string Дата создания данной задачи (необязательный параметр)
-     */
-    public $created_at;
-
-    /**
-     * @var string Дата последнего изменения данной задачи (обязательный параметр при обновлении)
-     */
-    public $updated_at;
-
-    /**
-     * @var int Уникальный идентификатор ответственного пользователя
-     */
-    public $responsible_user_id;
-
-    /**
      * @var bool Задача завершена или нет
      */
     public $is_completed;
@@ -104,26 +82,6 @@ class Task implements EntityInterface
         'id', 'element_id', 'element_type', 'complete_till_at', 'task_type',
         'text', 'created_at', 'updated_at', 'responsible_user_id', 'is_completed'
     ];
-
-    use FieldList;
-
-    /**
-     * @return array
-     */
-    public function get()
-    {
-        $fields = $this->getExistedValues($this->fieldList);
-
-        return $fields;
-    }
-
-    /**
-     * @param $array
-     */
-    public function set($array)
-    {
-        $this->setFromArray($this->fieldList, $array);
-    }
 
     /**
      * @param EntityInterface $element

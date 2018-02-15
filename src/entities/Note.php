@@ -2,13 +2,11 @@
 
 namespace linkprofit\AmoCRM\entities;
 
-use linkprofit\AmoCRM\traits\FieldList;
-
 /**
  * Class Note
  * @package linkprofit\AmoCRM\entities
  */
-class Note implements EntityInterface
+class Note extends BaseEntity
 {
     /**
      * Контакт
@@ -91,12 +89,6 @@ class Note implements EntityInterface
      */
     const SMS_OUT = 102;
 
-
-    /**
-     * @var int Уникальный идентификатор обновляемой задачи
-     */
-    public $id;
-
     /**
      * @var int id элемента, в карточку которого будет добавлено событие
      */
@@ -118,21 +110,6 @@ class Note implements EntityInterface
     public $note_type;
 
     /**
-     * @var string Дата создания данной задачи (необязательный параметр)
-     */
-    public $created_at;
-
-    /**
-     * @var string Дата последнего изменения данной задачи (обязательный параметр при обновлении)
-     */
-    public $updated_at;
-
-    /**
-     * @var int Уникальный идентификатор ответственного пользователя
-     */
-    public $responsible_user_id;
-
-    /**
      * @var int Массив с передаваемой информацией для определённых типов событий
      */
     public $params;
@@ -144,26 +121,6 @@ class Note implements EntityInterface
         'id', 'element_id', 'element_type', 'note_type',
         'text', 'created_at', 'updated_at', 'responsible_user_id'
     ];
-
-    use FieldList;
-
-    /**
-     * @return array
-     */
-    public function get()
-    {
-        $fields = $this->getExistedValues($this->fieldList);
-
-        return $fields;
-    }
-
-    /**
-     * @param $array
-     */
-    public function set($array)
-    {
-        $this->setFromArray($this->fieldList, $array);
-    }
 
     /**
      * @param EntityInterface $element

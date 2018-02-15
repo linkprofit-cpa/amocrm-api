@@ -12,24 +12,9 @@ use linkprofit\AmoCRM\traits\ContactsLinkable;
 class Lead extends CustomizableEntity
 {
     /**
-     * @var integer id сделки, в которую будут вноситься изменения
-     */
-    public $id;
-
-    /**
      * @var string Название сделки
      */
     public $name;
-
-    /**
-     * @var string Дата создания текущей сделки
-     */
-    public $created_at;
-
-    /**
-     * @var string Дата изменения текущей сделки
-     */
-    public $updated_at;
 
     /**
      * @var integer Статус сделки (id этапа продаж см. Воронки и этапы продаж) Чтобы перенести сделку в другую воронку, необходимо установить ей статус из нужной воронки
@@ -40,11 +25,6 @@ class Lead extends CustomizableEntity
      * @var integer ID воронки. Указывается в том случае, если выбраны статусы id 142 или 143, т.к. эти статусы не уникальны и обязательны для всех цифровых воронок.
      */
     public $pipeline_id;
-
-    /**
-     * @var integer ID ответственного пользователя
-     */
-    public $responsible_user_id;
 
     /**
      * @var integer Бюджет сделки
@@ -67,12 +47,4 @@ class Lead extends CustomizableEntity
 
     use CompanyLinkable,
         ContactsLinkable;
-
-    /**
-     * @param $array
-     */
-    public function set($array)
-    {
-        $this->setFromArray($this->fieldList, $array);
-    }
 }

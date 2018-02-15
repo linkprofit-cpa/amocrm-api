@@ -12,29 +12,9 @@ use linkprofit\AmoCRM\traits\LeadsLinkable;
 class Contact extends CustomizableEntity
 {
     /**
-     * @var integer id контакта, в которого будут вноситься изменения
-     */
-    public $id;
-
-    /**
      * @var string Название контакта
      */
     public $name;
-
-    /**
-     * @var string Дата и время создания контакта
-     */
-    public $created_at;
-
-    /**
-     * @var string Дата и время обновления контакта. Обязательно при обновлении сущности.
-     */
-    public $updated_at;
-
-    /**
-     * @var integer id пользователя ответственного за контакт
-     */
-    public $responsible_user_id;
 
     /**
      * @var integer id пользователя создавшего контакт
@@ -67,12 +47,4 @@ class Contact extends CustomizableEntity
         'responsible_user_id', 'created_by', 'company_name',
         'tags', 'leads_id', 'customers_id', 'company_id',
     ];
-
-    /**
-     * @param $array
-     */
-    public function set($array)
-    {
-        $this->setFromArray($this->fieldList, $array);
-    }
 }

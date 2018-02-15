@@ -2,25 +2,16 @@
 
 namespace linkprofit\AmoCRM\entities;
 
-use linkprofit\AmoCRM\traits\FieldList;
-
 /**
  * Class CustomizableEntity
  * @package linkprofit\AmoCRM\entities
  */
-abstract class CustomizableEntity implements EntityInterface
+abstract class CustomizableEntity extends BaseEntity
 {
     /**
      * @var array
      */
-    protected $fieldList = [];
-
-    /**
-     * @var array
-     */
     protected $custom_fields = [];
-
-    use FieldList;
 
     /**
      * @param CustomField $field

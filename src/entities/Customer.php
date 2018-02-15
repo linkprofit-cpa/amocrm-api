@@ -12,11 +12,6 @@ use linkprofit\AmoCRM\traits\ContactsLinkable;
 class Customer extends CustomizableEntity
 {
     /**
-     * @var integer id покупателя, в которого будут вноситься изменения
-     */
-    public $id;
-
-    /**
      * @var string Название покупателя
      */
     public $name;
@@ -25,21 +20,6 @@ class Customer extends CustomizableEntity
      * @var string Дата и время следующей покупки
      */
     public $next_date;
-
-    /**
-     * @var string Дата и время создания покупателя
-     */
-    public $created_at;
-
-    /**
-     * @var string Дата и время изменения покупателя
-     */
-    public $updated_at;
-
-    /**
-     * @var integer ID ответственного пользователя
-     */
-    public $responsible_user_id;
 
     /**
      * @var integer id пользователя создавшего покупателя
@@ -77,12 +57,4 @@ class Customer extends CustomizableEntity
 
     use CompanyLinkable,
         ContactsLinkable;
-
-    /**
-     * @param $array
-     */
-    public function set($array)
-    {
-        $this->setFromArray($this->fieldList, $array);
-    }
 }
