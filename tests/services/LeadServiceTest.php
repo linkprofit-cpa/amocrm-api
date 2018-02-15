@@ -7,7 +7,7 @@ class LeadServiceTest extends TestCase
     protected $emailField;
     protected $request;
 
-    public function testAddLead()
+    public function testAdd()
     {
         $url = 'https://domain.amocrm.ru/api/v2/leads';
 
@@ -34,7 +34,7 @@ class LeadServiceTest extends TestCase
         $this->assertEquals(1, $leads[0]->id);
     }
 
-    public function testAddLeadError()
+    public function testAddError()
     {
         $url = 'https://domain.amocrm.ru/api/v2/leads';
 
@@ -57,7 +57,7 @@ class LeadServiceTest extends TestCase
         $this->assertFalse($leadService->parseResponseToEntities());
     }
 
-    public function testAddLeads()
+    public function testAddPlural()
     {
         $url = 'https://domain.amocrm.ru/api/v2/leads';
 

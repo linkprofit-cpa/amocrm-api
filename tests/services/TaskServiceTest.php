@@ -7,7 +7,7 @@ class TaskServiceTest extends TestCase
     protected $request;
     protected $task;
 
-    public function testAddTask()
+    public function testAdd()
     {
         $url = 'https://domain.amocrm.ru/api/v2/tasks';
 
@@ -31,7 +31,7 @@ class TaskServiceTest extends TestCase
         $this->assertEquals(1, $tasks[0]->id);
     }
 
-    public function testAddTaskError()
+    public function testAddError()
     {
         $url = 'https://domain.amocrm.ru/api/v2/tasks';
 

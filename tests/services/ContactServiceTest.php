@@ -7,7 +7,7 @@ class ContactServiceTest extends TestCase
     protected $emailField;
     protected $request;
 
-    public function testAddContact()
+    public function testAdd()
     {
         $contact = $this->contactProvider();
         $url = 'https://domain.amocrm.ru/api/v2/contacts';
@@ -33,7 +33,7 @@ class ContactServiceTest extends TestCase
         $this->assertEquals(1, $contacts[0]->id);
     }
 
-    public function testAddContactError()
+    public function testAddError()
     {
         $url = 'https://domain.amocrm.ru/api/v2/contacts';
 
@@ -56,7 +56,7 @@ class ContactServiceTest extends TestCase
         $this->assertFalse($contactService->parseResponseToEntities());
     }
 
-    public function testAddLeads()
+    public function testAddPlural()
     {
         $url = 'https://domain.amocrm.ru/api/v2/contacts';
 
