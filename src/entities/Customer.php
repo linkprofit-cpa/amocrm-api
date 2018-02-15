@@ -2,6 +2,9 @@
 
 namespace linkprofit\AmoCRM\entities;
 
+use linkprofit\AmoCRM\traits\CompanyLinkable;
+use linkprofit\AmoCRM\traits\ContactsLinkable;
+
 /**
  * Class Customer
  * @package linkprofit\AmoCRM\entities
@@ -64,16 +67,6 @@ class Customer extends CustomizableEntity
     public $period_id;
 
     /**
-     * @var string Уникальный идентификатор контакта, для связи с сделкой. Можно передавать несколько id, перечисляя их в строке через запятую.
-     */
-    public $contacts_id;
-
-    /**
-     * @var integer Уникальный идентификатор компании, для связи с сделкой
-     */
-    public $company_id;
-
-    /**
      * @var array
      */
     protected $fieldList = [
@@ -82,27 +75,14 @@ class Customer extends CustomizableEntity
         'periodicity', 'tags', 'period_id', 'contacts_id', 'company_id'
     ];
 
+    use CompanyLinkable,
+        ContactsLinkable;
+
     /**
      * @param $array
      */
     public function set($array)
     {
         $this->setFromArray($this->fieldList, $array);
-    }
-
-    /**
-     * @param $id
-     */
-    public function linkCompanyById($id)
-    {
-        $this->company_id = $id;
-    }
-
-    /**
-     * @param $id
-     */
-    public function linkContactById($id)
-    {
-        $this->mergeStringToField($id, 'contacts_id');
     }
 }
