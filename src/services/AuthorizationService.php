@@ -23,7 +23,7 @@ class AuthorizationService implements ServiceInterface
     protected $fields;
 
     /**
-     * @var
+     * @var mixed
      */
     protected $response;
 

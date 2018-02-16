@@ -1,13 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: root
- * Date: 15.02.18
- * Time: 16:11
- */
 
 namespace linkprofit\AmoCRM\traits;
 
+/**
+ * Class FieldsMergeable
+ * @package linkprofit\AmoCRM\traits
+ */
 trait FieldsMergeable
 {
     /**

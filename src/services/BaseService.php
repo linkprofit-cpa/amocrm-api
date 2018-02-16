@@ -5,6 +5,10 @@ namespace linkprofit\AmoCRM\services;
 use linkprofit\AmoCRM\entities\EntityInterface;
 use linkprofit\AmoCRM\RequestHandler;
 
+/**
+ * Class BaseService
+ * @package linkprofit\AmoCRM\services
+ */
 abstract class BaseService implements ServiceInterface
 {
     /**
@@ -18,7 +22,7 @@ abstract class BaseService implements ServiceInterface
     protected $fields = [];
 
     /**
-     * @var
+     * @var mixed
      */
     protected $response;
 
@@ -86,6 +90,12 @@ abstract class BaseService implements ServiceInterface
     }
 
     /**
+     * @param $array
+     * @return EntityInterface
+     */
+    abstract public function parseArrayToEntity($array);
+
+    /**
      * @return bool
      */
     protected function checkResponse()
@@ -115,10 +125,4 @@ abstract class BaseService implements ServiceInterface
      * @return string
      */
     abstract protected function getLink();
-
-    /**
-     * @param $array
-     * @return EntityInterface
-     */
-    abstract public function parseArrayToEntity($array);
 }

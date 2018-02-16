@@ -39,6 +39,12 @@ class CustomField implements EntityInterface
 
     use FieldList;
 
+    /**
+     * CustomField constructor.
+     * @param $id
+     * @param null $name
+     * @param null $code
+     */
     public function __construct($id, $name = null, $code = null)
     {
         $this->id = $id;
