@@ -20,10 +20,10 @@ class FieldService extends BaseService
     /**
      * @param Field $field
      */
-    public function add(EntityInterface $lead)
+    public function add(EntityInterface $field)
     {
-        if ($lead instanceof Field) {
-            $this->entities[] = $lead;
+        if ($field instanceof Field) {
+            $this->entities[] = $field;
         }
     }
 
