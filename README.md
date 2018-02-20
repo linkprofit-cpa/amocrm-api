@@ -30,6 +30,8 @@
 
 [Заметки](docs/note.md)
 
+[Воронка](docs/pipeline.md)
+
 [Добавление полей](docs/field.md)
 
 ## Лицензия
