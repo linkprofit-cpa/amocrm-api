@@ -23,7 +23,7 @@ class TaskServiceTest extends TestCase
         $taskService = new \linkprofit\AmoCRM\services\TaskService($this->request);
         $taskService->add($this->task);
 
-        $this->assertEquals($this->responseProvider(), $taskService->create());
+        $this->assertEquals($this->responseProvider(), $taskService->save());
 
         $taskService->parseResponseToEntities();
         $tasks = $taskService->getEntities();
@@ -47,7 +47,7 @@ class TaskServiceTest extends TestCase
         $taskService = new \linkprofit\AmoCRM\services\TaskService($this->request);
         $taskService->add($this->task);
 
-        $this->assertFalse($taskService->create());
+        $this->assertFalse($taskService->save());
         $this->assertFalse($taskService->parseResponseToEntities());
     }
 

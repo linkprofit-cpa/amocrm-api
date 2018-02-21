@@ -26,7 +26,7 @@ class CustomerServiceTest extends TestCase
         $customerService = new \linkprofit\AmoCRM\services\CustomerService($this->request);
         $customerService->add($customer);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $customerService->create());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $customerService->save());
 
         $customerService->parseResponseToEntities();
         $customers = $customerService->getEntities();
@@ -53,7 +53,7 @@ class CustomerServiceTest extends TestCase
         $customerService = new \linkprofit\AmoCRM\services\CustomerService($this->request);
         $customerService->add($customer);
 
-        $this->assertFalse($customerService->create());
+        $this->assertFalse($customerService->save());
         $this->assertFalse($customerService->parseResponseToEntities());
     }
 
@@ -82,7 +82,7 @@ class CustomerServiceTest extends TestCase
         $customerService->add($customer);
         $customerService->add($secondCustomer);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $customerService->create());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $customerService->save());
 
         $customers = $customerService->parseResponseToEntities();
 

@@ -25,7 +25,7 @@ class CompanyServiceTest extends TestCase
         $companyService = new \linkprofit\AmoCRM\services\CompanyService($this->request);
         $companyService->add($company);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $companyService->create());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $companyService->save());
 
         $companyService->parseResponseToEntities();
         $companies = $companyService->getEntities();
@@ -52,7 +52,7 @@ class CompanyServiceTest extends TestCase
         $companyService = new \linkprofit\AmoCRM\services\CompanyService($this->request);
         $companyService->add($company);
 
-        $this->assertFalse($companyService->create());
+        $this->assertFalse($companyService->save());
         $this->assertFalse($companyService->parseResponseToEntities());
     }
 
@@ -81,7 +81,7 @@ class CompanyServiceTest extends TestCase
         $companyService->add($company);
         $companyService->add($secondCompany);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $companyService->create());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $companyService->save());
 
         $companies = $companyService->parseResponseToEntities();
 

@@ -23,7 +23,7 @@ class NoteServiceTest extends TestCase
         $noteService = new \linkprofit\AmoCRM\services\NoteService($this->request);
         $noteService->add($this->note);
 
-        $this->assertEquals($this->responseProvider(), $noteService->create());
+        $this->assertEquals($this->responseProvider(), $noteService->save());
 
         $noteService->parseResponseToEntities();
         $notes = $noteService->getEntities();
@@ -47,7 +47,7 @@ class NoteServiceTest extends TestCase
         $noteService = new \linkprofit\AmoCRM\services\NoteService($this->request);
         $noteService->add($this->note);
 
-        $this->assertFalse($noteService->create());
+        $this->assertFalse($noteService->save());
         $this->assertFalse($noteService->parseResponseToEntities());
     }
 

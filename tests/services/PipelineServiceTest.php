@@ -25,7 +25,7 @@ class PipelineServiceTest extends TestCase
         $pipelineService = new \linkprofit\AmoCRM\services\PipelineService($this->request);
         $pipelineService->add($pipeline);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $pipelineService->create());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $pipelineService->save());
 
         $pipelineService->parseResponseToEntities();
         $pipelines = $pipelineService->getEntities();
@@ -52,7 +52,7 @@ class PipelineServiceTest extends TestCase
         $pipelineService = new \linkprofit\AmoCRM\services\PipelineService($this->request);
         $pipelineService->add($pipeline);
 
-        $this->assertFalse($pipelineService->create());
+        $this->assertFalse($pipelineService->save());
         $this->assertFalse($pipelineService->parseResponseToEntities());
     }
 
@@ -81,7 +81,7 @@ class PipelineServiceTest extends TestCase
         $pipelineService->add($pipeline);
         $pipelineService->add($secondPipeline);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $pipelineService->create());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $pipelineService->save());
 
         $pipelines = $pipelineService->parseResponseToEntities();
 

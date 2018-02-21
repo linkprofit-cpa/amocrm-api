@@ -25,7 +25,7 @@ class ContactServiceTest extends TestCase
         $contactService = new \linkprofit\AmoCRM\services\ContactService($this->request);
         $contactService->add($contact);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $contactService->create());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $contactService->save());
 
         $contactService->parseResponseToEntities();
         $contacts = $contactService->getEntities();
@@ -52,7 +52,7 @@ class ContactServiceTest extends TestCase
         $contactService = new \linkprofit\AmoCRM\services\ContactService($this->request);
         $contactService->add($contact);
 
-        $this->assertFalse($contactService->create());
+        $this->assertFalse($contactService->save());
         $this->assertFalse($contactService->parseResponseToEntities());
     }
 
@@ -81,7 +81,7 @@ class ContactServiceTest extends TestCase
         $contactService->add($contact);
         $contactService->add($secondContact);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $contactService->create());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $contactService->save());
 
         $contacts = $contactService->parseResponseToEntities();
 

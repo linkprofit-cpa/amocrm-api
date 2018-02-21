@@ -26,7 +26,7 @@ class LeadServiceTest extends TestCase
         $leadService = new \linkprofit\AmoCRM\services\LeadService($this->request);
         $leadService->add($lead);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $leadService->create());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $leadService->save());
 
         $leadService->parseResponseToEntities();
         $leads = $leadService->getEntities();
@@ -53,7 +53,7 @@ class LeadServiceTest extends TestCase
         $leadService = new \linkprofit\AmoCRM\services\LeadService($this->request);
         $leadService->add($lead);
 
-        $this->assertFalse($leadService->create());
+        $this->assertFalse($leadService->save());
         $this->assertFalse($leadService->parseResponseToEntities());
     }
 
@@ -82,7 +82,7 @@ class LeadServiceTest extends TestCase
         $leadService->add($lead);
         $leadService->add($secondLead);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $leadService->create());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $leadService->save());
 
         $leads = $leadService->parseResponseToEntities();
 

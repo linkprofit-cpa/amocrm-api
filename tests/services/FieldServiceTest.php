@@ -25,7 +25,7 @@ class FieldServiceTest extends TestCase
         $fieldService = new \linkprofit\AmoCRM\services\FieldService($this->request);
         $fieldService->add($field);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $fieldService->create());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $fieldService->save());
 
         $fieldService->parseResponseToEntities();
         $fields = $fieldService->getEntities();
@@ -50,7 +50,7 @@ class FieldServiceTest extends TestCase
         $fieldService = new \linkprofit\AmoCRM\services\FieldService($this->request);
         $fieldService->add($field);
 
-        $this->assertFalse($fieldService->create());
+        $this->assertFalse($fieldService->save());
         $this->assertFalse($fieldService->parseResponseToEntities());
     }
 
