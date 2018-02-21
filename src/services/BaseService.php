@@ -43,7 +43,7 @@ abstract class BaseService implements ServiceInterface
     /**
      * @return bool|mixed
      */
-    public function create()
+    public function save()
     {
         $this->composeAddFields();
         $this->request->performRequest($this->getLink(), $this->fields);
