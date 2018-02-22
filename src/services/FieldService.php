@@ -13,7 +13,7 @@ use linkprofit\AmoCRM\RequestHandler;
 class FieldService extends BaseService
 {
     /**
-     * @var array Field
+     * @var Field[]
      */
     protected $entities = [];
 

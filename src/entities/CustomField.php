@@ -26,7 +26,7 @@ class CustomField implements EntityInterface
     public $code;
 
     /**
-     * @var array Value
+     * @var Value[]
      */
     protected $values = [];
 

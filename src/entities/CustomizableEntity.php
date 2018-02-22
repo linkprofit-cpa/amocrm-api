@@ -9,7 +9,7 @@ namespace linkprofit\AmoCRM\entities;
 abstract class CustomizableEntity extends BaseEntity
 {
     /**
-     * @var array
+     * @var CustomField[]
      */
     protected $custom_fields = [];
 

@@ -13,7 +13,7 @@ use linkprofit\AmoCRM\RequestHandler;
 class PipelineService extends BaseService
 {
     /**
-     * @var array Pipeline
+     * @var Pipeline[]
      */
     protected $entities = [];
 
