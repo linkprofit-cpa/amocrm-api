@@ -9,10 +9,11 @@ $customer->created_by = 1924000;
 $customer->responsible_user_id = 1924000;
 $customer->name = 'Новый покупатель';
 ```
+Задайте `id` сущности, если хотите обновить уже существующую.
 
 ## Использование
 Инициализируйте сервис с объектом [linkprofit\AmoCRM\RequestHandler](/docs/request.md) и добавьте объект класса `linkprofit\AmoCRM\entities\Customer` методом `add()`.
-Вы можете добавить несколько сущностей для множественного добавления
+Вы можете добавить несколько сущностей для множественного добавления/обновления
 
 ```php
 $customerService = new \linkprofit\AmoCRM\services\CustomerService($request);

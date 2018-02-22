@@ -8,10 +8,11 @@ $contact = new \linkprofit\AmoCRM\entities\Contact();
 $contact->responsible_user_id = 1924000;
 $contact->name = 'Василий Аркадьевич';
 ```
+Задайте `id` сущности, если хотите обновить уже существующую.
 
 ## Использование
 Инициализируйте сервис с объектом [linkprofit\AmoCRM\RequestHandler](/docs/request.md) и добавьте объект класса `linkprofit\AmoCRM\entities\Contact` методом `add()`.
-Вы можете добавить несколько сущностей для множественного добавления
+Вы можете добавить несколько сущностей для множественного добавления/обновления
 
 ```php
 $contactService = new \linkprofit\AmoCRM\services\ContactService($request);

@@ -10,6 +10,8 @@ $note->note_type = $note::COMMON;
 $note->responsible_user_id = 1924000;
 ```
 
+Задайте `id` сущности, если хотите обновить уже существующую.
+
 Вы можете прикрепить к сущности `linkprofit\AmoCRM\entities\Note` объекты классов `linkprofit\AmoCRM\entities\Contact` и `linkprofit\AmoCRM\entities\Lead` и `linkprofit\AmoCRM\entities\Task` с заданным свойством `id`
 
 ```php
@@ -20,7 +22,7 @@ $note->linkElement($contact);
 
 ## Использование
 Инициализируйте сервис с объектом [linkprofit\AmoCRM\RequestHandler](/docs/request.md) и добавьте объект класса `linkprofit\AmoCRM\entities\Note` методом `add()`.
-Вы можете добавить несколько сущностей для множественного добавления
+Вы можете добавить несколько сущностей для множественного добавления/обновления
 
 ```php
 $noteService = new \linkprofit\AmoCRM\services\NoteService($request);

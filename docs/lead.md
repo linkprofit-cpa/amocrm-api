@@ -9,10 +9,11 @@ $lead->status_id = 17077744;
 $lead->sale = 0;
 $lead->responsible_user_id = 1924000;
 ```
+Задайте `id` сущности, если хотите обновить уже существующую.
 
 ## Использование
 Инициализируйте сервис с объектом [linkprofit\AmoCRM\RequestHandler](/docs/request.md) и добавьте объект класса `linkprofit\AmoCRM\entities\Lead` методом `add()`.
-Вы можете добавить несколько сущностей для множественного добавления
+Вы можете добавить несколько сущностей для множественного добавления/обновления
 
 ```php
 $leadService = new \linkprofit\AmoCRM\services\LeadService($request);

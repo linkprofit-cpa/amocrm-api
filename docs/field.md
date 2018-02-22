@@ -11,12 +11,13 @@ $field->name = 'Новое поле';
 $field->element_type = Field::CONTACT_ELEMENT_TYPE;
 $field->field_type = Field::TEXT;
 ```
+Задайте `id` сущности, если хотите обновить уже существующую.
 
 Для полей с использованием предустановленных значений, есть методы `linkEnum()` и `linkEnumArray()`. 
 
 ## Использование
 Инициализируйте сервис с объектом [linkprofit\AmoCRM\RequestHandler](/docs/request.md) и добавьте объект класса `linkprofit\AmoCRM\entities\Field` методом `add()`.
-Вы можете добавить несколько сущностей для множественного добавления
+Вы можете добавить несколько сущностей для множественного добавления/обновления
 
 ```php
 $fieldService = new \linkprofit\AmoCRM\services\FieldService($request);

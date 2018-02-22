@@ -23,7 +23,7 @@ $pipeline->addStatus($status);
 
 ## Использование
 Инициализируйте сервис с объектом [linkprofit\AmoCRM\RequestHandler](/docs/request.md) и добавьте объект класса `linkprofit\AmoCRM\entities\Pipeline` методом `add()`.
-Вы можете добавить несколько сущностей для множественного добавления
+Вы можете добавить несколько сущностей для множественного добавления/обновления
 
 ```php
 $pipelineService = new \linkprofit\AmoCRM\services\PipelineService($request);
