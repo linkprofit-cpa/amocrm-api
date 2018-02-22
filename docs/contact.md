@@ -18,6 +18,6 @@ $contactService = new \linkprofit\AmoCRM\services\ContactService($request);
 $contactService->add($contact);
 ```
 
-Метод `create()` вернет `response` сервера в случае успеха. В случае неудачи метод вернет `false`.
+Метод `save()` вернет `response` сервера в случае успеха. В случае неудачи метод вернет `false`.
 
 Если вам необходимо обработать ответ, вы можете воспользоваться методом `parseResponseToEntities()`, который вернет массив добавленных объектов `linkprofit\AmoCRM\entities\Contact` с инициализированным свойством `id`, который вернулся ответом сервера на наш запрос.

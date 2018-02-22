@@ -1,29 +1,65 @@
 <?php
 
+namespace linkprofit\AmoCRM\tests\services;
+
+use linkprofit\AmoCRM\tests\providers\RequestProvider;
+use linkprofit\AmoCRM\tests\providers\TaskProvider;
 use PHPUnit\Framework\TestCase;
 
 class TaskServiceTest extends TestCase
 {
-    protected $request;
+    /**
+     * @var TaskProvider
+     */
     protected $task;
+    /**
+     * @var RequestProvider
+     */
+    protected $request;
 
     public function testAdd()
     {
         $url = 'https://domain.amocrm.ru/api/v2/tasks';
 
-        $this->request->expects($this->once())
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
             ->method('getResponse')
             ->will($this->returnValue($this->responseProvider()));
 
-
-        $this->request->expects($this->once())
+        $request->expects($this->once())
             ->method('performRequest')
-            ->with($url, ['add' => [$this->task->get()]]);
+            ->with($url, ['add' => [$this->task->getTask()->get()]]);
 
-        $taskService = new \linkprofit\AmoCRM\services\TaskService($this->request);
-        $taskService->add($this->task);
+        $taskService = new \linkprofit\AmoCRM\services\TaskService($request);
+        $taskService->add($this->task->getTask());
 
-        $this->assertEquals($this->responseProvider(), $taskService->create());
+        $this->assertEquals($this->responseProvider(), $taskService->save());
+
+        $taskService->parseResponseToEntities();
+        $tasks = $taskService->getEntities();
+
+        $this->assertEquals(1, $tasks[0]->id);
+    }
+
+    public function testUpdate()
+    {
+        $url = 'https://domain.amocrm.ru/api/v2/tasks';
+
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
+            ->method('getResponse')
+            ->will($this->returnValue($this->responseProvider()));
+
+        $task = $this->task->getTask();
+        $task->id = 1;
+        $request->expects($this->once())
+            ->method('performRequest')
+            ->with($url, ['update' => [$task->get()]]);
+
+        $taskService = new \linkprofit\AmoCRM\services\TaskService($request);
+        $taskService->add($task);
+
+        $this->assertEquals($this->responseProvider(), $taskService->save());
 
         $taskService->parseResponseToEntities();
         $tasks = $taskService->getEntities();
@@ -35,26 +71,27 @@ class TaskServiceTest extends TestCase
     {
         $url = 'https://domain.amocrm.ru/api/v2/tasks';
 
-        $this->request->expects($this->once())
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
             ->method('getResponse')
             ->will($this->returnValue(['_links' => ['self'], '_embedded' => ['items' => []]]));
 
-        $this->request->expects($this->once())
+        $request->expects($this->once())
             ->method('performRequest')
-            ->with($url, ['add' => [$this->task->get()]]);
+            ->with($url, ['add' => [$this->task->getTask()->get()]]);
 
 
-        $taskService = new \linkprofit\AmoCRM\services\TaskService($this->request);
-        $taskService->add($this->task);
+        $taskService = new \linkprofit\AmoCRM\services\TaskService($request);
+        $taskService->add($this->task->getTask());
 
-        $this->assertFalse($taskService->create());
+        $this->assertFalse($taskService->save());
         $this->assertFalse($taskService->parseResponseToEntities());
     }
 
     public function testParseArrayToEntity()
     {
-        $task = $this->taskProvider();
-        $taskService = new \linkprofit\AmoCRM\services\TaskService($this->requestProvider());
+        $task = $this->task->getTask();
+        $taskService = new \linkprofit\AmoCRM\services\TaskService($this->request->getMockedRequest());
 
         $clonedTask = $taskService->parseArrayToEntity($task->get());
         $this->assertTrue($task == $clonedTask);
@@ -62,38 +99,12 @@ class TaskServiceTest extends TestCase
 
     protected function setUp()
     {
-        $this->request = $this->requestProvider();
-        $this->task = $this->taskProvider();
+        $this->request = new RequestProvider();
+        $this->task = new TaskProvider();
     }
 
     protected function responseProvider()
     {
         return ['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]];
-    }
-
-    protected function taskProvider()
-    {
-        $task = new \linkprofit\AmoCRM\entities\Task();
-        $task->text = 'Задача';
-
-        $nextDayTimestamp = strtotime('+1 day');
-        $task->complete_till_at = $nextDayTimestamp;
-
-        $task->task_type = $task::CALL_TASK_TYPE;
-        $task->responsible_user_id = 1924000;
-
-        return $task;
-    }
-
-    protected function requestProvider()
-    {
-        $request = $this->getMockBuilder(\linkprofit\AmoCRM\RequestHandler::class)
-            ->setMethods(['getSubdomain', 'performRequest', 'getResponse'])
-            ->getMock();
-
-        $request->method('getSubdomain')
-            ->will($this->returnValue('domain'));
-
-        return $request;
     }
 }

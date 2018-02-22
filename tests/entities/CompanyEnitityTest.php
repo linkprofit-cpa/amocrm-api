@@ -1,29 +1,35 @@
 <?php
 
+namespace linkprofit\AmoCRM\tests\entities;
+
 use PHPUnit\Framework\TestCase;
+use linkprofit\AmoCRM\tests\providers\CustomFieldProvider;
+use linkprofit\AmoCRM\tests\providers\CompanyProvider;
 
 class CompanyEntityTest extends TestCase
 {
+    /**
+     * @var CustomFieldProvider
+     */
+    protected $customField;
+
+    /**
+     * @var CompanyProvider
+     */
+    protected $company;
+
     public function testGet()
     {
-        $company = $this->companyProvider();
+        $company = $this->company->getCompany();
         $this->assertEquals(['name' => 'Компания «Рога и копыта»', 'responsible_user_id' => 1924000], $company->get());
     }
 
     public function testCustomFieldsAdd()
     {
-        $company = $this->companyProvider();
+        $company = $this->company->getCompany();
 
-        $emailField = new \linkprofit\AmoCRM\entities\CustomField('146785', 'email', 'EMAIL');
-        $emailField->addValue(new \linkprofit\AmoCRM\entities\Value(
-                'email@email.com', '304683'
-            )
-        );
-
-        $phoneField = new \linkprofit\AmoCRM\entities\CustomField('146783', 'Телефон', 'PHONE');
-        $phoneField->addValue(new \linkprofit\AmoCRM\entities\Value(
-                '89858881233', '304673'
-        ));
+        $emailField = $this->customField->getEmailField();
+        $phoneField = $this->customField->getPhoneField();
 
         $company->addCustomField($emailField);
         $company->addCustomField($phoneField);
@@ -35,7 +41,7 @@ class CompanyEntityTest extends TestCase
 
     public function testLeadLink()
     {
-        $company = $this->companyProvider();
+        $company = $this->company->getCompany();
 
         $company->linkLeadById(1);
         $this->assertEquals(['name' => 'Компания «Рога и копыта»', 'responsible_user_id' => 1924000, 'leads_id' => '1'], $company->get());
@@ -46,7 +52,7 @@ class CompanyEntityTest extends TestCase
 
     public function testContactLink()
     {
-        $company = $this->companyProvider();
+        $company = $this->company->getCompany();
 
         $company->linkContactById(1);
         $this->assertEquals(['name' => 'Компания «Рога и копыта»', 'responsible_user_id' => 1924000, 'contacts_id' => '1'], $company->get());
@@ -55,12 +61,9 @@ class CompanyEntityTest extends TestCase
         $this->assertEquals(['name' => 'Компания «Рога и копыта»', 'responsible_user_id' => 1924000, 'contacts_id' => '1,2'], $company->get());
     }
 
-    protected function companyProvider()
+    protected function setUp()
     {
-        $company = new \linkprofit\AmoCRM\entities\Company();
-        $company->responsible_user_id = 1924000;
-        $company->name = 'Компания «Рога и копыта»';
-
-        return $company;
+        $this->customField = new CustomFieldProvider();
+        $this->company = new CompanyProvider();
     }
 }

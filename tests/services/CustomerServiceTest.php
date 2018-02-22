@@ -1,32 +1,50 @@
 <?php
 
+namespace linkprofit\AmoCRM\tests\services;
+
+use linkprofit\AmoCRM\tests\providers\CustomerProvider;
 use PHPUnit\Framework\TestCase;
+use linkprofit\AmoCRM\tests\providers\CustomFieldProvider;
+use linkprofit\AmoCRM\tests\providers\RequestProvider;
 
 class CustomerServiceTest extends TestCase
 {
-    protected $emailField;
+    /**
+     * @var CustomFieldProvider
+     */
+    protected $customField;
+
+    /**
+     * @var CustomerProvider
+     */
+    protected $customer;
+
+    /**
+     * @var RequestProvider
+     */
     protected $request;
 
     public function testAdd()
     {
         $url = 'https://domain.amocrm.ru/api/v2/customers';
 
-        $this->request->expects($this->once())
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
             ->method('getResponse')
             ->will($this->returnValue(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]]));
 
-        $customer = $this->customerProvider();
+        $customer = $this->customer->getCustomer();
 
-        $customer->addCustomField($this->emailField);
+        $customer->addCustomField($this->customField->getEmailField());
 
-        $this->request->expects($this->once())
+        $request->expects($this->once())
             ->method('performRequest')
             ->with($url, ['add' => [$customer->get()]]);
 
-        $customerService = new \linkprofit\AmoCRM\services\CustomerService($this->request);
+        $customerService = new \linkprofit\AmoCRM\services\CustomerService($request);
         $customerService->add($customer);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $customerService->create());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $customerService->save());
 
         $customerService->parseResponseToEntities();
         $customers = $customerService->getEntities();
@@ -34,26 +52,56 @@ class CustomerServiceTest extends TestCase
         $this->assertEquals(1, $customers[0]->id);
     }
 
+    public function testUpdate()
+    {
+        $url = 'https://domain.amocrm.ru/api/v2/customers';
+
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
+            ->method('getResponse')
+            ->will($this->returnValue(['_links' => ['self'], '_embedded' => ['items' => [['id' => 2]]]]));
+
+        $customer = $this->customer->getCustomer();
+        $customer->id = 2;
+
+        $customer->addCustomField($this->customField->getEmailField());
+
+        $request->expects($this->once())
+            ->method('performRequest')
+            ->with($url, ['update' => [$customer->get()]]);
+
+        $customerService = new \linkprofit\AmoCRM\services\CustomerService($request);
+        $customerService->add($customer);
+
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 2]]]], $customerService->save());
+
+        $customerService->parseResponseToEntities();
+        $customers = $customerService->getEntities();
+
+        $this->assertEquals(2, $customers[0]->id);
+    }
+
     public function testAddError()
     {
         $url = 'https://domain.amocrm.ru/api/v2/customers';
 
-        $this->request->expects($this->once())
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
             ->method('getResponse')
             ->will($this->returnValue(['_links' => ['self'], '_embedded' => ['items' => []]]));
 
-        $customer = $this->customerProvider();
+        $customer = $this->customer->getCustomer();
 
-        $customer->addCustomField($this->emailField);
+        $customer->addCustomField($this->customField->getEmailField());
 
-        $this->request->expects($this->once())
+        $request->expects($this->once())
             ->method('performRequest')
             ->with($url, ['add' => [$customer->get()]]);
 
-        $customerService = new \linkprofit\AmoCRM\services\CustomerService($this->request);
+        $customerService = new \linkprofit\AmoCRM\services\CustomerService($request);
         $customerService->add($customer);
 
-        $this->assertFalse($customerService->create());
+        $this->assertFalse($customerService->save());
         $this->assertFalse($customerService->parseResponseToEntities());
     }
 
@@ -61,28 +109,26 @@ class CustomerServiceTest extends TestCase
     {
         $url = 'https://domain.amocrm.ru/api/v2/customers';
 
-        $this->request->expects($this->once())
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
             ->method('getResponse')
             ->will($this->returnValue(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]]));
 
-        $customer = $this->customerProvider();
+        $customer = $this->customer->getCustomer();
+        $customer->addCustomField($this->customField->getEmailField());
 
-        $customer->addCustomField($this->emailField);
+        $secondCustomer = $this->customer->getCustomer();
+        $secondCustomer->addCustomField($this->customField->getEmailField());
 
-        $secondCustomer = $this->customerProvider();
-        $secondCustomer->sale = 300;
-
-        $secondCustomer->addCustomField($this->emailField);
-
-        $this->request->expects($this->once())
+        $request->expects($this->once())
             ->method('performRequest')
             ->with($url, ['add' => [$customer->get(), $secondCustomer->get()]]);
 
-        $customerService = new \linkprofit\AmoCRM\services\CustomerService($this->request);
+        $customerService = new \linkprofit\AmoCRM\services\CustomerService($request);
         $customerService->add($customer);
         $customerService->add($secondCustomer);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $customerService->create());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $customerService->save());
 
         $customers = $customerService->parseResponseToEntities();
 
@@ -92,8 +138,8 @@ class CustomerServiceTest extends TestCase
 
     public function testParseArrayToEntity()
     {
-        $customer = $this->customerProvider();
-        $customerService = new \linkprofit\AmoCRM\services\CustomerService($this->requestProvider());
+        $customer = $this->customer->getCustomer();
+        $customerService = new \linkprofit\AmoCRM\services\CustomerService($this->request->getMockedRequest());
 
         $clonedCustomer = $customerService->parseArrayToEntity($customer->get());
         $this->assertTrue($customer == $clonedCustomer);
@@ -101,40 +147,8 @@ class CustomerServiceTest extends TestCase
 
     protected function setUp()
     {
-        $this->emailField = $this->emailFieldProvider();
-        $this->request = $this->requestProvider();
-    }
-
-    protected function emailFieldProvider()
-    {
-        $emailField = new \linkprofit\AmoCRM\entities\CustomField('146785', 'email', 'EMAIL');
-        $emailField->addValue(new \linkprofit\AmoCRM\entities\Value(
-                'email@email.com', '304683'
-            )
-        );
-
-        return $emailField;
-    }
-
-    protected function customerProvider()
-    {
-        $customer = new \linkprofit\AmoCRM\entities\Customer();
-        $customer->created_by = 1924000;
-        $customer->responsible_user_id = 1924000;
-        $customer->name = 'Новый покупатель';
-
-        return $customer;
-    }
-
-    protected function requestProvider()
-    {
-        $request = $this->getMockBuilder(\linkprofit\AmoCRM\RequestHandler::class)
-            ->setMethods(['getSubdomain', 'performRequest', 'getResponse'])
-            ->getMock();
-
-        $request->method('getSubdomain')
-            ->will($this->returnValue('domain'));
-
-        return $request;
+        $this->customField = new CustomFieldProvider();
+        $this->request = new RequestProvider();
+        $this->customer = new CustomerProvider();
     }
 }

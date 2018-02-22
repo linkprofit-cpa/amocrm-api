@@ -43,9 +43,9 @@ abstract class BaseService implements ServiceInterface
     /**
      * @return bool|mixed
      */
-    public function create()
+    public function save()
     {
-        $this->composeAddFields();
+        $this->composeFields();
         $this->request->performRequest($this->getLink(), $this->fields);
         $this->response = $this->request->getResponse();
 
@@ -108,17 +108,28 @@ abstract class BaseService implements ServiceInterface
     }
 
     /**
-     * Fill fields for request
+     * Fill fields for save request
      */
-    protected function composeAddFields()
+    protected function composeFields()
     {
-        $fields = [];
+        $addFields = [];
+        $updateFields = [];
 
         foreach ($this->entities as $entity) {
-            $fields[] = $entity->get();
+            if ($entity->id) {
+                $updateFields[] = $entity->get();
+            } else {
+                $addFields[] = $entity->get();
+            }
         }
 
-        $this->fields['add'] = $fields;
+        if (count($addFields)) {
+            $this->fields['add'] = $addFields;
+        }
+
+        if (count($updateFields)) {
+            $this->fields['update'] = $updateFields;
+        }
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+namespace linkprofit\AmoCRM\tests\entities;
+
 use PHPUnit\Framework\TestCase;
 use linkprofit\AmoCRM\entities\Status;
 

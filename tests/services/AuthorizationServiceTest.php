@@ -1,18 +1,20 @@
 <?php
 
+namespace linkprofit\AmoCRM\tests\services;
+
 use PHPUnit\Framework\TestCase;
+use linkprofit\AmoCRM\tests\providers\RequestProvider;
 
 class AuthorizationServiceTest extends TestCase
 {
+    /**
+     * @var RequestProvider
+     */
+    protected $request;
+
     public function testSuccess()
     {
-        $request = $this->getMockBuilder(\linkprofit\AmoCRM\RequestHandler::class)
-            ->setMethods(['getSubdomain', 'performRequest', 'getResponse'])
-            ->getMock();
-
-        $request->expects($this->once())
-            ->method('getSubdomain')
-            ->will($this->returnValue('domain'));
+        $request = $this->request->getMockedRequest();
 
         $authUrl = 'https://domain.amocrm.ru/private/api/auth.php?type=json';
         $request->expects($this->once())
@@ -32,13 +34,7 @@ class AuthorizationServiceTest extends TestCase
 
     public function testError()
     {
-        $request = $this->getMockBuilder(\linkprofit\AmoCRM\RequestHandler::class)
-            ->setMethods(['getSubdomain', 'performRequest', 'getResponse'])
-            ->getMock();
-
-        $request->expects($this->once())
-            ->method('getSubdomain')
-            ->will($this->returnValue('domain'));
+        $request = $this->request->getMockedRequest();
 
         $authUrl = 'https://domain.amocrm.ru/private/api/auth.php?type=json';
         $request->expects($this->once())
@@ -54,5 +50,10 @@ class AuthorizationServiceTest extends TestCase
         $authorizationService->add($authorization);
 
         $this->assertFalse($authorizationService->authorize());
+    }
+
+    protected function setUp()
+    {
+        $this->request = new RequestProvider();
     }
 }

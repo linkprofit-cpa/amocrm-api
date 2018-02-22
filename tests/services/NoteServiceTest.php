@@ -1,29 +1,73 @@
 <?php
 
+namespace linkprofit\AmoCRM\tests\services;
+
+use linkprofit\AmoCRM\tests\providers\CustomFieldProvider;
+use linkprofit\AmoCRM\tests\providers\NoteProvider;
+use linkprofit\AmoCRM\tests\providers\RequestProvider;
 use PHPUnit\Framework\TestCase;
 
 class NoteServiceTest extends TestCase
 {
-    protected $request;
+    /**
+     * @var CustomFieldProvider
+     */
+    protected $customField;
+
+    /**
+     * @var NoteProvider
+     */
     protected $note;
+
+    /**
+     * @var RequestProvider
+     */
+    protected $request;
 
     public function testAdd()
     {
         $url = 'https://domain.amocrm.ru/api/v2/notes';
 
-        $this->request->expects($this->once())
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
             ->method('getResponse')
             ->will($this->returnValue($this->responseProvider()));
 
-
-        $this->request->expects($this->once())
+        $note = $this->note->getNote();
+        $request->expects($this->once())
             ->method('performRequest')
-            ->with($url, ['add' => [$this->note->get()]]);
+            ->with($url, ['add' => [$note->get()]]);
 
-        $noteService = new \linkprofit\AmoCRM\services\NoteService($this->request);
-        $noteService->add($this->note);
+        $noteService = new \linkprofit\AmoCRM\services\NoteService($request);
+        $noteService->add($note);
 
-        $this->assertEquals($this->responseProvider(), $noteService->create());
+        $this->assertEquals($this->responseProvider(), $noteService->save());
+
+        $noteService->parseResponseToEntities();
+        $notes = $noteService->getEntities();
+
+        $this->assertEquals(1, $notes[0]->id);
+    }
+
+    public function testUpdate()
+    {
+        $url = 'https://domain.amocrm.ru/api/v2/notes';
+
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
+            ->method('getResponse')
+            ->will($this->returnValue($this->responseProvider()));
+
+        $note = $this->note->getNote();
+        $note->id = 1;
+        $request->expects($this->once())
+            ->method('performRequest')
+            ->with($url, ['update' => [$note->get()]]);
+
+        $noteService = new \linkprofit\AmoCRM\services\NoteService($request);
+        $noteService->add($note);
+
+        $this->assertEquals($this->responseProvider(), $noteService->save());
 
         $noteService->parseResponseToEntities();
         $notes = $noteService->getEntities();
@@ -35,26 +79,26 @@ class NoteServiceTest extends TestCase
     {
         $url = 'https://domain.amocrm.ru/api/v2/notes';
 
-        $this->request->expects($this->once())
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
             ->method('getResponse')
             ->will($this->returnValue(['_links' => ['self'], '_embedded' => ['items' => []]]));
 
-        $this->request->expects($this->once())
+        $request->expects($this->once())
             ->method('performRequest')
-            ->with($url, ['add' => [$this->note->get()]]);
+            ->with($url, ['add' => [$this->note->getNote()->get()]]);
 
+        $noteService = new \linkprofit\AmoCRM\services\NoteService($request);
+        $noteService->add($this->note->getNote());
 
-        $noteService = new \linkprofit\AmoCRM\services\NoteService($this->request);
-        $noteService->add($this->note);
-
-        $this->assertFalse($noteService->create());
+        $this->assertFalse($noteService->save());
         $this->assertFalse($noteService->parseResponseToEntities());
     }
 
     public function testParseArrayToEntity()
     {
-        $note = $this->noteProvider();
-        $noteService = new \linkprofit\AmoCRM\services\NoteService($this->request);
+        $note = $this->note->getNote();
+        $noteService = new \linkprofit\AmoCRM\services\NoteService($this->request->getMockedRequest());
 
         $clonedNote = $noteService->parseArrayToEntity($note->get());
         $this->assertTrue($note == $clonedNote);
@@ -62,34 +106,13 @@ class NoteServiceTest extends TestCase
 
     protected function setUp()
     {
-        $this->request = $this->requestProvider();
-        $this->note = $this->noteProvider();
+        $this->customField = new CustomFieldProvider();
+        $this->request = new RequestProvider();
+        $this->note = new NoteProvider();
     }
 
     protected function responseProvider()
     {
         return ['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]];
-    }
-
-    protected function noteProvider()
-    {
-        $note = new \linkprofit\AmoCRM\entities\Note();
-        $note->text = 'Заметка';
-        $note->note_type = $note::COMMON;
-        $note->responsible_user_id = 1924000;
-
-        return $note;
-    }
-
-    protected function requestProvider()
-    {
-        $request = $this->getMockBuilder(\linkprofit\AmoCRM\RequestHandler::class)
-            ->setMethods(['getSubdomain', 'performRequest', 'getResponse'])
-            ->getMock();
-
-        $request->method('getSubdomain')
-            ->will($this->returnValue('domain'));
-
-        return $request;
     }
 }

@@ -1,18 +1,27 @@
 <?php
 
+namespace linkprofit\AmoCRM\tests\entities;
+
 use PHPUnit\Framework\TestCase;
+use linkprofit\AmoCRM\tests\providers\NoteProvider;
 
 class NoteEntityTest extends TestCase
 {
+    /**
+     * @var NoteProvider
+     */
+    protected $note;
+
     public function testGet()
     {
-        $note = $this->noteProvider();
+        $note = $this->note->getNote();
         $this->assertEquals(['text' => 'Заметка', 'responsible_user_id' => 1924000, 'note_type' => 4], $note->get());
     }
 
     public function testSet()
     {
-        $note = $this->noteProvider();
+        $note = $this->note->getNote();
+
         $clonedNote = new \linkprofit\AmoCRM\entities\Note();
         $clonedNote->set($note->get());
 
@@ -21,7 +30,7 @@ class NoteEntityTest extends TestCase
 
     public function testLinkContact()
     {
-        $note = $this->noteProvider();
+        $note = $this->note->getNote();
 
         $contact = $this->contactProvider();
 
@@ -31,7 +40,7 @@ class NoteEntityTest extends TestCase
 
     public function testLinkTask()
     {
-        $note = $this->noteProvider();
+        $note = $this->note->getNote();
         $task = $this->taskProvider();
 
         $this->assertTrue($note->linkElement($task));
@@ -40,7 +49,7 @@ class NoteEntityTest extends TestCase
 
     public function testLinkLead()
     {
-        $note = $this->noteProvider();
+        $note = $this->note->getNote();
         $lead = $this->leadProvider();
 
         $this->assertTrue($note->linkElement($lead));
@@ -49,9 +58,9 @@ class NoteEntityTest extends TestCase
 
     public function testLinkNoteError()
     {
-        $note = $this->noteProvider();
+        $note = $this->note->getNote();
 
-        $noteTolink = $this->noteProvider();
+        $noteTolink = $this->note->getNote();
         $noteTolink->id = 1;
 
         $this->assertFalse($note->linkElement($noteTolink));
@@ -59,23 +68,13 @@ class NoteEntityTest extends TestCase
 
     public function testLinkElementWithoutIdError()
     {
-        $note = $this->noteProvider();
+        $note = $this->note->getNote();
 
         $lead = new \linkprofit\AmoCRM\entities\Lead();
         $this->assertFalse($note->linkElement($lead));
 
         $contact = new \linkprofit\AmoCRM\entities\Contact();
         $this->assertFalse($note->linkElement($contact));
-    }
-
-    protected function noteProvider()
-    {
-        $note = new \linkprofit\AmoCRM\entities\Note();
-        $note->text = 'Заметка';
-        $note->note_type = $note::COMMON;
-        $note->responsible_user_id = 1924000;
-
-        return $note;
     }
 
     protected function contactProvider()
@@ -100,5 +99,10 @@ class NoteEntityTest extends TestCase
         $lead->id = 32;
 
         return $lead;
+    }
+
+    protected function setUp()
+    {
+        $this->note = new NoteProvider();
     }
 }
