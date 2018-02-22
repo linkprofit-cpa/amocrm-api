@@ -26,6 +26,10 @@ abstract class CustomizableEntity extends BaseEntity
      */
     public function get()
     {
+        if ($this->id) {
+            $this->setUpdatedTime();
+        }
+
         $custom_fields = [];
         foreach ($this->custom_fields as $custom_field) {
             $custom_fields[] = $custom_field->get();

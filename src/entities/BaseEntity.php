@@ -42,6 +42,10 @@ abstract class BaseEntity implements EntityInterface
      */
     public function get()
     {
+        if ($this->id) {
+            $this->setUpdatedTime();
+        }
+
         $fields = $this->getExistedValues($this->fieldList);
 
         return $fields;
@@ -53,5 +57,15 @@ abstract class BaseEntity implements EntityInterface
     public function set($array)
     {
         $this->setFromArray($this->fieldList, $array);
+    }
+
+    /**
+     * Задаем время обновления, если уже не задано
+     */
+    protected function setUpdatedTime()
+    {
+        if (!$this->updated_at) {
+            $this->updated_at = time();
+        }
     }
 }
