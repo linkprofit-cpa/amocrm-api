@@ -1,20 +1,34 @@
 <?php
 
+namespace linkprofit\AmoCRM\tests\entities;
+
 use PHPUnit\Framework\TestCase;
+use linkprofit\AmoCRM\tests\providers\CustomFieldProvider;
+use linkprofit\AmoCRM\tests\providers\CustomerProvider;
 
 class CustomerEntityTest extends TestCase
 {
+    /**
+     * @var CustomerProvider
+     */
+    protected $customer;
+
+    /**
+     * @var CustomFieldProvider
+     */
+    protected $customField;
+
     public function testGet()
     {
-        $customer = $this->customerProvider();
+        $customer = $this->customer->getCustomer();
         $this->assertEquals(['responsible_user_id' => 1924000, 'created_by' => 1924000, 'name' => 'Новый покупатель'], $customer->get());
     }
 
     public function testCustomFieldAdd()
     {
-        $customer = $this->customerProvider();
+        $customer = $this->customer->getCustomer();
 
-        $customField = $this->emailFieldProvider();
+        $customField = $this->customField->getEmailField();
         $customer->addCustomField($customField);
 
         $this->assertEquals(['responsible_user_id' => 1924000, 'created_by' => 1924000, 'name' => 'Новый покупатель', 'custom_fields' => [
@@ -22,24 +36,9 @@ class CustomerEntityTest extends TestCase
         ]], $customer->get());
     }
 
-    protected function emailFieldProvider()
+    protected function setUp()
     {
-        $customField = new \linkprofit\AmoCRM\entities\CustomField('146785', 'email', 'EMAIL');
-        $customField->addValue(new \linkprofit\AmoCRM\entities\Value(
-                'email@email.com', '304683'
-            )
-        );
-
-        return $customField;
-    }
-
-    protected function customerProvider()
-    {
-        $customer = new \linkprofit\AmoCRM\entities\Customer();
-        $customer->created_by = 1924000;
-        $customer->responsible_user_id = 1924000;
-        $customer->name = 'Новый покупатель';
-
-        return $customer;
+       $this->customField = new CustomFieldProvider();
+       $this->customer = new CustomerProvider();
     }
 }

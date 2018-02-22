@@ -1,18 +1,26 @@
 <?php
 
+namespace linkprofit\AmoCRM\tests\entities;
+
 use PHPUnit\Framework\TestCase;
+use linkprofit\AmoCRM\tests\providers\TaskProvider;
+
 
 class TaskEntityTest extends TestCase
 {
+    /**
+     * @var TaskProvider
+     */
+    protected $task;
+
     public function testGet()
     {
-        $task = $this->taskProvider();
-
+        $task = $this->task->getTask();
         $this->assertEquals(['text' => 'Задача', 'complete_till_at' => $task->complete_till_at, 'responsible_user_id' => 1924000, 'task_type' => 1], $task->get());
     }
     public function testLinkContact()
     {
-        $task = $this->taskProvider();
+        $task = $this->task->getTask();
 
         $contact = $this->contactProvider();
 
@@ -22,7 +30,7 @@ class TaskEntityTest extends TestCase
 
     public function testLinkLead()
     {
-        $task = $this->taskProvider();
+        $task = $this->task->getTask();
 
         $lead = $this->leadProvider();
 
@@ -32,9 +40,9 @@ class TaskEntityTest extends TestCase
 
     public function testLinkError()
     {
-        $task = $this->taskProvider();
+        $task = $this->task->getTask();
 
-        $taskToLink = $this->taskProvider();
+        $taskToLink = $this->task->getTask();
         $taskToLink->id = 1;
 
         $this->assertFalse($task->linkElement($taskToLink));
@@ -42,27 +50,13 @@ class TaskEntityTest extends TestCase
 
     public function testLinkElementWithoutIdError()
     {
-        $task = $this->taskProvider();
+        $task = $this->task->getTask();
 
         $lead = new \linkprofit\AmoCRM\entities\Lead();
         $this->assertFalse($task->linkElement($lead));
 
         $contact = new \linkprofit\AmoCRM\entities\Contact();
         $this->assertFalse($task->linkElement($contact));
-    }
-
-    protected function taskProvider()
-    {
-        $task = new \linkprofit\AmoCRM\entities\Task();
-        $task->text = 'Задача';
-
-        $nextDayTimestamp = strtotime('+1 day');
-        $task->complete_till_at = $nextDayTimestamp;
-
-        $task->task_type = $task::CALL_TASK_TYPE;
-        $task->responsible_user_id = 1924000;
-
-        return $task;
     }
 
     protected function contactProvider()
@@ -81,10 +75,8 @@ class TaskEntityTest extends TestCase
         return $lead;
     }
 
-    protected function customFieldProvider()
+    protected function setUp()
     {
-        $customField = new \linkprofit\AmoCRM\entities\CustomField('146785', 'email', 'EMAIL');
-
-        return $customField;
+       $this->task = new TaskProvider();
     }
 }

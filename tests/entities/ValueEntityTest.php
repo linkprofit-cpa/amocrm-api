@@ -1,5 +1,7 @@
 <?php
 
+namespace linkprofit\AmoCRM\tests\entities;
+
 use PHPUnit\Framework\TestCase;
 
 class ValueEntityTest extends TestCase

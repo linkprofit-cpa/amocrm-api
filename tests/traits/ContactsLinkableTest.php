@@ -1,5 +1,7 @@
 <?php
 
+namespace linkprofit\AmoCRM\tests\traits;
+
 use PHPUnit\Framework\TestCase;
 use linkprofit\AmoCRM\traits\ContactsLinkable;
 

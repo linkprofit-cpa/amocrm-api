@@ -1,33 +1,34 @@
 <?php
 
+namespace linkprofit\AmoCRM\tests\entities;
+
 use PHPUnit\Framework\TestCase;
 use linkprofit\AmoCRM\entities\Field;
+use linkprofit\AmoCRM\tests\providers\FieldProvider;
 
 class FieldEntityTest extends TestCase
 {
+    /**
+     * @var FieldProvider
+     */
+    protected $field;
+
     public function testGet()
     {
-        $field = $this->fieldProvider();
+        $field = $this->field->getField();
         $this->assertEquals(['origin' => 'origin_field', 'is_editable' => true, 'name' => 'Новое поле', 'element_type' => 1, 'field_type' => 1], $field->get());
     }
 
     public function testGetEnum()
     {
-        $field = $this->fieldProvider();
+        $field = $this->field->getField();
         $field->field_type = Field::SELECT;
         $field->linkEnumArray(['1', '2', '3']);
         $this->assertEquals(['origin' => 'origin_field', 'is_editable' => true, 'name' => 'Новое поле', 'element_type' => 1, 'field_type' => 4, 'enums' => '1,2,3'], $field->get());
     }
 
-    protected function fieldProvider()
+    protected function setUp()
     {
-        $field = new Field();
-        $field->origin = 'origin_field';
-        $field->is_editable = true;
-        $field->name = 'Новое поле';
-        $field->element_type = Field::CONTACT_ELEMENT_TYPE;
-        $field->field_type = Field::TEXT;
-
-        return $field;
+        $this->field = new FieldProvider();
     }
 }

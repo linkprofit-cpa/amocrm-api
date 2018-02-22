@@ -1,24 +1,35 @@
 <?php
 
+namespace linkprofit\AmoCRM\tests\entities;
+
 use PHPUnit\Framework\TestCase;
 
-use linkprofit\AmoCRM\entities\Pipeline;
-use linkprofit\AmoCRM\entities\Status;
+use linkprofit\AmoCRM\tests\providers\StatusProvider;
+use linkprofit\AmoCRM\tests\providers\PipelineProvider;
 
 class PipelineEntityTest extends TestCase
 {
+    /**
+     * @var StatusProvider
+     */
+    protected $pipelineStatus;
+
+    /**
+     * @var PipelineProvider
+     */
+    protected $pipeline;
+
     public function testGet()
     {
-        $pipeline = $this->pipelineProvider();
+        $pipeline = $this->pipeline->getPipeline();
 
         $this->assertEquals(['name' => 'Воронка', 'sort' => 2, 'is_main' => 'on'], $pipeline->get());
     }
 
     public function testStatusAdd()
     {
-        $pipeline = $this->pipelineProvider();
-
-        $status = $this->statusProvider();
+        $pipeline = $this->pipeline->getPipeline();
+        $status = $this->pipelineStatus->getStatus();
 
         $pipeline->addStatus($status);
 
@@ -27,23 +38,9 @@ class PipelineEntityTest extends TestCase
         ]], $pipeline->get());
     }
 
-    protected function pipelineProvider()
+    protected function setUp()
     {
-        $pipeline = new \linkprofit\AmoCRM\entities\Pipeline();
-        $pipeline->name = 'Воронка';
-        $pipeline->sort = 2;
-        $pipeline->is_main = 'on';
-
-        return $pipeline;
-    }
-
-    protected function statusProvider()
-    {
-        $status = new \linkprofit\AmoCRM\entities\Status();
-        $status->name = 'Статус';
-        $status->sort = 1;
-        $status->color = '#fffeb2';
-
-        return $status;
+       $this->pipeline = new PipelineProvider();
+       $this->pipelineStatus = new StatusProvider();
     }
 }

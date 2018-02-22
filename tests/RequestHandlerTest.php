@@ -1,5 +1,7 @@
 <?php
 
+namespace linkprofit\AmoCRM\tests;
+
 use PHPUnit\Framework\TestCase;
 
 class RequestHandlerTest extends TestCase
