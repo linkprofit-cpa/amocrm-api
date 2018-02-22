@@ -18,6 +18,15 @@ class TaskEntityTest extends TestCase
         $task = $this->task->getTask();
         $this->assertEquals(['text' => 'Задача', 'complete_till_at' => $task->complete_till_at, 'responsible_user_id' => 1924000, 'task_type' => 1], $task->get());
     }
+
+    public function testGetWithId()
+    {
+        $task = $this->task->getTask();
+        $task->id = 2;
+        $taskArray = $task->get();
+        $this->assertEquals(['id' => 2, 'text' => 'Задача', 'complete_till_at' => $task->complete_till_at, 'responsible_user_id' => 1924000, 'task_type' => 1, 'updated_at' => $task->updated_at], $taskArray);
+    }
+
     public function testLinkContact()
     {
         $task = $this->task->getTask();

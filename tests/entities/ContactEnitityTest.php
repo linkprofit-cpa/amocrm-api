@@ -24,6 +24,14 @@ class ContactEntityTest extends TestCase
         $this->assertEquals(['name' => 'Василий Аркадьевич', 'responsible_user_id' => 1924000], $contact->get());
     }
 
+    public function testGetWithId()
+    {
+        $contact = $this->contact->getContact();
+        $contact->id = 2;
+        $contactArray = $contact->get();
+        $this->assertEquals(['id' => 2, 'name' => 'Василий Аркадьевич', 'responsible_user_id' => 1924000, 'updated_at' => $contact->updated_at], $contactArray);
+    }
+
     public function testCustomFieldsAdd()
     {
         $contact = $this->contact->getContact();

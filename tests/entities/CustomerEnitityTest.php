@@ -24,6 +24,14 @@ class CustomerEntityTest extends TestCase
         $this->assertEquals(['responsible_user_id' => 1924000, 'created_by' => 1924000, 'name' => 'Новый покупатель'], $customer->get());
     }
 
+    public function testGetWithId()
+    {
+        $customer = $this->customer->getCustomer();
+        $customer->id = 2;
+        $customerArray = $customer->get();
+        $this->assertEquals(['id' => 2, 'responsible_user_id' => 1924000, 'created_by' => 1924000, 'name' => 'Новый покупатель', 'updated_at' => $customer->updated_at], $customerArray);
+    }
+
     public function testCustomFieldAdd()
     {
         $customer = $this->customer->getCustomer();

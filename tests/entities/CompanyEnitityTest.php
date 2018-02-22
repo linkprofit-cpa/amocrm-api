@@ -24,6 +24,14 @@ class CompanyEntityTest extends TestCase
         $this->assertEquals(['name' => 'Компания «Рога и копыта»', 'responsible_user_id' => 1924000], $company->get());
     }
 
+    public function testGetWithId()
+    {
+        $company = $this->company->getCompany();
+        $company->id = 2;
+        $companyArray = $company->get();
+        $this->assertEquals(['id' => 2, 'name' => 'Компания «Рога и копыта»', 'responsible_user_id' => 1924000, 'updated_at' => $company->updated_at], $companyArray);
+    }
+
     public function testCustomFieldsAdd()
     {
         $company = $this->company->getCompany();

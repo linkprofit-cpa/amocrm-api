@@ -18,6 +18,14 @@ class NoteEntityTest extends TestCase
         $this->assertEquals(['text' => 'Заметка', 'responsible_user_id' => 1924000, 'note_type' => 4], $note->get());
     }
 
+    public function testGetWithId()
+    {
+        $note = $this->note->getNote();
+        $note->id = 2;
+        $noteArray = $note->get();
+        $this->assertEquals(['id' => 2, 'text' => 'Заметка', 'responsible_user_id' => 1924000, 'note_type' => 4, 'updated_at' => $note->updated_at], $noteArray);
+    }
+
     public function testSet()
     {
         $note = $this->note->getNote();

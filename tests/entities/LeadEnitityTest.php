@@ -24,6 +24,14 @@ class LeadEntityTest extends TestCase
         $this->assertEquals(['status_id' => '17077744', 'sale' => 0, 'responsible_user_id' => 1924000], $lead->get());
     }
 
+    public function testGetWithId()
+    {
+        $lead = $this->lead->getLead();
+        $lead->id = 2;
+        $leadArray = $lead->get();
+        $this->assertEquals(['id' => 2, 'status_id' => '17077744', 'sale' => 0, 'responsible_user_id' => 1924000, 'updated_at' => $lead->updated_at], $leadArray);
+    }
+
     public function testCustomFieldAdd()
     {
         $lead = $this->lead->getLead();
