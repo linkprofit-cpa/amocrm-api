@@ -19,7 +19,13 @@ trait FieldList
             $fields[$field] = isset($this->$field) ? $this->$field : null;
         }
 
-        $fields = array_filter($fields, 'strlen');
+        $fields = array_filter($fields, function ($field) {
+            if (is_array($field)) {
+                return !empty($field);
+            }
+
+            return strlen($field);
+        });
 
         return $fields;
     }

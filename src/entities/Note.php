@@ -119,7 +119,8 @@ class Note extends BaseEntity
      */
     protected $fieldList = [
         'id', 'element_id', 'element_type', 'note_type',
-        'text', 'created_at', 'updated_at', 'responsible_user_id'
+        'text', 'created_at', 'updated_at', 'responsible_user_id',
+        'params'
     ];
 
     /**
