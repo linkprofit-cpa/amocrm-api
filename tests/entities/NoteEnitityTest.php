@@ -25,6 +25,14 @@ class NoteEntityTest extends TestCase
         $noteArray = $note->get();
         $this->assertEquals(['id' => 2, 'text' => 'Заметка', 'responsible_user_id' => 1924000, 'note_type' => 4, 'updated_at' => $note->updated_at], $noteArray);
     }
+    
+    public function testGetWithParamArray() 
+    {
+        $note = $this->note->getNote();
+        $note->params = ['text' => 'Текст системного сообщения'];
+        $noteArray = $note->get();
+        $this->assertEquals(['text' => 'Заметка', 'responsible_user_id' => 1924000, 'note_type' => 4, 'params' => ['text' => 'Текст системного сообщения']], $noteArray);
+    }
 
     public function testSet()
     {
