@@ -2,25 +2,16 @@
 
 namespace linkprofit\AmoCRM\entities;
 
-use linkprofit\AmoCRM\traits\FieldsTrait;
-
 /**
  * Class CustomizableEntity
  * @package linkprofit\AmoCRM\entities
  */
-abstract class CustomizableEntity implements EntityInterface
+abstract class CustomizableEntity extends BaseEntity
 {
     /**
-     * @var array
-     */
-    protected $fieldList = [];
-
-    /**
-     * @var array
+     * @var CustomField[]
      */
     protected $custom_fields = [];
-
-    use FieldsTrait;
 
     /**
      * @param CustomField $field
@@ -35,6 +26,10 @@ abstract class CustomizableEntity implements EntityInterface
      */
     public function get()
     {
+        if ($this->id) {
+            $this->setUpdatedTime();
+        }
+
         $custom_fields = [];
         foreach ($this->custom_fields as $custom_field) {
             $custom_fields[] = $custom_field->get();

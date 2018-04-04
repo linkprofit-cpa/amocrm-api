@@ -2,6 +2,9 @@
 
 namespace linkprofit\AmoCRM\entities;
 
+use linkprofit\AmoCRM\traits\CompanyLinkable;
+use linkprofit\AmoCRM\traits\ContactsLinkable;
+
 /**
  * Class Lead
  * @package linkprofit\AmoCRM\entities
@@ -9,24 +12,9 @@ namespace linkprofit\AmoCRM\entities;
 class Lead extends CustomizableEntity
 {
     /**
-     * @var integer id сделки, в которую будут вноситься изменения
-     */
-    public $id;
-
-    /**
      * @var string Название сделки
      */
     public $name;
-
-    /**
-     * @var string Дата создания текущей сделки
-     */
-    public $created_at;
-
-    /**
-     * @var string Дата изменения текущей сделки
-     */
-    public $updated_at;
 
     /**
      * @var integer Статус сделки (id этапа продаж см. Воронки и этапы продаж) Чтобы перенести сделку в другую воронку, необходимо установить ей статус из нужной воронки
@@ -39,11 +27,6 @@ class Lead extends CustomizableEntity
     public $pipeline_id;
 
     /**
-     * @var integer ID ответственного пользователя
-     */
-    public $responsible_user_id;
-
-    /**
      * @var integer Бюджет сделки
      */
     public $sale;
@@ -54,16 +37,6 @@ class Lead extends CustomizableEntity
     public $tags;
 
     /**
-     * @var string Уникальный идентификатор контакта, для связи с сделкой. Можно передавать несколько id, перечисляя их в строке через запятую.
-     */
-    public $contacts_id;
-
-    /**
-     * @var integer Уникальный идентификатор компании, для связи с сделкой
-     */
-    public $company_id;
-
-    /**
      * @var array
      */
     protected $fieldList = [
@@ -72,11 +45,6 @@ class Lead extends CustomizableEntity
         'sale', 'tags', 'contacts_id', 'company_id'
     ];
 
-    /**
-     * @param $array
-     */
-    public function set($array)
-    {
-        $this->setFromArray($this->fieldList, $array);
-    }
+    use CompanyLinkable,
+        ContactsLinkable;
 }

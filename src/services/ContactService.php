@@ -12,7 +12,7 @@ use linkprofit\AmoCRM\entities\EntityInterface;
 class ContactService extends BaseService
 {
     /**
-     * @var array Contact
+     * @var Contact[]
      */
     protected $entities = [];
 

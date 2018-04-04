@@ -1,32 +1,50 @@
 <?php
 
+namespace linkprofit\AmoCRM\tests\services;
+
+use linkprofit\AmoCRM\tests\providers\CustomFieldProvider;
+use linkprofit\AmoCRM\tests\providers\LeadProvider;
+use linkprofit\AmoCRM\tests\providers\RequestProvider;
 use PHPUnit\Framework\TestCase;
 
 class LeadServiceTest extends TestCase
 {
-    protected $emailField;
+    /**
+     * @var CustomFieldProvider
+     */
+    protected $customField;
+
+    /**
+     * @var LeadProvider
+     */
+    protected $lead;
+
+    /**
+     * @var RequestProvider
+     */
     protected $request;
 
-    public function testAddLead()
+    public function testAdd()
     {
         $url = 'https://domain.amocrm.ru/api/v2/leads';
 
-        $this->request->expects($this->once())
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
             ->method('getResponse')
             ->will($this->returnValue(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]]));
 
-        $lead = $this->leadProvider();
+        $lead = $this->lead->getLead();
 
-        $lead->addCustomField($this->emailField);
+        $lead->addCustomField($this->customField->getEmailField());
 
-        $this->request->expects($this->once())
+        $request->expects($this->once())
             ->method('performRequest')
             ->with($url, ['add' => [$lead->get()]]);
 
-        $leadService = new \linkprofit\AmoCRM\services\LeadService($this->request);
+        $leadService = new \linkprofit\AmoCRM\services\LeadService($request);
         $leadService->add($lead);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $leadService->create());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1]]]], $leadService->save());
 
         $leadService->parseResponseToEntities();
         $leads = $leadService->getEntities();
@@ -34,55 +52,86 @@ class LeadServiceTest extends TestCase
         $this->assertEquals(1, $leads[0]->id);
     }
 
-    public function testAddLeadError()
+    public function testUpdate()
     {
         $url = 'https://domain.amocrm.ru/api/v2/leads';
 
-        $this->request->expects($this->once())
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
+            ->method('getResponse')
+            ->will($this->returnValue(['_links' => ['self'], '_embedded' => ['items' => [['id' => 2]]]]));
+
+        $lead = $this->lead->getLead();
+        $lead->id = 2;
+
+        $lead->addCustomField($this->customField->getEmailField());
+
+        $request->expects($this->once())
+            ->method('performRequest')
+            ->with($url, ['update' => [$lead->get()]]);
+
+        $leadService = new \linkprofit\AmoCRM\services\LeadService($request);
+        $leadService->add($lead);
+
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 2]]]], $leadService->save());
+
+        $leadService->parseResponseToEntities();
+        $leads = $leadService->getEntities();
+
+        $this->assertEquals(2, $leads[0]->id);
+    }
+
+    public function testAddError()
+    {
+        $url = 'https://domain.amocrm.ru/api/v2/leads';
+
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
             ->method('getResponse')
             ->will($this->returnValue(['_links' => ['self'], '_embedded' => ['items' => []]]));
 
-        $lead = $this->leadProvider();
+        $lead = $this->lead->getLead();
 
-        $lead->addCustomField($this->emailField);
+        $lead->addCustomField($this->customField->getEmailField());
 
-        $this->request->expects($this->once())
+        $request->expects($this->once())
             ->method('performRequest')
             ->with($url, ['add' => [$lead->get()]]);
 
-        $leadService = new \linkprofit\AmoCRM\services\LeadService($this->request);
+        $leadService = new \linkprofit\AmoCRM\services\LeadService($request);
         $leadService->add($lead);
 
-        $this->assertFalse($leadService->create());
+        $this->assertFalse($leadService->save());
         $this->assertFalse($leadService->parseResponseToEntities());
     }
 
-    public function testAddLeads()
+    public function testAddPlural()
     {
         $url = 'https://domain.amocrm.ru/api/v2/leads';
 
-        $this->request->expects($this->once())
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
             ->method('getResponse')
             ->will($this->returnValue(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]]));
 
-        $lead = $this->leadProvider();
+        $lead = $this->lead->getLead();
 
-        $lead->addCustomField($this->emailField);
+        $lead->addCustomField($this->customField->getEmailField());
 
-        $secondLead = $this->leadProvider();
+        $secondLead = $this->lead->getLead();
         $secondLead->sale = 300;
 
-        $secondLead->addCustomField($this->emailField);
+        $secondLead->addCustomField($this->customField->getEmailField());
 
-        $this->request->expects($this->once())
+        $request->expects($this->once())
             ->method('performRequest')
             ->with($url, ['add' => [$lead->get(), $secondLead->get()]]);
 
-        $leadService = new \linkprofit\AmoCRM\services\LeadService($this->request);
+        $leadService = new \linkprofit\AmoCRM\services\LeadService($request);
         $leadService->add($lead);
         $leadService->add($secondLead);
 
-        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $leadService->create());
+        $this->assertEquals(['_links' => ['self'], '_embedded' => ['items' => [['id' => 1], ['id' => 2]]]], $leadService->save());
 
         $leads = $leadService->parseResponseToEntities();
 
@@ -92,8 +141,8 @@ class LeadServiceTest extends TestCase
 
     public function testParseArrayToEntity()
     {
-        $lead = $this->leadProvider();
-        $leadService = new \linkprofit\AmoCRM\services\LeadService($this->requestProvider());
+        $lead = $this->lead->getLead();
+        $leadService = new \linkprofit\AmoCRM\services\LeadService($this->request->getMockedRequest());
 
         $clonedLead = $leadService->parseArrayToEntity($lead->get());
         $this->assertTrue($lead == $clonedLead);
@@ -101,40 +150,9 @@ class LeadServiceTest extends TestCase
 
     protected function setUp()
     {
-        $this->emailField = $this->emailFieldProvider();
-        $this->request = $this->requestProvider();
+        $this->customField = new CustomFieldProvider();
+        $this->request = new RequestProvider();
+        $this->lead = new LeadProvider();
     }
 
-    protected function emailFieldProvider()
-    {
-        $emailField = new \linkprofit\AmoCRM\entities\CustomField('146785', 'email', 'EMAIL');
-        $emailField->addValue(new \linkprofit\AmoCRM\entities\Value(
-                'email@email.com', '304683'
-            )
-        );
-
-        return $emailField;
-    }
-
-    protected function leadProvider()
-    {
-        $lead = new \linkprofit\AmoCRM\entities\Lead();
-        $lead->status_id = 17077744;
-        $lead->sale = 0;
-        $lead->responsible_user_id = 1924000;
-
-        return $lead;
-    }
-
-    protected function requestProvider()
-    {
-        $request = $this->getMockBuilder(\linkprofit\AmoCRM\RequestHandler::class)
-            ->setMethods(['getSubdomain', 'performRequest', 'getResponse'])
-            ->getMock();
-
-        $request->method('getSubdomain')
-            ->will($this->returnValue('domain'));
-
-        return $request;
-    }
 }

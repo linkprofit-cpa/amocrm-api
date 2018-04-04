@@ -13,7 +13,7 @@ use linkprofit\AmoCRM\RequestHandler;
 class LeadService extends BaseService
 {
     /**
-     * @var array Lead
+     * @var Lead[]
      */
     protected $entities = [];
 

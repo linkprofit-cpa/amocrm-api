@@ -2,7 +2,7 @@
 
 namespace linkprofit\AmoCRM\entities;
 
-use linkprofit\AmoCRM\traits\FieldsTrait;
+use linkprofit\AmoCRM\traits\FieldList;
 
 /**
  * Class Value
@@ -37,7 +37,7 @@ class Value implements EntityInterface
         'value', 'enum', 'subtype', 'is_system'
     ];
 
-    use FieldsTrait;
+    use FieldList;
 
     /**
      * Value constructor.

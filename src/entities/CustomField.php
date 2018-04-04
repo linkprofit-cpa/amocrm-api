@@ -2,7 +2,7 @@
 
 namespace linkprofit\AmoCRM\entities;
 
-use linkprofit\AmoCRM\traits\FieldsTrait;
+use linkprofit\AmoCRM\traits\FieldList;
 
 /**
  * Class CustomField
@@ -26,7 +26,7 @@ class CustomField implements EntityInterface
     public $code;
 
     /**
-     * @var array Value
+     * @var Value[]
      */
     protected $values = [];
 
@@ -37,8 +37,14 @@ class CustomField implements EntityInterface
         'id', 'name', 'code'
     ];
 
-    use FieldsTrait;
+    use FieldList;
 
+    /**
+     * CustomField constructor.
+     * @param $id
+     * @param null $name
+     * @param null $code
+     */
     public function __construct($id, $name = null, $code = null)
     {
         $this->id = $id;

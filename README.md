@@ -20,11 +20,19 @@
 
 [Сделки](docs/lead.md)
 
+[Покупатели](docs/customer.md)
+
 [Контакты](docs/contact.md)
+
+[Компании](docs/company.md)
 
 [Задачи](docs/task.md)
 
 [Заметки](docs/note.md)
+
+[Воронка](docs/pipeline.md)
+
+[Добавление полей](docs/field.md)
 
 ## Лицензия
 

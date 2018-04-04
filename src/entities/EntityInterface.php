@@ -9,7 +9,7 @@ namespace linkprofit\AmoCRM\entities;
 interface EntityInterface
 {
     /**
-     * @return mixed
+     * @return array
      */
     public function get();
 }

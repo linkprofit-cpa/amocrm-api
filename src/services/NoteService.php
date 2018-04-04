@@ -12,7 +12,7 @@ use linkprofit\AmoCRM\entities\Note;
 class NoteService extends BaseService
 {
     /**
-     * @var array Note
+     * @var Note[]
      */
     protected $entities = [];
 

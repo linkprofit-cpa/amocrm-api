@@ -1,9 +1,17 @@
 <?php
 
+namespace linkprofit\AmoCRM\tests\entities;
+
 use PHPUnit\Framework\TestCase;
+use linkprofit\AmoCRM\tests\providers\CustomFieldProvider;
 
 class CustomFieldEntityTest extends TestCase
 {
+    /**
+     * @var CustomFieldProvider
+     */
+    protected $customField;
+
     public function testGet()
     {
         $customField = new \linkprofit\AmoCRM\entities\CustomField('146785', 'email', 'EMAIL');
@@ -12,25 +20,22 @@ class CustomFieldEntityTest extends TestCase
 
     public function testValueAdd()
     {
-        $customField = new \linkprofit\AmoCRM\entities\CustomField('146785', 'email', 'EMAIL');
-        $customField->addValue(new \linkprofit\AmoCRM\entities\Value(
-            'email@email.com', '304683'
-            )
-        );
+        $customField = $this->customField->getEmailField();
         $this->assertEquals(['id' => '146785', 'name' => 'email', 'code' => 'EMAIL', 'values' => [['value' => 'email@email.com', 'enum' => '304683']]], $customField->get());
     }
 
     public function testValuesAdd()
     {
-        $customField = new \linkprofit\AmoCRM\entities\CustomField('146785', 'email', 'EMAIL');
-        $customField->addValue(new \linkprofit\AmoCRM\entities\Value(
-                'email@email.com', '304683'
-            )
-        );
+        $customField = $this->customField->getEmailField();
         $customField->addValue(new \linkprofit\AmoCRM\entities\Value(
                 'email2@email.com', '304683'
             )
         );
         $this->assertEquals(['id' => '146785', 'name' => 'email', 'code' => 'EMAIL', 'values' => [['value' => 'email@email.com', 'enum' => '304683'], ['value' => 'email2@email.com', 'enum' => '304683']]], $customField->get());
+    }
+
+    protected function setUp()
+    {
+        $this->customField = new CustomFieldProvider();
     }
 }

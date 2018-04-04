@@ -5,6 +5,10 @@ namespace linkprofit\AmoCRM\services;
 use linkprofit\AmoCRM\entities\EntityInterface;
 use linkprofit\AmoCRM\RequestHandler;
 
+/**
+ * Class BaseService
+ * @package linkprofit\AmoCRM\services
+ */
 abstract class BaseService implements ServiceInterface
 {
     /**
@@ -18,7 +22,7 @@ abstract class BaseService implements ServiceInterface
     protected $fields = [];
 
     /**
-     * @var
+     * @var mixed
      */
     protected $response;
 
@@ -39,9 +43,9 @@ abstract class BaseService implements ServiceInterface
     /**
      * @return bool|mixed
      */
-    public function create()
+    public function save()
     {
-        $this->composeAddFields();
+        $this->composeFields();
         $this->request->performRequest($this->getLink(), $this->fields);
         $this->response = $this->request->getResponse();
 
@@ -86,6 +90,12 @@ abstract class BaseService implements ServiceInterface
     }
 
     /**
+     * @param $array
+     * @return EntityInterface
+     */
+    abstract public function parseArrayToEntity($array);
+
+    /**
      * @return bool
      */
     protected function checkResponse()
@@ -98,27 +108,32 @@ abstract class BaseService implements ServiceInterface
     }
 
     /**
-     * Fill fields for request
+     * Fill fields for save request
      */
-    protected function composeAddFields()
+    protected function composeFields()
     {
-        $fields = [];
+        $addFields = [];
+        $updateFields = [];
 
         foreach ($this->entities as $entity) {
-            $fields[] = $entity->get();
+            if ($entity->id) {
+                $updateFields[] = $entity->get();
+            } else {
+                $addFields[] = $entity->get();
+            }
         }
 
-        $this->fields['add'] = $fields;
+        if (count($addFields)) {
+            $this->fields['add'] = $addFields;
+        }
+
+        if (count($updateFields)) {
+            $this->fields['update'] = $updateFields;
+        }
     }
 
     /**
      * @return string
      */
     abstract protected function getLink();
-
-    /**
-     * @param $array
-     * @return EntityInterface
-     */
-    abstract public function parseArrayToEntity($array);
 }

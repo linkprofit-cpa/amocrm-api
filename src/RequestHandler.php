@@ -1,6 +1,7 @@
 <?php
 
 namespace linkprofit\AmoCRM;
+
 use Exception;
 
 /**
@@ -10,7 +11,7 @@ use Exception;
 class RequestHandler
 {
     /**
-     * @var
+     * @var mixed
      */
     protected $response;
 
@@ -40,6 +41,9 @@ class RequestHandler
         200, 204
     ];
 
+    /**
+     * @var string
+     */
     protected $subdomain;
 
     /**
@@ -91,7 +95,7 @@ class RequestHandler
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getSubdomain()
     {
