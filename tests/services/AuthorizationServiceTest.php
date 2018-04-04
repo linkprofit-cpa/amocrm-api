@@ -47,7 +47,7 @@ class AuthorizationServiceTest extends TestCase
 
         $request->expects($this->once())
             ->method('getResponse')
-            ->will($this->returnValue(['response' => []]));
+            ->will($this->returnValue(['response' => ['auth' => false]]));
 
         $authorization = new \linkprofit\AmoCRM\entities\Authorization('login', 'api_key');
         $authorizationService = new \linkprofit\AmoCRM\services\AuthorizationService($request);
