@@ -69,7 +69,7 @@ class AuthorizationService implements ServiceInterface
      */
     protected function checkResponse()
     {
-        if (isset($this->response['auth'])) {
+        if (isset($this->response['auth']) && $this->response['auth'] !== false) {
             return true;
         }
 
