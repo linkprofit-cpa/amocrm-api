@@ -22,6 +22,8 @@
 
 [Сделки](docs/lead.md)
 
+[Списки/Каталоги](docs/catalogs.md)
+
 [Покупатели](docs/customer.md)
 
 [Контакты](docs/contact.md)
