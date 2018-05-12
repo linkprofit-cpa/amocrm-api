@@ -52,35 +52,35 @@ class AccountService implements AccountServiceInterface
      *
      * @return \linkprofit\AmoCRM\entities\CustomField[]
      */
-    public function getCustomFields(){}
+    public function getCustomFields() {}
 
     /**
      * TODO
      *
      * @return \linkprofit\AmoCRM\entities\User[]
      */
-    public function getUsers(){}
+    public function getUsers() {}
 
     /**
      * TODO
      *
      * @return \linkprofit\AmoCRM\entities\Pipeline[]
      */
-    public function getPipelines(){}
+    public function getPipelines() {}
 
     /**
      * TODO
      *
      * @return \linkprofit\AmoCRM\entities\Group[]
      */
-    public function getGroups(){}
+    public function getGroups() {}
 
     /**
      * TODO
      *
      * @return \linkprofit\AmoCRM\entities\NoteTypes[]
      */
-    public function getNoteTypes(){}
+    public function getNoteTypes() {}
 
     /**
      * @return \linkprofit\AmoCRM\entities\TaskType[]

@@ -52,27 +52,4 @@ class Catalog extends BaseEntity
         'id', 'name', 'type', 'can_add_elements', 'can_show_in_cards',
         'can_link_multiple',
     ];
-
-//    /**
-//     * @param BaseEntity $element
-//     * @return bool
-//     */
-//    public function linkElement(BaseEntity $element)
-//    {
-//        if (empty($element->id)) {
-//            return false;
-//        }
-//
-//        if ($element instanceof Contact) {
-//            $this->element_type = self::CONTACT_ELEMENT_TYPE;
-//        } elseif ($element instanceof Lead) {
-//            $this->element_type = self::LEAD_ELEMENT_TYPE;
-//        } else {
-//            return false;
-//        }
-//
-//        $this->element_id = $element->id;
-//
-//        return true;
-//    }
 }
