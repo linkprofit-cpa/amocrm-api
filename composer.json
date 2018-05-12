@@ -22,7 +22,11 @@
   },
   "autoload": {
     "psr-4": {
-      "linkprofit\\AmoCRM\\": "src/",
+      "linkprofit\\AmoCRM\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
       "linkprofit\\AmoCRM\\tests\\": "tests/"
     }
   }
