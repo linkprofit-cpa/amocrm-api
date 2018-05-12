@@ -1,10 +1,10 @@
 <?php
+
 namespace linkprofit\AmoCRM\services;
 
 use linkprofit\AmoCRM\entities\EntityInterface;
 use linkprofit\AmoCRM\entities\TaskType;
 use linkprofit\AmoCRM\RequestHandler;
-
 
 /**
  * Class TaskTypeService
@@ -13,7 +13,12 @@ use linkprofit\AmoCRM\RequestHandler;
  */
 class TaskTypeService extends BaseService
 {
-    public function __construct(\linkprofit\AmoCRM\RequestHandler $requestHandler)
+    /**
+     * TaskTypeService constructor.
+     *
+     * @param RequestHandler $requestHandler
+     */
+    public function __construct(RequestHandler $requestHandler)
     {
         parent::__construct($requestHandler);
     }
@@ -87,6 +92,7 @@ class TaskTypeService extends BaseService
                 $addFields[] = $entity->get();
             }
         }
+
         $this->fields['ACTION'] = 'ALL_EDIT';
 
         if (count($addFields)) {

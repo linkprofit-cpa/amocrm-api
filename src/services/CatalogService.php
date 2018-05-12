@@ -13,12 +13,12 @@ use linkprofit\AmoCRM\entities\EntityInterface;
 class CatalogService extends BaseService
 {
     /**
-     * @var \linkprofit\AmoCRM\entities\Catalog[]
+     * @var Catalog[]
      */
     protected $entities = [];
 
     /**
-     * @param \linkprofit\AmoCRM\entities\EntityInterface|Catalog $catalog
+     * @param Catalog $catalog
      */
     public function add(EntityInterface $catalog)
     {
@@ -27,9 +27,19 @@ class CatalogService extends BaseService
         }
     }
 
+    /**
+     * @param null $id
+     *
+     * @return array|bool
+     */
     public function lists($id = null)
     {
-        $link = $id ? $this->getLink().'?id='.$id : $this->getLink();
+        $link = $this->getLink();
+
+        if ($id !== null) {
+            $link .= '?id' . $id;
+        }
+
         $this->request->performRequest($link, [], 'application/json', 'GET');
         $this->response = $this->request->getResponse();
 

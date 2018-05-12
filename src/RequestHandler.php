@@ -48,7 +48,7 @@ class RequestHandler
 
     /**
      * @param string $link
-     * @param array  $fields
+     * @param array $fields
      * @param string $contentType
      * @param string $requestType
      */
@@ -61,7 +61,7 @@ class RequestHandler
         curl_setopt($curl, CURLOPT_URL, $link);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $requestType);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getStringFields($fields, $contentType));
-        curl_setopt($curl, CURLOPT_HTTPHEADER, ['Content-Type: '.$contentType]);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, ['Content-Type: ' . $contentType]);
         curl_setopt($curl, CURLOPT_HEADER, false);
         curl_setopt($curl, CURLOPT_COOKIEFILE, $this->getCookiePath());
         curl_setopt($curl, CURLOPT_COOKIEJAR, $this->getCookiePath());

@@ -110,12 +110,13 @@ class AccountService implements AccountServiceInterface
      */
     private function send($with = ['with' => 'custom_fields,users,pipelines,groups,note_types,task_types'])
     {
-        $link = $this->getLink().'?'.http_build_query($with);
+        $link = $this->getLink() . '?' . http_build_query($with);
         $this->request->performRequest($link, [], 'application/json', 'GET');
     }
 
     /**
      * @param $array
+     *
      * @return Account
      */
     private function parseArrayToAccountEntity($array)
