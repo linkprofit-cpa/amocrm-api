@@ -16,9 +16,13 @@
 
 [Авторизация](docs/authorization.md)
 
+[Aккаунт](docs/account.md)
+
 [Кастомные поля](docs/customField.md)
 
 [Сделки](docs/lead.md)
+
+[Списки/Каталоги](docs/catalogs.md)
 
 [Покупатели](docs/customer.md)
 
@@ -33,6 +37,10 @@
 [Воронка](docs/pipeline.md)
 
 [Добавление полей](docs/field.md)
+
+[Добавление типов задач](docs/taskType.md) - непубличное API
+
+
 
 ## Лицензия
 
