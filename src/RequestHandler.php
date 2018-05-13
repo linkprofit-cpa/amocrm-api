@@ -49,17 +49,19 @@ class RequestHandler
     /**
      * @param string $link
      * @param array $fields
+     * @param string $contentType
+     * @param string $requestType
      */
-    public function performRequest($link, array $fields)
+    public function performRequest($link, array $fields, $contentType = 'application/json', $requestType = 'POST')
     {
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_USERAGENT, 'amoCRM-API-client/1.0');
         curl_setopt($curl, CURLOPT_URL, $link);
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($fields));
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $requestType);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getStringFields($fields, $contentType));
+        curl_setopt($curl, CURLOPT_HTTPHEADER, ['Content-Type: ' . $contentType]);
         curl_setopt($curl, CURLOPT_HEADER, false);
         curl_setopt($curl, CURLOPT_COOKIEFILE, $this->getCookiePath());
         curl_setopt($curl, CURLOPT_COOKIEJAR, $this->getCookiePath());
@@ -124,5 +126,20 @@ class RequestHandler
     protected function getCookiePath()
     {
         return dirname(dirname(__FILE__)) . '/cookie.txt';
+    }
+
+    /**
+     * @param array $fields
+     * @param       $contentType
+     *
+     * @return string
+     */
+    private function getStringFields(array $fields, $contentType)
+    {
+        if ($contentType === 'application/json') {
+            return json_encode($fields);
+        }
+
+        return http_build_query($fields);
     }
 }
