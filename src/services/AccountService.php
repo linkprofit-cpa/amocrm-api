@@ -3,6 +3,7 @@
 namespace linkprofit\AmoCRM\services;
 
 use linkprofit\AmoCRM\entities\Account;
+use linkprofit\AmoCRM\entities\Field;
 use linkprofit\AmoCRM\entities\TaskType;
 use linkprofit\AmoCRM\RequestHandler;
 
@@ -50,9 +51,14 @@ class AccountService implements AccountServiceInterface
     /**
      * TODO
      *
-     * @return \linkprofit\AmoCRM\entities\CustomField[]
+     * @return \linkprofit\AmoCRM\entities\Field[]
      */
-    public function getCustomFields() {}
+    public function getCustomFields()
+    {
+        $this->send(['with' => 'custom_fields']);
+
+        return $this->parseCustomFieldsArrayToFieldEntities($this->request->getResponse()['_embedded']['custom_fields']);
+    }
 
     /**
      * TODO
@@ -137,6 +143,86 @@ class AccountService implements AccountServiceInterface
             $entities[] = $entity;
         }
 
+        return $entities;
+    }
+
+    /**
+     * @param array $array
+     *
+     * @return array
+     */
+    private function parseCustomFieldsArrayToFieldEntities(array $array)
+    {
+        $entities = [];
+        foreach ($array as $elementTypeKey => $items) {
+            switch ($elementTypeKey) {
+                case 'contacts':
+                    $elementType = Field::CONTACT_ELEMENT_TYPE;
+                    $entities = array_merge($entities, $this->parseArrayToFieldEntities($items, $elementType));
+                    break;
+                case 'leads':
+                    $elementType = Field::LEAD_ELEMENT_TYPE;
+                    $entities = array_merge($entities, $this->parseArrayToFieldEntities($items, $elementType));
+                    break;
+                case 'companies':
+                    $elementType = Field::COMPANY_ELEMENT_TYPE;
+                    $entities = array_merge($entities, $this->parseArrayToFieldEntities($items, $elementType));
+                    break;
+                case 'customers':
+                    $elementType = Field::CUSTOMER_ELEMENT_TYPE;
+                    $entities = array_merge($entities, $this->parseArrayToFieldEntities($items, $elementType));
+                    break;
+                case 'catalogs':
+                    $entities = array_merge($entities, $this->parseArrayToCatalogFieldEntities($items));
+                    break;
+            }
+        }
+
+        return $entities;
+    }
+
+    /**
+     * @param array $items
+     * @param int   $elementType
+     *
+     * @return array
+     */
+    private function parseArrayToFieldEntities(array $items, $elementType)
+    {
+        $entities = [];
+        foreach ($items as $item) {
+            $entities[] = $this->parseArrayToFieldEntity($item, $elementType);
+        }
+
+        return $entities;
+    }
+
+    /**
+     * @param array $item
+     * @param       $elementType
+     *
+     * @return \linkprofit\AmoCRM\entities\Field
+     */
+    private function parseArrayToFieldEntity(array $item, $elementType)
+    {
+        $entity = new Field();
+        $entity->set($item);
+        $entity->element_type = $elementType;
+
+        return $entity;
+    }
+
+    /**
+     * @param array $items
+     *
+     * @return array
+     */
+    private function parseArrayToCatalogFieldEntities(array $items)
+    {
+        $entities = [];
+        foreach ($items as $elementType => $catalogItems) {
+            $entities = array_merge($entities, $this->parseArrayToFieldEntities($catalogItems, $elementType));
+        }
         return $entities;
     }
 }

@@ -75,6 +75,15 @@ class Field extends BaseEntity
      */
     const BIRTHDAY = 14;
 
+    /**
+     * Поле юридическое лицо (в интерфейсе является набором из нескольких полей)
+     */
+    const LEGAL_ENTITY = 15;
+
+    /**
+     * Поле состав каталога (поле доступно только в пользовательских списках)
+     */
+    const ITEMS = 16;
 
     /**
      * Контакт
@@ -133,9 +142,29 @@ class Field extends BaseEntity
     public $request_id;
 
     /**
+     * @var bool Обязательность заполнения поля. Данное свойство применимо только для полей списка
+     */
+    public $is_required;
+
+    /**
+     * @var bool Возможность удалить поле в интерфейсе. Данное свойство применимо только для полей списка
+     */
+    public $is_deletable;
+
+    /**
+     * @var bool Видимость поля в интерфейсе. Данное свойство применимо только для полей списка
+     */
+    public $is_visible;
+
+    /**
      * @var array
      */
-    protected $fieldList = ['id', 'name', 'element_type', 'field_type', 'origin', 'is_editable', 'enums', 'request_id'];
+    protected $fieldList = [
+        'id', 'name', 'element_type',
+        'field_type', 'origin',
+        'is_editable', 'enums', 'request_id',
+        'is_required', 'is_deletable', 'is_visible',
+    ];
 
     use FieldsMergeable;
 
