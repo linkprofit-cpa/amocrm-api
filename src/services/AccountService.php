@@ -48,44 +48,39 @@ class AccountService implements AccountServiceInterface
     }
 
     /**
+     * TODO
+     *
      * @return \linkprofit\AmoCRM\entities\CustomField[]
      */
-    public function getCustomFields()
-    {
-        // TODO
-    }
+    public function getCustomFields() {}
 
     /**
+     * TODO
+     *
      * @return \linkprofit\AmoCRM\entities\User[]
      */
-    public function getUsers()
-    {
-        // TODO
-    }
+    public function getUsers() {}
 
     /**
+     * TODO
+     *
      * @return \linkprofit\AmoCRM\entities\Pipeline[]
      */
-    public function getPipelines()
-    {
-        // TODO
-    }
+    public function getPipelines() {}
 
     /**
+     * TODO
+     *
      * @return \linkprofit\AmoCRM\entities\Group[]
      */
-    public function getGroups()
-    {
-        // TODO
-    }
+    public function getGroups() {}
 
     /**
+     * TODO
+     *
      * @return \linkprofit\AmoCRM\entities\NoteTypes[]
      */
-    public function getNoteTypes()
-    {
-        // TODO
-    }
+    public function getNoteTypes() {}
 
     /**
      * @return \linkprofit\AmoCRM\entities\TaskType[]
@@ -110,12 +105,13 @@ class AccountService implements AccountServiceInterface
      */
     private function send($with = ['with' => 'custom_fields,users,pipelines,groups,note_types,task_types'])
     {
-        $link = $this->getLink().'?'.http_build_query($with);
+        $link = $this->getLink() . '?' . http_build_query($with);
         $this->request->performRequest($link, [], 'application/json', 'GET');
     }
 
     /**
      * @param $array
+     *
      * @return Account
      */
     private function parseArrayToAccountEntity($array)
