@@ -26,6 +26,11 @@ class CustomField implements EntityInterface
     public $code;
 
     /**
+     * @var bool Является ли дополнительное поле системным
+     */
+    public $is_system;
+
+    /**
      * @var Value[]
      */
     protected $values = [];
@@ -34,7 +39,7 @@ class CustomField implements EntityInterface
      * @var array
      */
     protected $fieldList = [
-        'id', 'name', 'code'
+        'id', 'name', 'code', 'is_system',
     ];
 
     use FieldList;
@@ -77,5 +82,13 @@ class CustomField implements EntityInterface
         }
 
         return $fields;
+    }
+
+    /**
+     * @param $array
+     */
+    public function set($array)
+    {
+        $this->setFromArray($this->fieldList, $array);
     }
 }
