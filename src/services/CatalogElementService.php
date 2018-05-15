@@ -30,8 +30,8 @@ class CatalogElementService extends BaseService
     }
 
     /**
-     * @param int   $page
-     * @param string|null  $query
+     * @param int $page
+     * @param string|null $query
      * @param array $params
      *
      * @return array|bool
@@ -49,7 +49,7 @@ class CatalogElementService extends BaseService
             $queryParams = array_merge($queryParams, $params);
         }
 
-        $link = $this->getLink().'?'.http_build_query($queryParams);
+        $link = $this->getLink() . '?' . http_build_query($queryParams);
 
         $this->request->performRequest($link, [], 'application/json', 'GET');
         $this->response = $this->request->getResponse();
@@ -59,18 +59,20 @@ class CatalogElementService extends BaseService
 
     /**
      * @param $array
-     * 
+     *
      * @return CatalogElement
      */
     public function parseArrayToEntity($array)
     {
         $element = new CatalogElement();
         $element->set($array);
+
         if (isset($array['custom_fields'])) {
             foreach ($array['custom_fields'] as $customFieldArray) {
                 $customField = new CustomField($customFieldArray['id']);
                 $customField->set($customFieldArray);
-                if (isset($array['custom_fields'])) {
+
+                if (isset($customFieldArray['values'])) {
                     foreach ($customFieldArray['values'] as $value) {
                         $value = new Value($value);
                         $customField->addValue($value);
@@ -80,7 +82,6 @@ class CatalogElementService extends BaseService
                 $element->addCustomField($customField);
             }
         }
-
 
         return $element;
     }

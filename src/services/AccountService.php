@@ -19,6 +19,17 @@ class AccountService implements AccountServiceInterface
     protected $request;
 
     /**
+     * @var array
+     */
+    protected $fieldAssociation = [
+        'contacts' => Field::CONTACT_ELEMENT_TYPE,
+        'leads' => Field::LEAD_ELEMENT_TYPE,
+        'companies' => Field::COMPANY_ELEMENT_TYPE,
+        'customers' => Field::CUSTOMER_ELEMENT_TYPE,
+        'catalogs' => true
+    ];
+
+    /**
      * ServiceInterface constructor.
      *
      * @param RequestHandler $requestHandler
@@ -154,27 +165,18 @@ class AccountService implements AccountServiceInterface
     private function parseCustomFieldsArrayToFieldEntities(array $array)
     {
         $entities = [];
+
         foreach ($array as $elementTypeKey => $items) {
-            switch ($elementTypeKey) {
-                case 'contacts':
-                    $elementType = Field::CONTACT_ELEMENT_TYPE;
-                    $entities = array_merge($entities, $this->parseArrayToFieldEntities($items, $elementType));
-                    break;
-                case 'leads':
-                    $elementType = Field::LEAD_ELEMENT_TYPE;
-                    $entities = array_merge($entities, $this->parseArrayToFieldEntities($items, $elementType));
-                    break;
-                case 'companies':
-                    $elementType = Field::COMPANY_ELEMENT_TYPE;
-                    $entities = array_merge($entities, $this->parseArrayToFieldEntities($items, $elementType));
-                    break;
-                case 'customers':
-                    $elementType = Field::CUSTOMER_ELEMENT_TYPE;
-                    $entities = array_merge($entities, $this->parseArrayToFieldEntities($items, $elementType));
-                    break;
-                case 'catalogs':
-                    $entities = array_merge($entities, $this->parseArrayToCatalogFieldEntities($items));
-                    break;
+            if (!isset($this->fieldAssociation[$elementTypeKey])) {
+                continue;
+            }
+
+            $elementType = $this->fieldAssociation[$elementTypeKey];
+
+            if ($elementType === true) {
+                $entities = array_merge($entities, $this->parseArrayToCatalogFieldEntities($items));
+            } else {
+                $entities = array_merge($entities, $this->parseArrayToFieldEntities($items, $elementType));
             }
         }
 
@@ -183,7 +185,7 @@ class AccountService implements AccountServiceInterface
 
     /**
      * @param array $items
-     * @param int   $elementType
+     * @param int $elementType
      *
      * @return array
      */
