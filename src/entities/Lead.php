@@ -37,12 +37,18 @@ class Lead extends CustomizableEntity
     public $tags;
 
     /**
+     * @var int Id пользователя изменившего сущность, если 0, то робот
+     */
+    public $modified_user_id;
+
+    /**
      * @var array
      */
     protected $fieldList = [
         'id', 'name', 'created_at', 'updated_at',
         'status_id', 'pipeline_id', 'responsible_user_id',
-        'sale', 'tags', 'contacts_id', 'company_id'
+        'sale', 'tags', 'contacts_id', 'company_id',
+        'modified_user_id'
     ];
 
     use CompanyLinkable,
