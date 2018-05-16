@@ -1,6 +1,7 @@
 {
   "name": "linkprofit-cpa/amocrm-api",
   "description": "AmoCRM integration",
+  "type": "library",
   "keywords": [
     "amocrm",
     "integration"
