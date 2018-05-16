@@ -24,6 +24,8 @@
 
 [Списки/Каталоги](docs/catalogs.md)
 
+[Элементы списков/Каталогов](docs/catalog_elements.md)
+
 [Покупатели](docs/customer.md)
 
 [Контакты](docs/contact.md)

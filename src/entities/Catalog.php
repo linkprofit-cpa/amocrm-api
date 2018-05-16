@@ -3,7 +3,8 @@
 namespace linkprofit\AmoCRM\entities;
 
 /**
- * Class Task
+ * Class Catalog
+ *
  * @package linkprofit\AmoCRM\entities
  */
 class Catalog extends BaseEntity
