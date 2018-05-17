@@ -12,12 +12,27 @@ use linkprofit\AmoCRM\entities\Value;
  *
  * @package linkprofit\AmoCRM\services
  */
-class CatalogElementService extends BaseService
+class CatalogElementService extends BaseService implements ListableService
 {
     /**
      * @var CatalogElement[]
      */
     protected $entities = [];
+
+    /**
+     * @var int
+     */
+    protected $listPage = 1;
+
+    /**
+     * @var string
+     */
+    protected $listQuery;
+
+    /**
+     * @var array
+     */
+    protected $listParams = [];
 
     /**
      * @param EntityInterface|CatalogElement $catalogElement
@@ -31,23 +46,54 @@ class CatalogElementService extends BaseService
 
     /**
      * @param int $page
-     * @param string|null $query
+     *
+     * @return $this
+     */
+    public function setPage($page)
+    {
+        $this->listPage = $page;
+
+        return $this;
+    }
+
+    /**
+     * @param string $query
+     *
+     * @return $this
+     */
+    public function setQuery($query)
+    {
+        $this->listQuery = $query;
+
+        return $this;
+    }
+
+    /**
      * @param array $params
      *
+     * @return $this
+     */
+    public function setParams(array $params)
+    {
+        $this->listParams = $params;
+
+        return $this;
+    }
+
+    /**
      * @return array|bool
      */
-    public function lists($page = 1, $query = null, array $params = null)
+    public function list()
     {
         $queryParams = [];
-        $queryParams['PAGEN_1'] = $page;
 
-        if (!empty($query)) {
-            $queryParams['term'] = $query;
+        $queryParams['PAGEN_1'] = $this->listPage;
+
+        if (!empty($this->listQuery)) {
+            $queryParams['term'] = $this->listQuery;
         }
 
-        if ($params) {
-            $queryParams = array_merge($queryParams, $params);
-        }
+        $queryParams = array_merge($queryParams, $this->listParams);
 
         $link = $this->getLink() . '?' . http_build_query($queryParams);
 
@@ -55,6 +101,24 @@ class CatalogElementService extends BaseService
         $this->response = $this->request->getResponse();
 
         return $this->parseResponseToEntities();
+    }
+
+    /**
+     * @deprecated
+     *
+     * @param int $page
+     * @param string|null $query
+     * @param array $params
+     *
+     * @return array|bool
+     */
+    public function lists($page = 1, $query = null, array $params = [])
+    {
+        $this->listPage = $page;
+        $this->listQuery = $query;
+        $this->listParams = $params;
+
+        return $this->list();
     }
 
     /**

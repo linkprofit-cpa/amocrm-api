@@ -27,21 +27,21 @@ $catalogService->add($element);
 Если вам необходимо обработать ответ, вы можете воспользоваться методом `parseResponseToEntities()`, который вернет массив добавленных объектов `linkprofit\AmoCRM\entities\CatalogElement` с инициализированным свойством `id`, который вернулся ответом сервера на наш запрос
 
 ### Получение списка существующих элементов каталога
-Просто вызовите метод `list()` у сервиса, в ответ придет массив объектов класса `linkprofit\AmoCRM\entities\CatalogElement`. Ограничения на один запрос 500 элементов, если нужно вывести более 500 элементов используйте несколько запросов передавая в метод номер страницы первым параметром `list(2)`
+Просто вызовите метод `list()` у сервиса, в ответ придет массив объектов класса `linkprofit\AmoCRM\entities\CatalogElement`. Ограничения на один запрос 500 элементов, если нужно вывести более 500 элементов используйте несколько запросов передавая в метод номер страницы в метод `setPage(2)`
 ```php
 $service = new \linkprofit\AmoCRM\services\CatalogElementService($request);
 $catalogs = $service->list(); //Вернет массив всех элементов (не более 500)
-$catalogs = $service->list(3); //Вернет массив всех элементов с 3 страницы
-$catalogs = $service->list(3, 'Поисковая строка'); //Вернет массив всех элементов 3 страницы, по поисковой строке 'Поисковая строка'
+$catalogs = $service->setPage(3)->list(); //Вернет массив всех элементов с 3 страницы
+$catalogs = $service->setPage(3)->setQuery('Поисковая строка')->list(); //Вернет массив всех элементов 3 страницы, по поисковой строке 'Поисковая строка'
 ```
 
 Также можно получить только интересующие элементы каталога по его catalog_id, в ответ придет массив `linkprofit\AmoCRM\entities\CatalogElement` только с элементами из этого каталога
 ```php
 $catalogId = 1823;
-$catalogs = $service->list(1, null, ['catalog_id' => $catalogId]);
+$catalogs = $service->setParams(['catalog_id' => $catalogId])->list();
 ```
 Отельно элемент можно получить по его id, в ответ придет массив с единственным элементом `linkprofit\AmoCRM\entities\CatalogElement`
-```
+```php
 $elementId = 1232;
-$catalogs = $service->list(1, null, ['id' => $elementId]);
+$catalogs = $service->setParams(['id' => $elementId])->list();
 ```
