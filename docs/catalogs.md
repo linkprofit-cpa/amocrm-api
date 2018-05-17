@@ -39,5 +39,5 @@ $catalogs = $catalogService->list();
 Также можно получить только интересующий каталог по его id, в ответ придет массив с одним объектом класса `linkprofit\AmoCRM\entities\Catalog`
 ```php
 $id = 1823;
-$catalogs = $catalogService->list($id);
+$catalogs = $catalogService->setId($id)->list();
 ```
