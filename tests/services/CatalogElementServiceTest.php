@@ -187,7 +187,7 @@ class CatalogElementServiceTest extends TestCase
         $service = new \linkprofit\AmoCRM\services\CatalogElementService($request);
         $service->add($element);
 
-        $this->assertEquals($element->id, $service->list()[0]->id);
+        $this->assertEquals($element->id, $service->getList()[0]->id);
     }
 
     public function testListPage()
@@ -250,7 +250,7 @@ class CatalogElementServiceTest extends TestCase
         $service = new \linkprofit\AmoCRM\services\CatalogElementService($request);
         $service->add($element);
 
-        $this->assertEquals($element->id, $service->setPage(1)->setQuery('test')->list()[0]->id);
+        $this->assertEquals($element->id, $service->setPage(1)->setQuery('test')->getList()[0]->id);
     }
 
     public function testDeprecatedListsParams()
@@ -296,7 +296,7 @@ class CatalogElementServiceTest extends TestCase
         $service = new \linkprofit\AmoCRM\services\CatalogElementService($request);
         $service->add($element);
 
-        $testElement = $service->setPage(1)->setQuery('test')->setParams(['catalog_id'=>123])->list()[0]->get();
+        $testElement = $service->setPage(1)->setQuery('test')->setParams(['catalog_id'=>123])->getList()[0]->get();
 
         $this->assertEquals($element->id, $testElement['id']);
         $this->assertEquals(1234, $testElement['custom_fields'][0]['id']);

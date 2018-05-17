@@ -136,7 +136,7 @@ class CatalogServiceTest extends TestCase
         $catalogService = new \linkprofit\AmoCRM\services\CatalogService($request);
         $catalogService->add($catalog);
 
-        $this->assertEquals($catalog->id, $catalogService->list()[0]->id);
+        $this->assertEquals($catalog->id, $catalogService->getList()[0]->id);
     }
 
     protected function setUp()

@@ -83,7 +83,7 @@ class CatalogElementService extends BaseService implements ListableService
     /**
      * @return array|bool
      */
-    public function list()
+    public function getList()
     {
         $queryParams = [];
 
@@ -118,7 +118,7 @@ class CatalogElementService extends BaseService implements ListableService
         $this->listQuery = $query;
         $this->listParams = $params;
 
-        return $this->list();
+        return $this->getList();
     }
 
     /**

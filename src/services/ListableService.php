@@ -11,5 +11,5 @@ interface ListableService
     /**
      * @return mixed
      */
-    public function list();
+    public function getList();
 }

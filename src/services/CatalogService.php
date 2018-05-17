@@ -34,7 +34,7 @@ class CatalogService extends BaseService implements ListableService
     /**
      * @return array|bool
      */
-    public function list()
+    public function getList()
     {
         $link = $this->getLink() . '?';
 
@@ -60,7 +60,7 @@ class CatalogService extends BaseService implements ListableService
             $this->setId($id);
         }
 
-        return $this->list();
+        return $this->getList();
     }
 
     /**
