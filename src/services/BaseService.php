@@ -74,7 +74,7 @@ abstract class BaseService implements ServiceInterface, ListableService
      *
      * @return mixed
      */
-    public function composeListLink($link)
+    protected function composeListLink($link)
     {
         return $link;
     }

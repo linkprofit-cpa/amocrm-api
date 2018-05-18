@@ -32,19 +32,18 @@ class CatalogService extends BaseService implements ListableService
     }
 
     /**
-     * @return array|bool
+     * @param $link
+     *
+     * @return string
      */
-    public function getList()
+    protected function composeListLink($link)
     {
-        $link = $this->getLink() . '?';
+        $query = $this->addIdToQuery();
+        $query = $this->addPaginationToQuery($query);
 
-        $link = $this->addIdToLink($link);
-        $link = $this->addPaginationToLink($link);
+        $link .= '?' . http_build_query($query);
 
-        $this->request->performRequest($link, [], 'application/json', 'GET');
-        $this->response = $this->request->getResponse();
-
-        return $this->parseResponseToEntities();
+        return $link;
     }
 
     /**

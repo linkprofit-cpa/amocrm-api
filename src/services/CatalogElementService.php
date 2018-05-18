@@ -12,7 +12,7 @@ use linkprofit\AmoCRM\entities\Value;
  *
  * @package linkprofit\AmoCRM\services
  */
-class CatalogElementService extends BaseService implements ListableService
+class CatalogElementService extends BaseService
 {
     /**
      * @var CatalogElement[]
@@ -81,26 +81,25 @@ class CatalogElementService extends BaseService implements ListableService
     }
 
     /**
-     * @return array|bool
+     * @param $link
+     *
+     * @return string
      */
-    public function getList()
+    protected function composeListLink($link)
     {
-        $queryParams = [];
+        $query = [];
 
-        $queryParams['PAGEN_1'] = $this->listPage;
+        $query['PAGEN_1'] = $this->listPage;
 
         if (!empty($this->listQuery)) {
-            $queryParams['term'] = $this->listQuery;
+            $query['term'] = $this->listQuery;
         }
 
-        $queryParams = array_merge($queryParams, $this->listParams);
+        $query = array_merge($query, $this->listParams);
 
-        $link = $this->getLink() . '?' . http_build_query($queryParams);
+        $link .= '?' . http_build_query($query);
 
-        $this->request->performRequest($link, [], 'application/json', 'GET');
-        $this->response = $this->request->getResponse();
-
-        return $this->parseResponseToEntities();
+        return $link;
     }
 
     /**
