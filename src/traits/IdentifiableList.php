@@ -26,16 +26,16 @@ trait IdentifiableList
     }
 
     /**
-     * @param string $link
+     * @param array $query
      *
-     * @return string
+     * @return array
      */
-    public function addIdToLink($link)
+    public function addIdToQuery($query = [])
     {
         if ($this->listId !== null) {
-            $link .= '&id' . $this->listId;
+            $query['id'] = $this->listId;
         }
 
-        return $link;
+        return $query;
     }
 }

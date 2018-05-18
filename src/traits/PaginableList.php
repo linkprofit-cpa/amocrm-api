@@ -43,20 +43,20 @@ trait PaginableList
     }
 
     /**
-     * @param string $link
+     * @param array $query
      *
-     * @return string
+     * @return array
      */
-    public function addPaginationToLink($link)
+    public function addPaginationToQuery($query = [])
     {
         if ($this->listLimit !== null) {
-            $link .= '&limit_rows=' . $this->listLimit;
+            $query['limit_rows'] = $this->listLimit;
         }
 
         if ($this->listOffset !== null) {
-            $link .= '&limit_offset' . $this->listOffset;
+            $query['limit_offset'] = $this->listOffset;
         }
 
-        return $link;
+        return $query;
     }
 }
