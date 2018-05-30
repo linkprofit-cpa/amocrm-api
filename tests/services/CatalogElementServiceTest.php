@@ -148,7 +148,7 @@ class CatalogElementServiceTest extends TestCase
         $this->assertTrue($element == $clonedLead);
     }
 
-    public function testListNotParams()
+    public function testDeprecatedListsNotParams()
     {
         $url = 'https://domain.amocrm.ru/api/v2/catalog_elements?PAGEN_1=1';
 
@@ -167,6 +167,27 @@ class CatalogElementServiceTest extends TestCase
         $service->add($element);
 
         $this->assertEquals($element->id, $service->lists()[0]->id);
+    }
+
+    public function testListNotParams()
+    {
+        $url = 'https://domain.amocrm.ru/api/v2/catalog_elements?PAGEN_1=1';
+
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
+            ->method('getResponse')
+            ->will($this->returnValue($this->responseProvider()));
+
+        $element = $this->element->getElement();
+        $element->id = 1;
+        $request->expects($this->once())
+            ->method('performRequest')
+            ->with($url, [], 'application/json', 'GET');
+
+        $service = new \linkprofit\AmoCRM\services\CatalogElementService($request);
+        $service->add($element);
+
+        $this->assertEquals($element->id, $service->getList()[0]->id);
     }
 
     public function testListPage()
@@ -190,7 +211,7 @@ class CatalogElementServiceTest extends TestCase
         $this->assertEquals($element->id, $service->lists(2)[0]->id);
     }
 
-    public function testListQuery()
+    public function testDeprecatedListsQuery()
     {
         $url = 'https://domain.amocrm.ru/api/v2/catalog_elements?PAGEN_1=1&term=test';
 
@@ -211,7 +232,28 @@ class CatalogElementServiceTest extends TestCase
         $this->assertEquals($element->id, $service->lists(1, 'test')[0]->id);
     }
 
-    public function testListParams()
+    public function testListQuery()
+    {
+        $url = 'https://domain.amocrm.ru/api/v2/catalog_elements?PAGEN_1=1&term=test';
+
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
+            ->method('getResponse')
+            ->will($this->returnValue($this->responseProvider()));
+
+        $element = $this->element->getElement();
+        $element->id = 1;
+        $request->expects($this->once())
+            ->method('performRequest')
+            ->with($url, [], 'application/json', 'GET');
+
+        $service = new \linkprofit\AmoCRM\services\CatalogElementService($request);
+        $service->add($element);
+
+        $this->assertEquals($element->id, $service->setPage(1)->setQuery('test')->getList()[0]->id);
+    }
+
+    public function testDeprecatedListsParams()
     {
         $url = 'https://domain.amocrm.ru/api/v2/catalog_elements?PAGEN_1=1&term=test&catalog_id=123';
 
@@ -230,6 +272,31 @@ class CatalogElementServiceTest extends TestCase
         $service->add($element);
 
         $testElement = $service->lists(1, 'test', ['catalog_id'=>123])[0]->get();
+
+        $this->assertEquals($element->id, $testElement['id']);
+        $this->assertEquals(1234, $testElement['custom_fields'][0]['id']);
+        $this->assertEquals('testValue', $testElement['custom_fields'][0]['values'][0]['value']);
+    }
+
+    public function testListParams()
+    {
+        $url = 'https://domain.amocrm.ru/api/v2/catalog_elements?PAGEN_1=1&term=test&catalog_id=123';
+
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
+            ->method('getResponse')
+            ->will($this->returnValue($this->responseProvider()));
+
+        $element = $this->element->getElement();
+        $element->id = 1;
+        $request->expects($this->once())
+            ->method('performRequest')
+            ->with($url, [], 'application/json', 'GET');
+
+        $service = new \linkprofit\AmoCRM\services\CatalogElementService($request);
+        $service->add($element);
+
+        $testElement = $service->setPage(1)->setQuery('test')->setParams(['catalog_id'=>123])->getList()[0]->get();
 
         $this->assertEquals($element->id, $testElement['id']);
         $this->assertEquals(1234, $testElement['custom_fields'][0]['id']);

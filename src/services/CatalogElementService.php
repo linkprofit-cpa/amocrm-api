@@ -20,6 +20,21 @@ class CatalogElementService extends BaseService
     protected $entities = [];
 
     /**
+     * @var int
+     */
+    protected $listPage = 1;
+
+    /**
+     * @var string
+     */
+    protected $listQuery;
+
+    /**
+     * @var array
+     */
+    protected $listParams = [];
+
+    /**
      * @param EntityInterface|CatalogElement $catalogElement
      */
     public function add(EntityInterface $catalogElement)
@@ -31,30 +46,78 @@ class CatalogElementService extends BaseService
 
     /**
      * @param int $page
+     *
+     * @return $this
+     */
+    public function setPage($page)
+    {
+        $this->listPage = $page;
+
+        return $this;
+    }
+
+    /**
+     * @param string $query
+     *
+     * @return $this
+     */
+    public function setQuery($query)
+    {
+        $this->listQuery = $query;
+
+        return $this;
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return $this
+     */
+    public function setParams(array $params)
+    {
+        $this->listParams = $params;
+
+        return $this;
+    }
+
+    /**
+     * @param $link
+     *
+     * @return string
+     */
+    protected function composeListLink($link)
+    {
+        $query = [];
+
+        $query['PAGEN_1'] = $this->listPage;
+
+        if (!empty($this->listQuery)) {
+            $query['term'] = $this->listQuery;
+        }
+
+        $query = array_merge($query, $this->listParams);
+
+        $link .= '?' . http_build_query($query);
+
+        return $link;
+    }
+
+    /**
+     * @deprecated
+     *
+     * @param int $page
      * @param string|null $query
      * @param array $params
      *
      * @return array|bool
      */
-    public function lists($page = 1, $query = null, array $params = null)
+    public function lists($page = 1, $query = null, array $params = [])
     {
-        $queryParams = [];
-        $queryParams['PAGEN_1'] = $page;
+        $this->listPage = $page;
+        $this->listQuery = $query;
+        $this->listParams = $params;
 
-        if (!empty($query)) {
-            $queryParams['term'] = $query;
-        }
-
-        if ($params) {
-            $queryParams = array_merge($queryParams, $params);
-        }
-
-        $link = $this->getLink() . '?' . http_build_query($queryParams);
-
-        $this->request->performRequest($link, [], 'application/json', 'GET');
-        $this->response = $this->request->getResponse();
-
-        return $this->parseResponseToEntities();
+        return $this->getList();
     }
 
     /**
