@@ -97,9 +97,9 @@ class CatalogServiceTest extends TestCase
         $this->assertTrue($catalog == $clonedTask);
     }
 
-    public function testList()
+    public function testDeprecatedLists()
     {
-        $url = 'https://domain.amocrm.ru/api/v2/catalogs';
+        $url = 'https://domain.amocrm.ru/api/v2/catalogs?';
 
         $request = $this->request->getMockedRequest();
         $request->expects($this->once())
@@ -116,6 +116,27 @@ class CatalogServiceTest extends TestCase
         $catalogService->add($catalog);
 
         $this->assertEquals($catalog->id, $catalogService->lists()[0]->id);
+    }
+
+    public function testList()
+    {
+        $url = 'https://domain.amocrm.ru/api/v2/catalogs?';
+
+        $request = $this->request->getMockedRequest();
+        $request->expects($this->once())
+            ->method('getResponse')
+            ->will($this->returnValue($this->responseProvider()));
+
+        $catalog = $this->catalog->getCatalog();
+        $catalog->id = 1;
+        $request->expects($this->once())
+            ->method('performRequest')
+            ->with($url, [], 'application/json', 'GET');
+
+        $catalogService = new \linkprofit\AmoCRM\services\CatalogService($request);
+        $catalogService->add($catalog);
+
+        $this->assertEquals($catalog->id, $catalogService->getList()[0]->id);
     }
 
     protected function setUp()

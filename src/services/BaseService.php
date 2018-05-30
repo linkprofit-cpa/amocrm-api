@@ -9,7 +9,7 @@ use linkprofit\AmoCRM\RequestHandler;
  * Class BaseService
  * @package linkprofit\AmoCRM\services
  */
-abstract class BaseService implements ServiceInterface
+abstract class BaseService implements ServiceInterface, ListableService
 {
     /**
      * @var RequestHandler
@@ -54,6 +54,29 @@ abstract class BaseService implements ServiceInterface
         }
 
         return false;
+    }
+
+    /**
+     * @return array|bool
+     */
+    public function getList()
+    {
+        $link = $this->composeListLink($this->getLink());
+
+        $this->request->performRequest($link, [], 'application/json', 'GET');
+        $this->response = $this->request->getResponse();
+
+        return $this->parseResponseToEntities();
+    }
+
+    /**
+     * @param $link
+     *
+     * @return mixed
+     */
+    protected function composeListLink($link)
+    {
+        return $link;
     }
 
     /**

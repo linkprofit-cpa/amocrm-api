@@ -4,14 +4,18 @@ namespace linkprofit\AmoCRM\services;
 
 use linkprofit\AmoCRM\entities\Catalog;
 use linkprofit\AmoCRM\entities\EntityInterface;
+use linkprofit\AmoCRM\traits\IdentifiableList;
+use linkprofit\AmoCRM\traits\PaginableList;
 
 /**
  * Class CatalogService
  *
  * @package linkprofit\AmoCRM\services
  */
-class CatalogService extends BaseService
+class CatalogService extends BaseService implements ListableService
 {
+    use IdentifiableList, PaginableList;
+
     /**
      * @var Catalog[]
      */
@@ -28,27 +32,39 @@ class CatalogService extends BaseService
     }
 
     /**
-     * @param null $id
+     * @param $link
+     *
+     * @return string
+     */
+    protected function composeListLink($link)
+    {
+        $query = $this->addIdToQuery();
+        $query = $this->addPaginationToQuery($query);
+
+        $link .= '?' . http_build_query($query);
+
+        return $link;
+    }
+
+    /**
+     * @deprecated
+     *
+     * @param int|null
      *
      * @return array|bool
      */
     public function lists($id = null)
     {
-        $link = $this->getLink();
-
         if ($id !== null) {
-            $link .= '?id' . $id;
+            $this->setId($id);
         }
 
-        $this->request->performRequest($link, [], 'application/json', 'GET');
-        $this->response = $this->request->getResponse();
-
-        return $this->parseResponseToEntities();
+        return $this->getList();
     }
 
     /**
      * @param $array
-     * 
+     *
      * @return Catalog
      */
     public function parseArrayToEntity($array)
