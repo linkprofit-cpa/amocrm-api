@@ -2,9 +2,7 @@
 
 namespace linkprofit\AmoCRM\entities;
 
-use linkprofit\AmoCRM\traits\CompanyLinkable;
 use linkprofit\AmoCRM\traits\FieldList;
-use linkprofit\AmoCRM\traits\LeadsLinkable;
 
 /**
  * Class Contact

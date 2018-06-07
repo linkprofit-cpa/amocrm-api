@@ -12,6 +12,11 @@ use linkprofit\AmoCRM\traits\LeadsLinkable;
 class Company extends CustomizableEntity
 {
     /**
+     * Компания
+     */
+    const ELEMENT_TYPE = 3;
+
+    /**
      * @var string Название компании
      */
     public $name;
