@@ -24,7 +24,7 @@ class FieldEntityTest extends TestCase
         $field = $this->field->getField();
         $field->field_type = Field::SELECT;
         $field->linkEnumArray(['1', '2', '3']);
-        $this->assertEquals(['origin' => 'origin_field', 'is_editable' => true, 'name' => 'Новое поле', 'element_type' => 1, 'field_type' => 4, 'enums' => '1,2,3'], $field->get());
+        $this->assertEquals(['origin' => 'origin_field', 'is_editable' => true, 'name' => 'Новое поле', 'element_type' => 1, 'field_type' => 4, 'enums' => ['1','2','3']], $field->get());
     }
 
     protected function setUp()
