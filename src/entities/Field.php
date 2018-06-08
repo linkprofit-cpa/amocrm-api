@@ -2,8 +2,6 @@
 
 namespace linkprofit\AmoCRM\entities;
 
-use linkprofit\AmoCRM\traits\FieldsMergeable;
-
 /**
  * Class Field
  * @package linkprofit\AmoCRM\entities
@@ -132,9 +130,9 @@ class Field extends BaseEntity
     public $is_editable;
 
     /**
-     * @var string Массив значений для списка или мультисписка. Значения указываются строковыми переменными, через запятую.
+     * @var array Массив значений для списка или мультисписка. Значения указываются строковыми переменными, через запятую.
      */
-    public $enums;
+    public $enums = [];
 
     /**
      * @var integer Уникальный идентификатор записи в клиентской программе (необязательный параметр). Информация о request_id нигде не сохраняется.
@@ -166,22 +164,19 @@ class Field extends BaseEntity
         'is_required', 'is_deletable', 'is_visible',
     ];
 
-    use FieldsMergeable;
-
     /**
-     * @param $enum
+     * @param string $enum
      */
     public function linkEnum($enum)
     {
-        $this->mergeStringToField($enum, 'enums');
+        $this->enums[] = $enum;
     }
 
     /**
-     * @param $enums
+     * @param array $enums
      */
-    public function linkEnumArray($enums)
+    public function linkEnumArray(array $enums)
     {
-        $this->enums = '';
-        array_map([$this, 'linkEnum'], $enums);
+        $this->enums = $enums;
     }
 }
