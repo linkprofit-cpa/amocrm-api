@@ -87,7 +87,7 @@ class Note extends BaseEntity
     /**
      * Исходящее смс
      */
-    const SMS_OUT = 102;
+    const SMS_OUT = 103;
 
     /**
      * @var int id элемента, в карточку которого будет добавлено событие
