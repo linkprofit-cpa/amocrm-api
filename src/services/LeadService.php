@@ -5,6 +5,9 @@ namespace linkprofit\AmoCRM\services;
 use linkprofit\AmoCRM\entities\EntityInterface;
 use linkprofit\AmoCRM\entities\Lead;
 use linkprofit\AmoCRM\RequestHandler;
+use linkprofit\AmoCRM\traits\IdentifiableList;
+use linkprofit\AmoCRM\traits\PaginableList;
+use linkprofit\AmoCRM\traits\TermList;
 
 /**
  * Class LeadService
@@ -12,6 +15,10 @@ use linkprofit\AmoCRM\RequestHandler;
  */
 class LeadService extends BaseService
 {
+    use IdentifiableList,
+        TermList,
+        PaginableList;
+
     /**
      * @var Lead[]
      */
@@ -25,6 +32,22 @@ class LeadService extends BaseService
         if ($lead instanceof Lead) {
             $this->entities[] = $lead;
         }
+    }
+
+    /**
+     * @param $link
+     *
+     * @return string
+     */
+    protected function composeListLink($link)
+    {
+        $query = $this->addTermToQuery();
+        $query = $this->addIdToQuery($query);
+        $query = $this->addPaginationToQuery($query);
+
+        $link .= '?' . http_build_query($query);
+
+        return $link;
     }
 
     /**
