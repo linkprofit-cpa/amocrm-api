@@ -4,6 +4,9 @@ namespace linkprofit\AmoCRM\services;
 
 use linkprofit\AmoCRM\entities\Company;
 use linkprofit\AmoCRM\entities\EntityInterface;
+use linkprofit\AmoCRM\traits\IdentifiableList;
+use linkprofit\AmoCRM\traits\PaginableList;
+use linkprofit\AmoCRM\traits\TermList;
 
 /**
  * Class CompanyService
@@ -11,6 +14,10 @@ use linkprofit\AmoCRM\entities\EntityInterface;
  */
 class CompanyService extends BaseService
 {
+    use IdentifiableList,
+        TermList,
+        PaginableList;
+
     /**
      * @var Company[]
      */
@@ -24,6 +31,22 @@ class CompanyService extends BaseService
         if ($company instanceof Company) {
             $this->entities[] = $company;
         }
+    }
+
+    /**
+     * @param $link
+     *
+     * @return string
+     */
+    protected function composeListLink($link)
+    {
+        $query = $this->addTermToQuery();
+        $query = $this->addIdToQuery($query);
+        $query = $this->addPaginationToQuery($query);
+
+        $link .= '?' . http_build_query($query);
+
+        return $link;
     }
 
     /**
