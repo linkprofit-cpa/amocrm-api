@@ -6,34 +6,8 @@ namespace linkprofit\AmoCRM\entities;
  * Class Note
  * @package linkprofit\AmoCRM\entities
  */
-class Note extends BaseEntity
+class Note extends LinkElementCapableEntity
 {
-    /**
-     * Контакт
-     */
-    const CONTACT_ELEMENT_TYPE = 1;
-
-    /**
-     * Сделка
-     */
-    const LEAD_ELEMENT_TYPE = 2;
-
-    /**
-     * Компания
-     */
-    const COMPANY_ELEMENT_TYPE = 3;
-
-    /**
-     * Задача. Для задачи доступен только тип события TASK_RESULT
-     */
-    const TASK_ELEMENT_TYPE = 4;
-
-    /**
-     * Покупатель
-     */
-    const CUSTOMER_ELEMENT_TYPE = 12;
-
-
     /**
      * Сделка создана
      */
@@ -68,11 +42,6 @@ class Note extends BaseEntity
      * Компания создана
      */
     const COMPANY_CREATED = 12;
-
-    /**
-     * Результат по задаче
-     */
-    const TASK_RESULT = 13;
 
     /**
      * Системное сообщение
@@ -122,35 +91,4 @@ class Note extends BaseEntity
         'text', 'created_at', 'updated_at', 'responsible_user_id',
         'params'
     ];
-
-    /**
-     * @param BaseEntity $element
-     * @return bool
-     */
-    public function linkElement(BaseEntity $element)
-    {
-        if (empty($element->id)) {
-            return false;
-        }
-
-        $className = get_class($element);
-        switch ($className) {
-            case Contact::class:
-                $this->element_type = self::CONTACT_ELEMENT_TYPE;
-                break;
-            case Lead::class:
-                $this->element_type = self::LEAD_ELEMENT_TYPE;
-                break;
-            case Task::class:
-                $this->element_type = self::TASK_ELEMENT_TYPE;
-                $this->note_type = self::TASK_RESULT;
-                break;
-            default:
-                return false;
-        }
-
-        $this->element_id = $element->id;
-
-        return true;
-    }
 }

@@ -72,16 +72,6 @@ class NoteEntityTest extends TestCase
         $this->assertEquals(['text' => 'Заметка', 'responsible_user_id' => 1924000, 'note_type' => 4, 'element_type' => 2, 'element_id' => $lead->id], $note->get());
     }
 
-    public function testLinkNoteError()
-    {
-        $note = $this->note->getNote();
-
-        $noteTolink = $this->note->getNote();
-        $noteTolink->id = 1;
-
-        $this->assertFalse($note->linkElement($noteTolink));
-    }
-
     public function testLinkElementWithoutIdError()
     {
         $note = $this->note->getNote();

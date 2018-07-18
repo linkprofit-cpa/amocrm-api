@@ -9,8 +9,13 @@ use linkprofit\AmoCRM\traits\ContactsLinkable;
  * Class Lead
  * @package linkprofit\AmoCRM\entities
  */
-class Lead extends CustomizableEntity
+class Lead extends CustomizableEntity implements LinkableElement
 {
+    /**
+     * Сделка
+     */
+    const ELEMENT_TYPE = 2;
+
     /**
      * @var string Название сделки
      */
@@ -53,4 +58,29 @@ class Lead extends CustomizableEntity
 
     use CompanyLinkable,
         ContactsLinkable;
+
+    /**
+     * @param $entityClass
+     *
+     * @return bool
+     */
+    public function supports($entityClass)
+    {
+        $supportedClasses = [Task::class, Note::class];
+
+        return in_array($entityClass, $supportedClasses, 1) && !empty($this->id);
+    }
+
+    /**
+     * @param LinkElementCapableEntity $entity
+     *
+     * @return LinkElementCapableEntity
+     */
+    public function linkSelf(LinkElementCapableEntity $entity)
+    {
+        $entity->element_type = self::ELEMENT_TYPE;
+        $entity->element_id = $this->id;
+
+        return $entity;
+    }
 }

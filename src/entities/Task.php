@@ -6,27 +6,18 @@ namespace linkprofit\AmoCRM\entities;
  * Class Task
  * @package linkprofit\AmoCRM\entities
  */
-class Task extends BaseEntity
+class Task extends LinkElementCapableEntity implements LinkableElement
 {
     /**
-     * Контакт
+     * Задача. Для задачи доступен только тип события TASK_RESULT
      */
-    const CONTACT_ELEMENT_TYPE = 1;
+    const ELEMENT_TYPE = 4;
+
 
     /**
-     * Сделка
+     * Результат по задаче
      */
-    const LEAD_ELEMENT_TYPE = 2;
-
-    /**
-     * Компания
-     */
-    const COMPANY_ELEMENT_TYPE = 3;
-
-    /**
-     * Покупатель
-     */
-    const CUSTOMER_ELEMENT_TYPE = 12;
+    const TASK_RESULT = 13;
 
 
     /**
@@ -43,17 +34,6 @@ class Task extends BaseEntity
      * Написать письмо
      */
     const MAIL_TASK_TYPE = 3;
-
-
-    /**
-     * @var int Уникальный идентификатор контакта или сделки (сделка или контакт указывается в element_type)
-     */
-    public $element_id;
-
-    /**
-     * @var int Тип привязываемого элемента (1 - контакт, 2- сделка, 3 - компания, 12 - покупатель)
-     */
-    public $element_type;
 
     /**
      * @var string Дата, до которой необходимо завершить задачу. Если указано время 23:59, то в интерфейсах системы вместо времени будет отображаться "Весь день".
@@ -84,25 +64,31 @@ class Task extends BaseEntity
     ];
 
     /**
-     * @param BaseEntity $element
+     * @param $entityClass
+     *
      * @return bool
      */
-    public function linkElement(BaseEntity $element)
+    public function supports($entityClass)
     {
-        if (empty($element->id)) {
-            return false;
+        $supportedClasses = [Note::class];
+
+        return in_array($entityClass, $supportedClasses, 1) && !empty($this->id);
+    }
+
+    /**
+     * @param LinkElementCapableEntity $entity
+     *
+     * @return LinkElementCapableEntity
+     */
+    public function linkSelf(LinkElementCapableEntity $entity)
+    {
+        $entity->element_type = self::ELEMENT_TYPE;
+        $entity->element_id = $this->id;
+
+        if ($entity instanceof Note) {
+            $entity->note_type = Task::TASK_RESULT;
         }
 
-        if ($element instanceof Contact) {
-            $this->element_type = self::CONTACT_ELEMENT_TYPE;
-        } elseif ($element instanceof Lead) {
-            $this->element_type = self::LEAD_ELEMENT_TYPE;
-        } else {
-            return false;
-        }
-
-        $this->element_id = $element->id;
-
-        return true;
+        return $entity;
     }
 }

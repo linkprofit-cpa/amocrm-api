@@ -12,6 +12,11 @@ use linkprofit\AmoCRM\traits\ContactsLinkable;
 class Customer extends CustomizableEntity
 {
     /**
+     * Покупатель
+     */
+    const ELEMENT_TYPE = 12;
+
+    /**
      * @var string Название покупателя
      */
     public $name;
