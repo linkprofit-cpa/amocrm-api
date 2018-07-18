@@ -5,6 +5,8 @@ namespace linkprofit\AmoCRM\services;
 use linkprofit\AmoCRM\entities\EntityInterface;
 use linkprofit\AmoCRM\entities\Customer;
 use linkprofit\AmoCRM\RequestHandler;
+use linkprofit\AmoCRM\traits\IdentifiableList;
+use linkprofit\AmoCRM\traits\PaginableList;
 
 /**
  * Class CustomerService
@@ -12,6 +14,9 @@ use linkprofit\AmoCRM\RequestHandler;
  */
 class CustomerService extends BaseService
 {
+    use IdentifiableList,
+        PaginableList;
+
     /**
      * @var Customer[]
      */
@@ -25,6 +30,21 @@ class CustomerService extends BaseService
         if ($customer instanceof Customer) {
             $this->entities[] = $customer;
         }
+    }
+
+    /**
+     * @param $link
+     *
+     * @return string
+     */
+    protected function composeListLink($link)
+    {
+        $query = $this->addIdToQuery();
+        $query = $this->addPaginationToQuery($query);
+
+        $link .= '?' . http_build_query($query);
+
+        return $link;
     }
 
     /**
