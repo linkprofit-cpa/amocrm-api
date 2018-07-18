@@ -34,4 +34,13 @@ $pipelineService->add($pipeline);
 
 Если вам необходимо обработать ответ, вы можете воспользоваться методом `parseResponseToEntities()`, который вернет массив добавленных объектов `linkprofit\AmoCRM\entities\Pipeline` с инициализированным свойством `id`, который вернулся ответом сервера на наш запрос.
 
+### Получение списка существующих элементов
+Просто вызовите метод `getList()` у сервиса, в ответ придет массив объектов класса `linkprofit\AmoCRM\entities\Pipeline`. Ограничения на один запрос 500 элементов
+```php
+$pipelines = $service->getList(); //Вернет массив всех элементов (не более 500)
 ```
+
+Отельно элемент можно получить по его id, в ответ придет массив с единственным элементом `linkprofit\AmoCRM\entities\Pipeline`
+```php
+$elementId = 1232;
+$pipeline = $service->setId($elementId)->getList();

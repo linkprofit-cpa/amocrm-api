@@ -5,6 +5,7 @@ namespace linkprofit\AmoCRM\services;
 use linkprofit\AmoCRM\entities\EntityInterface;
 use linkprofit\AmoCRM\entities\Pipeline;
 use linkprofit\AmoCRM\RequestHandler;
+use linkprofit\AmoCRM\traits\IdentifiableList;
 
 /**
  * Class PipelineService
@@ -12,6 +13,8 @@ use linkprofit\AmoCRM\RequestHandler;
  */
 class PipelineService extends BaseService
 {
+    use IdentifiableList;
+
     /**
      * @var Pipeline[]
      */
@@ -25,6 +28,20 @@ class PipelineService extends BaseService
         if ($pipeline instanceof Pipeline) {
             $this->entities[] = $pipeline;
         }
+    }
+
+    /**
+     * @param $link
+     *
+     * @return string
+     */
+    protected function composeListLink($link)
+    {
+        $query = $this->addIdToQuery();
+
+        $link .= '?' . http_build_query($query);
+
+        return $link;
     }
 
     /**
