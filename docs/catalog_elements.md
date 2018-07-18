@@ -32,7 +32,7 @@ $catalogService->add($element);
 $service = new \linkprofit\AmoCRM\services\CatalogElementService($request);
 $catalogs = $service->getList(); //Вернет массив всех элементов (не более 500)
 $catalogs = $service->setPage(3)->getList(); //Вернет массив всех элементов с 3 страницы
-$catalogs = $service->setPage(3)->setQuery('Поисковая строка')->getList(); //Вернет массив всех элементов 3 страницы, по поисковой строке 'Поисковая строка'
+$catalogs = $service->setPage(3)->setTerm('Поисковая строка')->getList(); //Вернет массив всех элементов 3 страницы, по поисковой строке 'Поисковая строка'
 ```
 
 Также можно получить только интересующие элементы каталога по его catalog_id, в ответ придет массив `linkprofit\AmoCRM\entities\CatalogElement` только с элементами из этого каталога

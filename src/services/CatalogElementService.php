@@ -6,6 +6,7 @@ use linkprofit\AmoCRM\entities\CatalogElement;
 use linkprofit\AmoCRM\entities\CustomField;
 use linkprofit\AmoCRM\entities\EntityInterface;
 use linkprofit\AmoCRM\entities\Value;
+use linkprofit\AmoCRM\traits\TermList;
 
 /**
  * Class CatalogElementService
@@ -14,6 +15,8 @@ use linkprofit\AmoCRM\entities\Value;
  */
 class CatalogElementService extends BaseService
 {
+    use TermList;
+
     /**
      * @var CatalogElement[]
      */
@@ -23,11 +26,6 @@ class CatalogElementService extends BaseService
      * @var int
      */
     protected $listPage = 1;
-
-    /**
-     * @var string
-     */
-    protected $listQuery;
 
     /**
      * @var array
@@ -57,18 +55,6 @@ class CatalogElementService extends BaseService
     }
 
     /**
-     * @param string $query
-     *
-     * @return $this
-     */
-    public function setQuery($query)
-    {
-        $this->listQuery = $query;
-
-        return $this;
-    }
-
-    /**
      * @param array $params
      *
      * @return $this
@@ -91,8 +77,8 @@ class CatalogElementService extends BaseService
 
         $query['PAGEN_1'] = $this->listPage;
 
-        if (!empty($this->listQuery)) {
-            $query['term'] = $this->listQuery;
+        if (!empty($this->listTerm)) {
+            $query['term'] = $this->listTerm;
         }
 
         $query = array_merge($query, $this->listParams);
@@ -106,15 +92,15 @@ class CatalogElementService extends BaseService
      * @deprecated
      *
      * @param int $page
-     * @param string|null $query
+     * @param string|null $term
      * @param array $params
      *
      * @return array|bool
      */
-    public function lists($page = 1, $query = null, array $params = [])
+    public function lists($page = 1, $term = null, array $params = [])
     {
         $this->listPage = $page;
-        $this->listQuery = $query;
+        $this->listTerm = $term;
         $this->listParams = $params;
 
         return $this->getList();

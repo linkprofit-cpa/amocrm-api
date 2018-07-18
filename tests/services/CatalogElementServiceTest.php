@@ -211,7 +211,7 @@ class CatalogElementServiceTest extends TestCase
         $this->assertEquals($element->id, $service->lists(2)[0]->id);
     }
 
-    public function testDeprecatedListsQuery()
+    public function testDeprecatedListsTerm()
     {
         $url = 'https://domain.amocrm.ru/api/v2/catalog_elements?PAGEN_1=1&term=test';
 
@@ -232,7 +232,7 @@ class CatalogElementServiceTest extends TestCase
         $this->assertEquals($element->id, $service->lists(1, 'test')[0]->id);
     }
 
-    public function testListQuery()
+    public function testListTerm()
     {
         $url = 'https://domain.amocrm.ru/api/v2/catalog_elements?PAGEN_1=1&term=test';
 
@@ -250,7 +250,7 @@ class CatalogElementServiceTest extends TestCase
         $service = new \linkprofit\AmoCRM\services\CatalogElementService($request);
         $service->add($element);
 
-        $this->assertEquals($element->id, $service->setPage(1)->setQuery('test')->getList()[0]->id);
+        $this->assertEquals($element->id, $service->setPage(1)->setTerm('test')->getList()[0]->id);
     }
 
     public function testDeprecatedListsParams()
@@ -296,7 +296,7 @@ class CatalogElementServiceTest extends TestCase
         $service = new \linkprofit\AmoCRM\services\CatalogElementService($request);
         $service->add($element);
 
-        $testElement = $service->setPage(1)->setQuery('test')->setParams(['catalog_id'=>123])->getList()[0]->get();
+        $testElement = $service->setPage(1)->setTerm('test')->setParams(['catalog_id'=>123])->getList()[0]->get();
 
         $this->assertEquals($element->id, $testElement['id']);
         $this->assertEquals(1234, $testElement['custom_fields'][0]['id']);
