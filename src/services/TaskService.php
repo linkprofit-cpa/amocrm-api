@@ -4,6 +4,8 @@ namespace linkprofit\AmoCRM\services;
 
 use linkprofit\AmoCRM\entities\EntityInterface;
 use linkprofit\AmoCRM\entities\Task;
+use linkprofit\AmoCRM\traits\IdentifiableList;
+use linkprofit\AmoCRM\traits\PaginableList;
 
 /**
  * Class TaskService
@@ -11,6 +13,9 @@ use linkprofit\AmoCRM\entities\Task;
  */
 class TaskService extends BaseService
 {
+    use IdentifiableList,
+        PaginableList;
+
     /**
      * @var Task[]
      */
@@ -24,6 +29,20 @@ class TaskService extends BaseService
         if ($task instanceof Task) {
             $this->entities[] = $task;
         }
+    }
+
+    /**
+     * @param $link
+     *
+     * @return string
+     */
+    protected function composeListLink($link)
+    {
+        $query = $this->addIdToQuery();
+
+        $link .= '?' . http_build_query($query);
+
+        return $link;
     }
 
     /**
