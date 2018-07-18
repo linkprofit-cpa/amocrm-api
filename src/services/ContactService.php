@@ -4,6 +4,9 @@ namespace linkprofit\AmoCRM\services;
 
 use linkprofit\AmoCRM\entities\Contact;
 use linkprofit\AmoCRM\entities\EntityInterface;
+use linkprofit\AmoCRM\traits\IdentifiableList;
+use linkprofit\AmoCRM\traits\PaginableList;
+use linkprofit\AmoCRM\traits\TermList;
 
 /**
  * Class ContactService
@@ -11,6 +14,10 @@ use linkprofit\AmoCRM\entities\EntityInterface;
  */
 class ContactService extends BaseService
 {
+    use IdentifiableList,
+        TermList,
+        PaginableList;
+
     /**
      * @var Contact[]
      */
@@ -24,6 +31,22 @@ class ContactService extends BaseService
         if ($contact instanceof Contact) {
             $this->entities[] = $contact;
         }
+    }
+
+    /**
+     * @param $link
+     *
+     * @return string
+     */
+    protected function composeListLink($link)
+    {
+        $query = $this->addTermToQuery();
+        $query = $this->addIdToQuery($query);
+        $query = $this->addPaginationToQuery($query);
+
+        $link .= '?' . http_build_query($query);
+
+        return $link;
     }
 
     /**
